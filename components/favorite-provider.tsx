@@ -18,6 +18,17 @@ type FavoriteContextValue = {
 const FavoriteContext = createContext<FavoriteContextValue | null>(null)
 const STORAGE_KEY = "dhonn.-favorite-sounds"
 
+function readLocalFavorites() {
+  const local = localStorage.getItem(STORAGE_KEY)
+  if (!local) return new Set<string>()
+  try {
+    return new Set(JSON.parse(local) as string[])
+  } catch {
+    localStorage.removeItem(STORAGE_KEY)
+    return new Set<string>()
+  }
+}
+
 export function FavoriteProvider({ children }: { children: React.ReactNode }) {
   const [favorites, setFavorites] = useState<Set<string>>(new Set())
   const [error, setError] = useState<string | null>(null)
@@ -34,21 +45,22 @@ export function FavoriteProvider({ children }: { children: React.ReactNode }) {
           setFavorites(new Set(data.soundIds))
           return
         }
-        const local = localStorage.getItem(STORAGE_KEY)
-        if (!local) return
-        try {
-          setFavorites(new Set(JSON.parse(local) as string[]))
-        } catch {
-          localStorage.removeItem(STORAGE_KEY)
+        setFavorites(readLocalFavorites())
+      })
+      .catch((cause: unknown) => {
+        setFavorites(readLocalFavorites())
+        if (cause instanceof TypeError) {
+          console.warn("Favorite sync is unavailable; using local favorites.", cause)
+          return
+        }
+        if (navigator.onLine) {
+          setError(
+            cause instanceof Error
+              ? cause.message
+              : "Favorites could not be synchronized."
+          )
         }
       })
-      .catch((cause: unknown) =>
-        setError(
-          cause instanceof Error
-            ? cause.message
-            : "Favorites could not be synchronized."
-        )
-      )
   }, [])
 
   const toggleFavorite = useCallback(

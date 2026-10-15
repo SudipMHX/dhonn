@@ -230,7 +230,14 @@ export function SiteHeader({ user }: { user: HeaderUser | null }) {
                     <div className="border-t border-slate-200 p-2 dark:border-slate-700">
                       <button
                         type="button"
-                        onClick={() => signOut({ redirectTo: "/" })}
+                        onClick={async () => {
+                          try {
+                            await caches.delete("dhonn-app-v1")
+                          } catch (error) {
+                            console.error("Could not clear cached account pages.", error)
+                          }
+                          await signOut({ redirectTo: "/" })
+                        }}
                         className="flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-left text-sm font-medium text-rose-600 transition hover:bg-rose-50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-rose-500 dark:text-rose-400 dark:hover:bg-rose-950/40"
                       >
                         <LogOut aria-hidden="true" className="size-4" />

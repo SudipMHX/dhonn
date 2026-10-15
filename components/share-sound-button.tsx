@@ -17,24 +17,58 @@ export function ShareSoundButton({
   className?: string
 }) {
   async function shareSound() {
-    const url = `${window.location.origin}/sound/${encodeURIComponent(slug)}`
+    const audioUrl = `/api/sounds/${encodeURIComponent(slug)}/audio`
+    const downloadAudio = (url: string, filename?: string) => {
+      const link = document.createElement("a")
+      link.href = url
+      if (filename) link.download = filename
+      link.click()
+    }
 
-    if (typeof navigator.share === "function") {
-      try {
-        await navigator.share({ title, url })
-        toast.success("Sound shared.")
-      } catch (error) {
-        if (error instanceof DOMException && error.name === "AbortError") return
-        toast.error("This sound could not be shared.")
-      }
+    if (typeof navigator.share !== "function") {
+      downloadAudio(`${audioUrl}?download=1`)
+      toast.info("Audio file sharing isn't supported. Downloading the audio.")
       return
     }
 
     try {
-      await navigator.clipboard.writeText(url)
-      toast.success("Sound link copied.")
-    } catch {
-      toast.error("Could not copy the sound link.")
+      const response = await fetch(audioUrl)
+      if (!response.ok) throw new Error("Audio download failed.")
+
+      const audio = await response.blob()
+      const contentType =
+        response.headers.get("content-type")?.split(";")[0] ||
+        audio.type ||
+        "audio/mpeg"
+      const extension = contentType === "audio/wav" ? "wav" : "mp3"
+      const file = new File([audio], `${slug}.${extension}`, {
+        type: contentType,
+      })
+
+      if (
+        typeof navigator.canShare === "function" &&
+        !navigator.canShare({ files: [file] })
+      ) {
+        downloadAudio(`${audioUrl}?download=1`)
+        toast.info("This device can't share audio files. Downloading the audio.")
+        return
+      }
+
+      try {
+        await navigator.share({ title, files: [file] })
+      } catch (error) {
+        if (error instanceof DOMException && error.name === "AbortError") return
+        if (!(error instanceof TypeError)) throw error
+
+        downloadAudio(`${audioUrl}?download=1`)
+        toast.info("This device can't share audio files. Downloading the audio.")
+        return
+      }
+
+      toast.success("Audio file shared.")
+    } catch (error) {
+      if (error instanceof DOMException && error.name === "AbortError") return
+      toast.error("This audio file could not be shared.")
     }
   }
 

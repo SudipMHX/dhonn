@@ -2,9 +2,8 @@
 
 import Link from "next/link"
 import { useCallback, useEffect, useRef, useState } from "react"
-import { Check, Copy, Heart, Pause } from "lucide-react"
+import { Check, Copy, Heart, Play, Volume2 } from "lucide-react"
 
-import { Button } from "@/components/ui/button"
 import { useFavorites } from "@/components/favorite-provider"
 import { ShareSoundButton } from "@/components/share-sound-button"
 
@@ -18,6 +17,14 @@ export type SoundCardData = {
   audio: { durationSeconds: number }
   plays: number
   favorites: number
+}
+
+function formatDuration(seconds: number) {
+  if (!seconds || seconds <= 0) return "0s"
+  if (seconds < 60) return `${Math.round(seconds)}s`
+  const mins = Math.floor(seconds / 60)
+  const rem = Math.round(seconds % 60)
+  return `${mins}:${String(rem).padStart(2, "0")}`
 }
 
 export function SoundTile({ sound }: { sound: SoundCardData; index?: number }) {
@@ -37,7 +44,7 @@ export function SoundTile({ sound }: { sound: SoundCardData; index?: number }) {
       setCopied(true)
       window.setTimeout(() => setCopied(false), 1800)
     } catch {
-      setPlayError("Could not copy the link. Please try again.")
+      setPlayError("Could not copy the link.")
     }
   }, [sound.slug])
 
@@ -73,96 +80,116 @@ export function SoundTile({ sound }: { sound: SoundCardData; index?: number }) {
     try {
       await audio.play()
     } catch {
-      setPlayError("This sound could not be played. Please try again.")
+      setPlayError("Audio currently unavailable.")
     }
   }
 
   return (
-    <article className="group relative flex min-h-60 flex-col items-center justify-center gap-5 rounded-3xl border border-slate-200/80 bg-white p-5 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-sky-200 hover:shadow-xl hover:shadow-sky-950/5 dark:border-slate-800 dark:bg-slate-900 dark:hover:border-slate-700">
-      {/* Large 3D Play / Stop Button */}
-      <button
-        type="button"
-        onClick={() => void togglePlayback()}
-        aria-label={`${playing ? "Stop" : "Play"} ${sound.title}`}
-        aria-pressed={playing}
-        className="group/play relative size-[104px] shrink-0 cursor-pointer rounded-full bg-blue-50 shadow-[inset_0px_0px_1px_1px_rgba(0,0,0,0.3),2px_3px_5px_rgba(0,0,0,0.1)] transition-transform duration-200 active:scale-95 dark:bg-slate-800"
-      >
-        <span className="absolute top-[6px] left-1/2 size-[88px] -translate-x-1/2 rounded-full bg-black shadow-sm blur-[1px]" />
-
-        <span className="absolute top-[6px] left-1/2 z-10 flex size-[88px] -translate-x-1/2 items-center justify-center rounded-full bg-gradient-to-b from-blue-600 to-blue-400 shadow-[inset_0_4px_2px_#60a5fa,inset_0_-4px_0_#1e3a8a,0_0_2px_rgba(0,0,0,0.1)] transition-all group-hover/play:brightness-110 group-active/play:shadow-[inset_0_4px_2px_rgba(96,165,250,0.5),inset_0_-4px_2px_rgba(37,99,235,0.5)]">
-          {playing ? (
-            <Pause
-              className="size-9 fill-blue-100 text-blue-100 drop-shadow-md"
-              strokeWidth={2.5}
-            />
-          ) : (
-            <svg
-              viewBox="0 0 24 24"
-              className="ml-1 size-9 fill-blue-100 drop-shadow-[0_2px_2px_rgba(0,0,0,0.5)]"
-              aria-hidden="true"
-            >
-              <path d="M20.492 7.969 10.954.975A5 5 0 0 0 3 5.005V19a4.994 4.994 0 0 0 7.954 4.03l9.538-6.994a5 5 0 0 0 0-8.062Z" />
-            </svg>
-          )}
+    <article className="group relative flex flex-col justify-between overflow-hidden rounded-2xl border border-border/80 bg-card p-4 transition-all duration-300 hover:-translate-y-1 hover:border-indigo-500/40 hover:shadow-lg hover:shadow-indigo-500/5">
+      {/* Top Meta Bar */}
+      <div className="flex items-center justify-between gap-2 text-xs">
+        {sound.categoryName ? (
+          <span className="truncate rounded-md bg-secondary px-2 py-0.5 font-medium text-muted-foreground transition-colors group-hover:text-foreground">
+            {sound.categoryName}
+          </span>
+        ) : (
+          <span />
+        )}
+        <span className="shrink-0 font-mono text-[11px] text-muted-foreground/80">
+          {formatDuration(sound.audio?.durationSeconds)}
         </span>
-      </button>
+      </div>
 
-      {/* Sound Title */}
-      <Link
-        href={`/sound/${sound.slug}`}
-        title={sound.title}
-        className="line-clamp-2 w-full text-center text-base leading-snug font-semibold text-slate-900 transition-colors hover:text-blue-600 dark:text-white dark:hover:text-blue-400"
-      >
-        {sound.title}
-      </Link>
-
-      {/* Action Buttons */}
-      <div className="flex items-center justify-center gap-2">
-        <Button
+      {/* Central Play Trigger & Visualizer */}
+      <div className="my-5 flex flex-col items-center justify-center">
+        <button
           type="button"
-          onClick={() => void toggleFavorite(sound._id)}
-          aria-label={`${isFavorite ? "Remove from" : "Add to"} favorites`}
-          aria-pressed={isFavorite}
-          variant="outline"
-          size="icon"
-          className={`size-10 rounded-xl transition-colors ${
-            isFavorite
-              ? "border-rose-200 bg-rose-50 text-rose-500 hover:bg-rose-100 dark:border-rose-900 dark:bg-rose-950"
-              : "border-slate-200 bg-slate-50 text-slate-600 hover:border-rose-200 hover:bg-rose-50 hover:text-rose-500 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-300"
+          onClick={() => void togglePlayback()}
+          aria-label={`${playing ? "Stop" : "Play"} ${sound.title}`}
+          aria-pressed={playing}
+          className={`relative flex size-18 items-center justify-center rounded-2xl transition-all duration-300 active:scale-95 ${
+            playing
+              ? "bg-indigo-600 text-white shadow-md shadow-indigo-600/30 ring-4 ring-indigo-500/20"
+              : "border border-border/80 bg-secondary/60 text-foreground hover:border-indigo-500/30 hover:bg-indigo-50/50 hover:text-indigo-600 hover:shadow-sm dark:hover:bg-indigo-950/30 dark:hover:text-indigo-400"
           }`}
         >
-          <Heart
-            className={`size-[18px] ${isFavorite ? "fill-current" : ""}`}
-          />
-        </Button>
-
-        <Button
-          type="button"
-          onClick={() => void copyLink()}
-          aria-label="Copy sound link"
-          variant="outline"
-          size="icon"
-          className="size-10 rounded-xl border-slate-200 bg-slate-50 text-slate-600 transition-colors hover:border-blue-200 hover:bg-blue-50 hover:text-blue-600 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-slate-700"
-        >
-          {copied ? (
-            <Check className="size-[18px] text-emerald-500" />
+          {playing ? (
+            <div className="flex items-end gap-1 h-5" aria-hidden="true">
+              <span className="w-1 rounded-full bg-white animate-soundwave-1" />
+              <span className="w-1 rounded-full bg-white animate-soundwave-2" />
+              <span className="w-1 rounded-full bg-white animate-soundwave-3" />
+              <span className="w-1 rounded-full bg-white animate-soundwave-4" />
+              <span className="w-1 rounded-full bg-white animate-soundwave-5" />
+            </div>
           ) : (
-            <Copy className="size-[18px]" />
+            <Play className="size-7 fill-current pl-0.5 transition-transform duration-200 group-hover:scale-110" />
           )}
-        </Button>
+        </button>
+      </div>
 
-        <ShareSoundButton
-          slug={sound.slug}
+      {/* Title & Details */}
+      <div className="mb-3 text-center">
+        <Link
+          href={`/sound/${sound.slug}`}
           title={sound.title}
-          shareText={false}
-          className="size-10 rounded-xl border border-slate-200 bg-slate-50 text-slate-600 transition-colors hover:border-blue-200 hover:bg-blue-50 hover:text-blue-600 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-slate-700"
-        />
+          className="line-clamp-2 text-sm font-semibold tracking-tight text-foreground transition-colors hover:text-indigo-600 dark:hover:text-indigo-400"
+        >
+          {sound.title}
+        </Link>
+      </div>
+
+      {/* Bottom Actions Bar */}
+      <div className="flex items-center justify-between border-t border-border/50 pt-3">
+        <span className="flex items-center gap-1 text-[11px] font-medium text-muted-foreground">
+          <Volume2 className="size-3 text-muted-foreground/70" />
+          <span>{Number(sound.plays ?? 0).toLocaleString()}</span>
+        </span>
+
+        <div className="flex items-center gap-1">
+          <button
+            type="button"
+            onClick={() => void toggleFavorite(sound._id)}
+            aria-label={`${isFavorite ? "Remove from" : "Add to"} favorites`}
+            aria-pressed={isFavorite}
+            className={`flex size-8 items-center justify-center rounded-lg border transition-all ${
+              isFavorite
+                ? "border-rose-200 bg-rose-50 text-rose-500 dark:border-rose-900/60 dark:bg-rose-950/40"
+                : "border-border/60 bg-transparent text-muted-foreground hover:border-rose-200 hover:bg-rose-50/50 hover:text-rose-500 dark:hover:border-rose-900/50 dark:hover:bg-rose-950/30"
+            }`}
+          >
+            <Heart
+              className={`size-3.5 transition-transform active:scale-125 ${
+                isFavorite ? "fill-current" : ""
+              }`}
+            />
+          </button>
+
+          <button
+            type="button"
+            onClick={() => void copyLink()}
+            aria-label="Copy sound link"
+            className="flex size-8 items-center justify-center rounded-lg border border-border/60 bg-transparent text-muted-foreground transition-all hover:border-border hover:bg-secondary hover:text-foreground"
+          >
+            {copied ? (
+              <Check className="size-3.5 text-emerald-600 dark:text-emerald-400" />
+            ) : (
+              <Copy className="size-3.5" />
+            )}
+          </button>
+
+          <ShareSoundButton
+            slug={sound.slug}
+            title={sound.title}
+            shareText={false}
+            className="size-8 rounded-lg border border-border/60 bg-transparent p-0 text-muted-foreground hover:border-border hover:bg-secondary hover:text-foreground"
+          />
+        </div>
       </div>
 
       {(playError || favoriteError) && (
         <p
           role="status"
-          className="text-center text-xs text-rose-600 dark:text-rose-400"
+          className="mt-2 text-center text-xs text-rose-600 dark:text-rose-400"
         >
           {playError || favoriteError}
         </p>

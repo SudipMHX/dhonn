@@ -20,6 +20,7 @@ import {
 import { SoundEditForm } from "./sound-edit-form"
 import type { SoundRemovalTarget } from "./sound-removal-dialog"
 import { useAdminStore } from "./admin-store"
+import { Sparkles, TrendingUp } from "lucide-react"
 
 export function AdminSoundCard({
   row,
@@ -43,31 +44,53 @@ export function AdminSoundCard({
   const status = adminText(row.status)
   const statusVariant =
     status === "published"
-      ? "default"
+      ? "success"
       : status === "rejected" || status === "removed"
         ? "destructive"
-        : "secondary"
+        : "warning"
 
   return (
     <TableRow>
       <TableCell className="min-w-48 font-medium whitespace-normal">
-        {adminText(row.title)}
+        <p className="font-semibold text-foreground">{adminText(row.title)}</p>
+        <div className="mt-1 flex items-center gap-1.5 text-[11px] text-muted-foreground">
+          {Boolean(row.featured) && (
+            <span className="inline-flex items-center gap-0.5 font-medium text-amber-600 dark:text-amber-400">
+              <Sparkles className="size-3" /> Featured
+            </span>
+          )}
+          {Boolean(row.trending) && (
+            <span className="inline-flex items-center gap-0.5 font-medium text-indigo-600 dark:text-indigo-400">
+              <TrendingUp className="size-3" /> Trending
+            </span>
+          )}
+        </div>
       </TableCell>
       <TableCell className="whitespace-normal">
-        <p>{adminText(row.categoryName)}</p>
+        <p className="font-medium text-foreground">{adminText(row.categoryName)}</p>
         <p className="text-xs text-muted-foreground">{adminText(owner.name)}</p>
       </TableCell>
       <TableCell>
-        <Badge variant={statusVariant}>{status || "Unknown"}</Badge>
+        <Badge variant={statusVariant}>
+          {status === "published"
+            ? "Published"
+            : status === "rejected"
+              ? "Rejected"
+              : status === "pending"
+                ? "Pending"
+                : status || "Unknown"}
+        </Badge>
       </TableCell>
-      <TableCell className="whitespace-nowrap text-muted-foreground">
-        {Number(audio.durationSeconds).toFixed(1)} sec
+      <TableCell className="whitespace-nowrap text-xs text-muted-foreground font-mono">
+        <span>{Number(audio.durationSeconds).toFixed(1)}s</span>
         <br />
-        {Number(row.plays).toLocaleString()} plays ·{" "}
-        {Number(row.favorites).toLocaleString()} favorites
+        <span className="font-sans text-[11px]">
+          {Number(row.plays).toLocaleString()} plays ·{" "}
+          {Number(row.favorites).toLocaleString()} favs
+        </span>
       </TableCell>
       <TableCell className="min-w-72 whitespace-normal">
-        <div className="flex flex-wrap gap-2">
+        <div className="flex flex-wrap items-center gap-1.5">
           {(allowPublish || row.status !== "published") &&
             row.status !== "rejected" &&
             row.status !== "removed" && (
@@ -78,8 +101,8 @@ export function AdminSoundCard({
                     status: "published",
                   })
                 }
-                variant="default"
-                size="sm"
+                variant="primary"
+                size="xs"
               >
                 Publish
               </Button>
@@ -94,7 +117,7 @@ export function AdminSoundCard({
                 })
               }
               variant="outline"
-              size="sm"
+              size="xs"
             >
               Unpublish
             </Button>
@@ -111,7 +134,7 @@ export function AdminSoundCard({
                   })
                 }
                 variant="destructive"
-                size="sm"
+                size="xs"
               >
                 Reject
               </Button>
@@ -124,7 +147,7 @@ export function AdminSoundCard({
               })
             }
             variant="outline"
-            size="sm"
+            size="xs"
           >
             {row.featured ? "Unfeature" : "Feature"}
           </Button>
@@ -136,7 +159,7 @@ export function AdminSoundCard({
               })
             }
             variant="outline"
-            size="sm"
+            size="xs"
           >
             {row.trending ? "Untrend" : "Trend"}
           </Button>
@@ -155,7 +178,7 @@ export function AdminSoundCard({
           >
             <DialogTrigger
               render={
-                <Button type="button" variant="outline" size="sm">
+                <Button type="button" variant="outline" size="xs">
                   Edit
                 </Button>
               }
@@ -190,7 +213,7 @@ export function AdminSoundCard({
               })
             }
             variant="destructive"
-            size="sm"
+            size="xs"
           >
             Remove
           </Button>

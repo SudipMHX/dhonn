@@ -3,10 +3,10 @@
 import { useCallback, useEffect, useRef, useState } from "react"
 import {
   Check,
+  Code,
   Copy,
   Download,
   Heart,
-  Pause,
   Play,
   RotateCcw,
   Volume1,
@@ -43,7 +43,8 @@ export function SoundDetailControls({
   const [duration, setDuration] = useState(0)
   const [volume, setVolume] = useState(1)
   const [previousVolume, setPreviousVolume] = useState(1)
-  const [copied, setCopied] = useState(false)
+  const [copiedLink, setCopiedLink] = useState(false)
+  const [copiedEmbed, setCopiedEmbed] = useState(false)
 
   const favorite = favorites.has(id)
   const progress = duration > 0 ? (currentTime / duration) * 100 : 0
@@ -123,7 +124,9 @@ export function SoundDetailControls({
 
     try {
       await navigator.clipboard.writeText(code)
-      setMessage("Embed code copied.")
+      setCopiedEmbed(true)
+      setMessage("Embed snippet copied to clipboard.")
+      window.setTimeout(() => setCopiedEmbed(false), 2000)
     } catch {
       setMessage("Copy failed. Please try again.")
     }
@@ -134,9 +137,9 @@ export function SoundDetailControls({
       await navigator.clipboard.writeText(
         `${window.location.origin}/sound/${encodeURIComponent(slug)}`
       )
-      setCopied(true)
-      setMessage("Sound link copied.")
-      window.setTimeout(() => setCopied(false), 1800)
+      setCopiedLink(true)
+      setMessage("Sound link copied to clipboard.")
+      window.setTimeout(() => setCopiedLink(false), 2000)
     } catch {
       setMessage("Could not copy the sound link.")
     }
@@ -157,150 +160,166 @@ export function SoundDetailControls({
   return (
     <section
       aria-label="Sound playback controls"
-      className="mt-7 overflow-hidden rounded-3xl border border-slate-200/80 bg-white shadow-lg shadow-slate-950/[0.04] dark:border-white/10 dark:bg-slate-900"
+      className="mt-6 overflow-hidden rounded-2xl border border-border/80 bg-card p-5 sm:p-7 shadow-xs"
     >
-      <div className="p-4 sm:p-5">
-        {/* Seek bar */}
-        <div className="space-y-2">
+      {/* Visual Scrubber Timeline */}
+      <div className="space-y-2.5">
+        <div className="relative">
           <input
             type="range"
             min={0}
             max={duration || 1}
-            step={0.1}
+            step={0.05}
             value={Math.min(currentTime, duration || 0)}
             onChange={(event) => seek(Number(event.target.value))}
             aria-label="Seek audio"
             style={{
-              background: `linear-gradient(to right, #3b82f6 ${progress}%, rgb(148 163 184 / 25%) ${progress}%)`,
+              background: `linear-gradient(to right, #6366f1 ${progress}%, var(--secondary) ${progress}%)`,
             }}
-            className="h-1.5 w-full cursor-pointer appearance-none rounded-full accent-blue-600 [&::-webkit-slider-thumb]:size-3.5 [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:border-2 [&::-webkit-slider-thumb]:border-white [&::-webkit-slider-thumb]:bg-blue-600 [&::-webkit-slider-thumb]:shadow-md"
+            className="h-2 w-full cursor-pointer appearance-none rounded-full accent-indigo-600 transition-all [&::-webkit-slider-thumb]:size-4 [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:border-2 [&::-webkit-slider-thumb]:border-white [&::-webkit-slider-thumb]:bg-indigo-600 [&::-webkit-slider-thumb]:shadow-md dark:[&::-webkit-slider-thumb]:border-neutral-900"
           />
-
-          <div className="flex justify-between text-xs font-medium text-slate-500 tabular-nums dark:text-slate-400">
-            <span>{formatTime(currentTime)}</span>
-            <span>{formatTime(duration)}</span>
-          </div>
         </div>
 
-        {/* Main controls */}
-        <div className="mt-5 flex items-center justify-between gap-3">
-          <Button
-            type="button"
-            variant="ghost"
-            size="icon"
-            onClick={() => seek(0)}
-            aria-label="Restart audio"
-            className="size-10 rounded-xl text-slate-500 hover:bg-slate-100 dark:hover:bg-white/[0.06]"
-          >
-            <RotateCcw className="size-[18px]" />
-          </Button>
+        <div className="flex justify-between text-xs font-mono font-medium text-muted-foreground">
+          <span>{formatTime(currentTime)}</span>
+          <span>{formatTime(duration)}</span>
+        </div>
+      </div>
 
-          {/* 3D play button */}
+      {/* Main Playback Bar */}
+      <div className="mt-6 flex items-center justify-between gap-4">
+        {/* Restart Button */}
+        <button
+          type="button"
+          onClick={() => seek(0)}
+          aria-label="Restart audio"
+          className="flex size-10 items-center justify-center rounded-xl border border-border/70 bg-secondary/50 text-muted-foreground transition-all hover:bg-secondary hover:text-foreground"
+        >
+          <RotateCcw className="size-4" />
+        </button>
+
+        {/* Central Tactile Play Disc */}
+        <button
+          type="button"
+          onClick={() => void togglePlayback()}
+          aria-label={`${playing ? "Stop" : "Play"} ${title}`}
+          aria-pressed={playing}
+          className={`relative flex size-20 items-center justify-center rounded-2xl transition-all duration-300 active:scale-95 ${
+            playing
+              ? "bg-indigo-600 text-white shadow-lg shadow-indigo-600/30 ring-4 ring-indigo-500/20"
+              : "border border-border/80 bg-foreground text-background shadow-md hover:bg-foreground/90 hover:scale-105"
+          }`}
+        >
+          {playing ? (
+            <div className="flex items-end gap-1.5 h-6" aria-hidden="true">
+              <span className="w-1.5 rounded-full bg-white animate-soundwave-1" />
+              <span className="w-1.5 rounded-full bg-white animate-soundwave-2" />
+              <span className="w-1.5 rounded-full bg-white animate-soundwave-3" />
+              <span className="w-1.5 rounded-full bg-white animate-soundwave-4" />
+              <span className="w-1.5 rounded-full bg-white animate-soundwave-5" />
+            </div>
+          ) : (
+            <Play className="ml-1 size-8 fill-current" />
+          )}
+        </button>
+
+        {/* Volume Controls */}
+        <div className="flex items-center gap-2">
           <button
             type="button"
-            onClick={() => void togglePlayback()}
-            aria-label={`${playing ? "Stop" : "Play"} ${title}`}
-            aria-pressed={playing}
-            className="group/play relative size-[94px] shrink-0 cursor-pointer rounded-full bg-blue-50 shadow-[inset_0_0_1px_1px_rgba(0,0,0,0.3),2px_3px_5px_rgba(0,0,0,0.1)] transition-transform active:scale-95 dark:bg-slate-800"
+            onClick={toggleMute}
+            aria-label={volume === 0 ? "Unmute" : "Mute"}
+            className="flex size-10 items-center justify-center rounded-xl border border-border/70 bg-secondary/50 text-muted-foreground transition-all hover:bg-secondary hover:text-foreground"
           >
-            <span className="absolute top-[5px] left-1/2 size-[83px] -translate-x-1/2 rounded-full bg-black blur-[1px]" />
-
-            <span className="absolute top-[5px] left-1/2 z-10 flex size-[83px] -translate-x-1/2 items-center justify-center rounded-full bg-gradient-to-b from-blue-600 to-blue-400 shadow-[inset_0_4px_2px_#60a5fa,inset_0_-4px_0_#1e3a8a,0_0_2px_rgba(0,0,0,0.1)] transition-all group-hover/play:brightness-110">
-              {playing ? (
-                <Pause className="size-9 fill-blue-100 text-blue-100 drop-shadow-md" />
-              ) : (
-                <Play className="ml-1 size-9 fill-blue-100 text-blue-100 drop-shadow-md" />
-              )}
-            </span>
+            <VolumeIcon className="size-4" />
           </button>
 
-          <div className="flex items-center gap-2">
-            <Button
-              type="button"
-              variant="ghost"
-              size="icon"
-              onClick={toggleMute}
-              aria-label={volume === 0 ? "Unmute" : "Mute"}
-              className="size-10 shrink-0 rounded-xl text-slate-500 hover:bg-slate-100 dark:hover:bg-white/[0.06]"
-            >
-              <VolumeIcon className="size-[18px]" />
-            </Button>
-
-            <input
-              type="range"
-              min={0}
-              max={1}
-              step={0.05}
-              value={volume}
-              onChange={(event) => changeVolume(Number(event.target.value))}
-              aria-label="Volume"
-              className="hidden h-1.5 w-16 cursor-pointer accent-blue-600 sm:block"
-            />
-          </div>
+          <input
+            type="range"
+            min={0}
+            max={1}
+            step={0.05}
+            value={volume}
+            onChange={(event) => changeVolume(Number(event.target.value))}
+            aria-label="Volume"
+            className="hidden h-1.5 w-20 cursor-pointer accent-indigo-600 sm:block"
+          />
         </div>
-
-        {/* Action buttons */}
-        <div className="mt-5 grid grid-cols-2 gap-2 border-t border-slate-100 pt-4 sm:grid-cols-3 dark:border-white/[0.08]">
-          <ShareSoundButton slug={slug} title={title} shareText={true} />
-
-          <Button
-            type="button"
-            variant="outline"
-            onClick={() => void toggleFavorite(id)}
-            aria-pressed={favorite}
-            className={`h-10 rounded-xl ${
-              favorite
-                ? "border-rose-200 bg-rose-50 text-rose-600 hover:bg-rose-100 dark:border-rose-400/20 dark:bg-rose-400/10 dark:text-rose-300"
-                : "border-slate-200 bg-white text-slate-600 hover:border-rose-200 hover:bg-rose-50 hover:text-rose-600 dark:border-white/10 dark:bg-slate-800 dark:text-slate-300"
-            }`}
-          >
-            <Heart className={`size-4 ${favorite ? "fill-current" : ""}`} />
-            {favorite ? "Saved" : "Favorite"}
-          </Button>
-
-          <Button
-            type="button"
-            variant="outline"
-            onClick={() => void copyLink()}
-            className="h-10 rounded-xl border-slate-200 bg-white text-slate-600 hover:border-blue-200 hover:bg-blue-50 hover:text-blue-600 dark:border-white/10 dark:bg-slate-800 dark:text-slate-300"
-          >
-            {copied ? (
-              <Check className="size-4 text-emerald-500" />
-            ) : (
-              <Copy className="size-4" />
-            )}
-            {copied ? "Copied" : "Copy link"}
-          </Button>
-
-          <Link
-            href={`/api/sounds/${encodeURIComponent(slug)}/audio?download=1`}
-            download
-            className="inline-flex h-10 items-center justify-center gap-2 rounded-xl border border-slate-200 bg-white px-3 text-sm font-medium text-slate-600 transition-colors hover:border-blue-200 hover:bg-blue-50 dark:border-white/10 dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-slate-700"
-          >
-            <Download className="size-4" />
-            Download
-          </Link>
-
-          <Button
-            type="button"
-            variant="outline"
-            onClick={() => void copyEmbed()}
-            className="h-10 rounded-xl border-slate-200 bg-white text-slate-600 hover:border-blue-200 hover:bg-blue-50 hover:text-blue-600 dark:border-white/10 dark:bg-slate-800 dark:text-slate-300"
-          >
-            <Copy className="size-4" />
-            Copy embed
-          </Button>
-        </div>
-
-        {(message || error) && (
-          <p
-            role="status"
-            className="mt-3 text-xs text-sky-700 dark:text-sky-300"
-          >
-            {error || message}
-          </p>
-        )}
       </div>
+
+      {/* Action Toolbar */}
+      <div className="mt-8 grid grid-cols-2 gap-2.5 border-t border-border/60 pt-6 sm:grid-cols-5">
+        <Button
+          type="button"
+          variant="outline"
+          size="md"
+          onClick={() => void toggleFavorite(id)}
+          aria-pressed={favorite}
+          className={`rounded-xl border ${
+            favorite
+              ? "border-rose-200 bg-rose-50 text-rose-600 dark:border-rose-900/60 dark:bg-rose-950/40 dark:text-rose-400"
+              : "border-border/80 bg-secondary/40 text-foreground"
+          }`}
+        >
+          <Heart className={`size-4 ${favorite ? "fill-current" : ""}`} />
+          <span>{favorite ? "Favorited" : "Favorite"}</span>
+        </Button>
+
+        <Button
+          type="button"
+          variant="outline"
+          size="md"
+          onClick={() => void copyLink()}
+          className="rounded-xl border border-border/80 bg-secondary/40 text-foreground"
+        >
+          {copiedLink ? (
+            <Check className="size-4 text-emerald-500" />
+          ) : (
+            <Copy className="size-4" />
+          )}
+          <span>{copiedLink ? "Copied" : "Copy Link"}</span>
+        </Button>
+
+        <ShareSoundButton
+          slug={slug}
+          title={title}
+          shareText={true}
+          className="rounded-xl border border-border/80 bg-secondary/40 text-foreground"
+        />
+
+        <Link
+          href={`/api/sounds/${encodeURIComponent(slug)}/audio?download=1`}
+          download
+          className="inline-flex h-10 items-center justify-center gap-2 rounded-xl border border-border/80 bg-secondary/40 px-4 text-sm font-medium text-foreground transition-colors hover:bg-secondary active:bg-secondary/70"
+        >
+          <Download className="size-4" />
+          <span>Download</span>
+        </Link>
+
+        <Button
+          type="button"
+          variant="outline"
+          size="md"
+          onClick={() => void copyEmbed()}
+          className="rounded-xl border border-border/80 bg-secondary/40 text-foreground col-span-2 sm:col-span-1"
+        >
+          {copiedEmbed ? (
+            <Check className="size-4 text-emerald-500" />
+          ) : (
+            <Code className="size-4" />
+          )}
+          <span>{copiedEmbed ? "Copied" : "Embed"}</span>
+        </Button>
+      </div>
+
+      {(message || error) && (
+        <div
+          role="status"
+          className="mt-4 rounded-xl border border-indigo-200/60 bg-indigo-50/50 p-3 text-center text-xs font-medium text-indigo-700 dark:border-indigo-900/50 dark:bg-indigo-950/30 dark:text-indigo-300"
+        >
+          {error || message}
+        </div>
+      )}
 
       <audio
         ref={audioRef}

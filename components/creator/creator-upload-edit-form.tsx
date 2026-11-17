@@ -132,7 +132,7 @@ export function CreatorUploadEditForm({
           <FieldDescription>Separate tags with commas.</FieldDescription>
         </Field>
       </FieldGroup>
-      <Button type="submit" disabled={saving || !categories.length}>
+      <Button type="submit" variant="primary" size="md" disabled={saving || !categories.length}>
         {saving ? "Saving…" : "Save changes"}
       </Button>
     </form>

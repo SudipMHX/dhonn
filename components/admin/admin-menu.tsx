@@ -2,18 +2,27 @@
 
 import Link from "next/link"
 import { useState } from "react"
-import { Menu, X } from "lucide-react"
+import {
+  AlertTriangle,
+  FolderTree,
+  LayoutDashboard,
+  Menu,
+  Music,
+  UploadCloud,
+  Users,
+  X,
+} from "lucide-react"
 
 export function AdminMenu() {
   const [open, setOpen] = useState(false)
 
   const links = [
-    { href: "/admin", label: "Overview" },
-    { href: "/admin/uploads", label: "Review uploads" },
-    { href: "/admin/sounds", label: "Manage sounds" },
-    { href: "/admin/reports", label: "Reports" },
-    { href: "/admin/categories", label: "Categories" },
-    { href: "/admin/users", label: "Users" },
+    { href: "/admin", label: "Overview", icon: LayoutDashboard },
+    { href: "/admin/uploads", label: "Review uploads", icon: UploadCloud },
+    { href: "/admin/sounds", label: "Manage sounds", icon: Music },
+    { href: "/admin/reports", label: "Content reports", icon: AlertTriangle },
+    { href: "/admin/categories", label: "Categories", icon: FolderTree },
+    { href: "/admin/users", label: "Users", icon: Users },
   ]
 
   return (
@@ -23,9 +32,9 @@ export function AdminMenu() {
         onClick={() => setOpen((value) => !value)}
         aria-label={open ? "Close menu" : "Open menu"}
         aria-expanded={open}
-        className="flex h-9 w-9 items-center justify-center rounded-lg text-slate-600 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800"
+        className="flex size-9 items-center justify-center rounded-xl border border-border bg-card text-muted-foreground transition-colors hover:bg-secondary hover:text-foreground"
       >
-        {open ? <X size={20} /> : <Menu size={20} />}
+        {open ? <X className="size-4" /> : <Menu className="size-4" />}
       </button>
 
       {open && (
@@ -34,21 +43,25 @@ export function AdminMenu() {
             type="button"
             aria-label="Close menu"
             onClick={() => setOpen(false)}
-            className="fixed inset-0 z-40 cursor-default"
+            className="fixed inset-0 z-40 cursor-default bg-black/20 backdrop-blur-xs"
           />
 
-          <nav className="absolute top-full right-0 z-50 mt-2 w-52 rounded-xl border border-slate-200 bg-white p-2 shadow-lg dark:border-slate-800 dark:bg-slate-900">
-            {links.map((link) => (
-              <Link
-                key={link.href}
-                href={link.href}
-                prefetch={false}
-                onClick={() => setOpen(false)}
-                className="block rounded-lg px-3 py-2 text-sm font-medium hover:bg-slate-100 dark:hover:bg-slate-800"
-              >
-                {link.label}
-              </Link>
-            ))}
+          <nav className="absolute top-full right-0 z-50 mt-2 w-56 rounded-2xl border border-border/80 bg-card p-1.5 shadow-xl shadow-black/10 backdrop-blur-xl animate-in fade-in-0 zoom-in-95 duration-150">
+            {links.map((link) => {
+              const Icon = link.icon
+              return (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  prefetch={false}
+                  onClick={() => setOpen(false)}
+                  className="flex items-center gap-2.5 rounded-xl px-3 py-2 text-xs font-medium text-foreground transition-colors hover:bg-secondary"
+                >
+                  <Icon className="size-4 text-muted-foreground" />
+                  <span>{link.label}</span>
+                </Link>
+              )
+            })}
           </nav>
         </>
       )}

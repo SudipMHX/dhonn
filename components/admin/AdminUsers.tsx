@@ -89,7 +89,7 @@ export function AdminUsers() {
                     <Badge variant="outline">{adminText(row.role)}</Badge>
                   </TableCell>
                   <TableCell>
-                    <Badge variant={active ? "secondary" : "destructive"}>
+                    <Badge variant={active ? "success" : "destructive"}>
                       {adminText(row.status)}
                     </Badge>
                   </TableCell>
@@ -101,8 +101,8 @@ export function AdminUsers() {
                           status: active ? "suspended" : "active",
                         })
                       }
-                      variant="outline"
-                      size="sm"
+                      variant={active ? "destructive" : "primary"}
+                      size="xs"
                     >
                       {active ? "Suspend" : "Reactivate"}
                     </Button>

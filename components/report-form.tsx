@@ -1,6 +1,7 @@
 "use client"
 
 import { Button } from "@/components/ui/button"
+import { CheckCircle2 } from "lucide-react"
 import { FormEvent, useState } from "react"
 
 export function ReportForm({ soundId = "" }: { soundId?: string }) {
@@ -40,66 +41,93 @@ export function ReportForm({ soundId = "" }: { soundId?: string }) {
   return submitted ? (
     <div
       role="status"
-      className="rounded-2xl bg-emerald-50 p-5 text-emerald-800 dark:bg-emerald-950/40 dark:text-emerald-200"
+      className="flex items-start gap-3 rounded-2xl border border-emerald-200/80 bg-emerald-50/70 p-6 text-emerald-900 dark:border-emerald-900/60 dark:bg-emerald-950/30 dark:text-emerald-200"
     >
-      Thanks. Your report has been sent to the moderation team.
+      <CheckCircle2 className="size-5 shrink-0 text-emerald-600 dark:text-emerald-400 mt-0.5" />
+      <div>
+        <p className="font-semibold text-sm">Report submitted successfully</p>
+        <p className="mt-1 text-xs text-emerald-800 dark:text-emerald-300 leading-relaxed">
+          Thank you for helping keep the community safe. Our moderation team will investigate this report and take appropriate action.
+        </p>
+      </div>
     </div>
   ) : (
     <form
       onSubmit={submit}
-      className="max-w-2xl space-y-4 rounded-3xl border border-slate-200 bg-white p-6 dark:border-slate-800 dark:bg-slate-900"
+      className="space-y-5 rounded-2xl border border-border/80 bg-card p-6 shadow-xs sm:p-8"
     >
-      <label className="block text-sm font-medium">
-        Sound ID
+      <div className="space-y-1.5">
+        <label htmlFor="report-sound-id" className="text-xs font-semibold text-foreground">
+          Sound ID
+        </label>
         <input
+          id="report-sound-id"
           name="soundId"
           required
           defaultValue={soundId}
           pattern="[a-fA-F0-9]{24}"
-          placeholder="Paste the sound ID"
-          className="mt-1.5 w-full rounded-xl border border-slate-200 bg-transparent px-4 py-3 dark:border-slate-700"
+          placeholder="24-character hexadecimal Sound ID"
+          className="h-10 w-full rounded-xl border border-input bg-card px-3.5 text-sm font-mono text-foreground transition-all placeholder:text-muted-foreground/60 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 focus:outline-none"
         />
-      </label>
-      <label className="block text-sm font-medium">
-        Report type
+      </div>
+
+      <div className="space-y-1.5">
+        <label htmlFor="report-type" className="text-xs font-semibold text-foreground">
+          Report Category
+        </label>
         <select
+          id="report-type"
           name="type"
-          className="mt-1.5 w-full rounded-xl border border-slate-200 bg-transparent px-4 py-3 dark:border-slate-700"
+          className="h-10 w-full rounded-xl border border-input bg-card px-3 text-sm text-foreground transition-all outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20"
         >
-          <option value="copyright">Copyright comdhonn.t</option>
-          <option value="inappropriate">Inappropriate content</option>
-          <option value="other">Other concern</option>
+          <option value="copyright">Copyright or Intellectual Property</option>
+          <option value="inappropriate">Inappropriate or Harmful Content</option>
+          <option value="other">Other Concern</option>
         </select>
-      </label>
-      <label className="block text-sm font-medium">
-        Details
+      </div>
+
+      <div className="space-y-1.5">
+        <label htmlFor="report-details" className="text-xs font-semibold text-foreground">
+          Report Details
+        </label>
         <textarea
+          id="report-details"
           name="details"
           required
           minLength={20}
           maxLength={2000}
           rows={5}
-          className="mt-1.5 w-full rounded-xl border border-slate-200 bg-transparent px-4 py-3 dark:border-slate-700"
-          placeholder="Tell us what happened. For copyright reports, identify the work and exdhonn. your relationship to it."
+          className="w-full rounded-xl border border-input bg-card p-3.5 text-sm text-foreground transition-all placeholder:text-muted-foreground/60 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 focus:outline-none"
+          placeholder="Please describe the violation in detail. For copyright reports, identify the original work and your authority or relationship to it."
         />
-      </label>
-      <label className="block text-sm font-medium">
-        Email for follow-up{" "}
-        <span className="font-normal text-slate-500">(optional)</span>
+      </div>
+
+      <div className="space-y-1.5">
+        <label htmlFor="report-email" className="text-xs font-semibold text-foreground">
+          Email for Follow-up{" "}
+          <span className="font-normal text-muted-foreground">(optional)</span>
+        </label>
         <input
+          id="report-email"
           name="email"
           type="email"
           maxLength={254}
-          className="mt-1.5 w-full rounded-xl border border-slate-200 bg-transparent px-4 py-3 dark:border-slate-700"
+          placeholder="you@domain.com"
+          className="h-10 w-full rounded-xl border border-input bg-card px-3.5 text-sm text-foreground transition-all placeholder:text-muted-foreground/60 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 focus:outline-none"
         />
-      </label>
+      </div>
+
       {error && (
-        <p role="alert" className="text-sm text-rose-700 dark:text-rose-300">
+        <div
+          role="alert"
+          className="rounded-xl border border-rose-200/80 bg-rose-50/70 p-3 text-xs font-medium text-rose-800 dark:border-rose-900/60 dark:bg-rose-950/30 dark:text-rose-300"
+        >
           {error}
-        </p>
+        </div>
       )}
-      <Button type="submit" size="lg">
-        Send report
+
+      <Button type="submit" variant="destructive" size="md" className="w-full sm:w-auto">
+        Submit Report
       </Button>
     </form>
   )

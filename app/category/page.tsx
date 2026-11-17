@@ -1,5 +1,6 @@
 import type { Metadata } from "next"
 import Link from "next/link"
+import { ArrowRight, Disc3, Music, Grid2X2 } from "lucide-react"
 
 import { getPublicCategories } from "@/lib/services/sounds"
 
@@ -15,39 +16,60 @@ export default async function CategoriesPage() {
   const categories = await getPublicCategories()
 
   return (
-    <main className="mx-auto min-h-[70vh] max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
-      <header className="mb-8">
-        <p className="text-xs font-semibold tracking-[0.2em] text-sky-600 uppercase dark:text-sky-400">
-          Browse the library
-        </p>
-        <h1 className="mt-2 text-4xl font-black tracking-tight">
-          Sound categories
+    <main className="mx-auto min-h-[75vh] max-w-7xl px-4 py-8 sm:px-6 sm:py-12 lg:px-8">
+      {/* Header */}
+      <header className="mb-10 max-w-2xl">
+        <div className="inline-flex items-center gap-1.5 rounded-full border border-indigo-200/60 bg-indigo-50 px-3 py-1 text-xs font-semibold text-indigo-700 dark:border-indigo-900/60 dark:bg-indigo-950/40 dark:text-indigo-300">
+          <Grid2X2 className="size-3.5" />
+          <span>Sound Collections</span>
+        </div>
+        <h1 className="mt-4 text-3xl font-extrabold tracking-tight text-foreground sm:text-4xl">
+          Categories
         </h1>
-        <p className="mt-3 max-w-2xl text-slate-600 dark:text-slate-300">
-          Explore sounds grouped by the moments and moods they fit.
+        <p className="mt-3 text-sm leading-relaxed text-muted-foreground sm:text-base">
+          Browse sounds organized by context, style, and reaction mood.
         </p>
       </header>
+
       {categories.length ? (
         <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {categories.map((category) => (
             <li key={category.slug}>
               <Link
                 href={`/category/${encodeURIComponent(category.slug)}`}
-                className="block rounded-3xl border border-slate-200 bg-white p-6 shadow-sm transition hover:-translate-y-0.5 hover:border-sky-300 hover:shadow-lg dark:border-slate-800 dark:bg-slate-900"
+                className="group flex flex-col justify-between rounded-2xl border border-border/80 bg-card p-6 shadow-xs transition-all duration-200 hover:-translate-y-1 hover:border-indigo-500/40 hover:shadow-md"
               >
-                <h2 className="text-xl font-bold">{category.name}</h2>
-                <p className="mt-2 text-sm leading-6 text-slate-600 dark:text-slate-300">
-                  {category.description ||
-                    `Browse creator-made ${category.name.toLowerCase()} sounds.`}
-                </p>
+                <div>
+                  <div className="flex size-10 items-center justify-center rounded-xl bg-secondary text-muted-foreground transition-colors group-hover:bg-indigo-50 group-hover:text-indigo-600 dark:group-hover:bg-indigo-950/50 dark:group-hover:text-indigo-400">
+                    <Disc3 className="size-5" />
+                  </div>
+                  <h2 className="mt-4 text-lg font-bold tracking-tight text-foreground transition-colors group-hover:text-indigo-600 dark:group-hover:text-indigo-400">
+                    {category.name}
+                  </h2>
+                  <p className="mt-2 text-xs leading-relaxed text-muted-foreground">
+                    {category.description ||
+                      `Explore community-made ${category.name.toLowerCase()} sounds and audio reactions.`}
+                  </p>
+                </div>
+
+                <div className="mt-6 flex items-center gap-1 text-xs font-semibold text-indigo-600 dark:text-indigo-400">
+                  <span>Browse Category</span>
+                  <ArrowRight className="size-3.5 transition-transform group-hover:translate-x-1" />
+                </div>
               </Link>
             </li>
           ))}
         </ul>
       ) : (
-        <p className="rounded-3xl border border-dashed border-slate-300 p-12 text-center text-slate-500 dark:border-slate-700">
-          No categories are available yet.
-        </p>
+        <div className="flex flex-col items-center justify-center rounded-2xl border border-dashed border-border/80 bg-card/40 p-12 text-center">
+          <div className="flex size-12 items-center justify-center rounded-2xl bg-secondary text-muted-foreground mb-3">
+            <Music className="size-6" />
+          </div>
+          <p className="font-semibold text-foreground">No categories available yet</p>
+          <p className="mt-1 text-xs text-muted-foreground">
+            Categories will appear once created by an administrator.
+          </p>
+        </div>
       )}
     </main>
   )

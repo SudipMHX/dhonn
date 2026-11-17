@@ -191,14 +191,16 @@ export function PwaInstallButton() {
   return (
     <>
       <Button
-        className="fixed right-4 bottom-20 z-40 rounded-full shadow-xl shadow-sky-500/25 sm:right-6 sm:bottom-6 md:bottom-[calc(1rem+env(safe-area-inset-bottom))]"
+        variant="primary"
+        size="md"
+        className="fixed right-4 bottom-20 z-40 rounded-full shadow-lg shadow-indigo-600/30 sm:right-6 sm:bottom-6 md:bottom-[calc(1.5rem+env(safe-area-inset-bottom))]"
         onClick={() => {
           setInstallMessage("")
           setOpen(true)
         }}
       >
-        <Download aria-hidden="true" />
-        Install app
+        <Download aria-hidden="true" className="size-4" />
+        <span>Install app</span>
       </Button>
       <Dialog
         open={open}

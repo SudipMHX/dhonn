@@ -89,7 +89,7 @@ export function SoundEditForm({
           />
         </Field>
       </FieldGroup>
-      <Button type="submit" size="sm" className="mt-3 w-fit" disabled={saving}>
+      <Button type="submit" variant="primary" size="md" className="mt-4 w-fit" disabled={saving}>
         {saving ? "Saving…" : "Save changes"}
       </Button>
     </form>

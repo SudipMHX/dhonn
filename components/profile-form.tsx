@@ -44,20 +44,20 @@ export function ProfileForm({ name }: { name: string }) {
   return (
     <form onSubmit={submit} className="min-w-0">
       <Card>
-        <CardHeader className="border-b">
-          <CardTitle>Profile &amp; password</CardTitle>
+        <CardHeader className="border-b border-border/60 pb-5">
+          <CardTitle>Profile &amp; Credentials</CardTitle>
           <CardDescription>
-            Update how you appear or choose a new password.
+            Update how you appear or change your authentication password.
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-6 pt-6">
           <section aria-labelledby="profile-details-heading">
-            <h2 id="profile-details-heading" className="text-sm font-semibold">
-              Profile details
+            <h2 id="profile-details-heading" className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+              Public Profile
             </h2>
-            <FieldGroup className="mt-4">
+            <FieldGroup className="mt-3">
               <Field>
-                <FieldLabel htmlFor="profile-name">Display name</FieldLabel>
+                <FieldLabel htmlFor="profile-name">Display Name</FieldLabel>
                 <Input
                   id="profile-name"
                   name="name"
@@ -69,25 +69,25 @@ export function ProfileForm({ name }: { name: string }) {
                   className="h-10"
                 />
                 <FieldDescription>
-                  This name is visible to other people in the community.
+                  This name is displayed as the creator on your published audio tiles.
                 </FieldDescription>
               </Field>
             </FieldGroup>
           </section>
 
-          <Separator />
+          <Separator className="border-border/60" />
 
           <section aria-labelledby="password-heading">
-            <h2 id="password-heading" className="text-sm font-semibold">
-              Change password
+            <h2 id="password-heading" className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+              Change Password
             </h2>
-            <p className="mt-1 text-sm text-muted-foreground">
-              Leave both password fields blank to keep your current password.
+            <p className="mt-1 text-xs text-muted-foreground">
+              Leave both password fields blank to retain your existing password.
             </p>
             <FieldGroup className="mt-4">
               <Field>
                 <FieldLabel htmlFor="profile-current-password">
-                  Current password
+                  Current Password
                 </FieldLabel>
                 <Input
                   id="profile-current-password"
@@ -96,12 +96,13 @@ export function ProfileForm({ name }: { name: string }) {
                   autoComplete="current-password"
                   value={currentPassword}
                   onChange={(event) => setCurrentPassword(event.target.value)}
+                  placeholder="••••••••••••"
                   className="h-10"
                 />
               </Field>
               <Field>
                 <FieldLabel htmlFor="profile-new-password">
-                  New password
+                  New Password
                 </FieldLabel>
                 <Input
                   id="profile-new-password"
@@ -112,18 +113,19 @@ export function ProfileForm({ name }: { name: string }) {
                   autoComplete="new-password"
                   value={newPassword}
                   onChange={(event) => setNewPassword(event.target.value)}
+                  placeholder="••••••••••••"
                   className="h-10"
                 />
                 <FieldDescription>
-                  Choose at least 10 characters.
+                  Requires at least 10 characters.
                 </FieldDescription>
               </Field>
             </FieldGroup>
           </section>
         </CardContent>
-        <CardFooter className="justify-end">
-          <Button type="submit" disabled={saving} size="md">
-            {saving ? "Saving changes…" : "Save changes"}
+        <CardFooter className="justify-end border-t border-border/60 pt-5">
+          <Button type="submit" disabled={saving} variant="primary" size="md">
+            {saving ? "Saving changes…" : "Save Changes"}
           </Button>
         </CardFooter>
       </Card>

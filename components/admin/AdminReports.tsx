@@ -105,19 +105,23 @@ export function AdminReports() {
                   <TableCell>
                     <Badge
                       variant={
-                        row.status === "resolved" || row.status === "dismissed"
-                          ? "secondary"
-                          : "outline"
+                        row.status === "resolved"
+                          ? "success"
+                          : row.status === "dismissed"
+                            ? "secondary"
+                            : row.status === "reviewing"
+                              ? "warning"
+                              : "destructive"
                       }
                     >
                       {adminText(row.status)}
                     </Badge>
                   </TableCell>
-                  <TableCell className="max-w-72 whitespace-normal">
+                  <TableCell className="max-w-72 whitespace-normal text-xs text-muted-foreground">
                     {adminText(row.details)}
                   </TableCell>
                   <TableCell>
-                    <div className="flex min-w-72 flex-wrap gap-2">
+                    <div className="flex min-w-72 flex-wrap gap-1.5">
                       <Button
                         type="button"
                         onClick={() =>
@@ -126,7 +130,7 @@ export function AdminReports() {
                           })
                         }
                         variant="outline"
-                        size="sm"
+                        size="xs"
                       >
                         Review
                       </Button>
@@ -140,7 +144,7 @@ export function AdminReports() {
                             })
                           }
                           variant="destructive"
-                          size="sm"
+                          size="xs"
                         >
                           Remove sound
                         </Button>
@@ -152,8 +156,8 @@ export function AdminReports() {
                             status: "resolved",
                           })
                         }
-                        variant="default"
-                        size="sm"
+                        variant="primary"
+                        size="xs"
                       >
                         Resolve
                       </Button>
@@ -165,7 +169,7 @@ export function AdminReports() {
                           })
                         }
                         variant="outline"
-                        size="sm"
+                        size="xs"
                       >
                         Dismiss
                       </Button>

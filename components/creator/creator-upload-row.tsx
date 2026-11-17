@@ -78,13 +78,19 @@ export function CreatorUploadRow({
         <Badge
           variant={
             upload.status === "published"
-              ? "default"
+              ? "success"
               : upload.status === "rejected"
                 ? "destructive"
-                : "secondary"
+                : "warning"
           }
         >
-          {upload.status}
+          {upload.status === "published"
+            ? "Published"
+            : upload.status === "rejected"
+              ? "Rejected"
+              : upload.status === "pending"
+                ? "Pending"
+                : upload.status}
         </Badge>
       </TableCell>
       <TableCell className="min-w-48 whitespace-normal text-muted-foreground">

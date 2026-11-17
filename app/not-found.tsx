@@ -1,40 +1,55 @@
 "use client"
 
-import { Button } from "@/components/ui/button"
 import Link from "next/link"
-import { ArrowLeftIcon } from "lucide-react"
+import { ArrowLeft, Home, VolumeX } from "lucide-react"
+
+import { Button } from "@/components/ui/button"
 
 export default function NotFound() {
   return (
-    <main className="grid min-h-screen place-items-center bg-slate-100 px-4 py-40 dark:bg-slate-950">
-      <div className="text-center">
-        <p className="text-xs font-semibold tracking-widest text-sky-600 uppercase">
-          404 · Not found
+    <main className="relative grid min-h-[80vh] place-items-center px-4 py-20 text-center">
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute top-1/2 left-1/2 -z-10 -translate-x-1/2 -translate-y-1/2 size-80 rounded-full bg-indigo-500/10 blur-[100px]"
+      />
+
+      <div className="max-w-md">
+        <div className="mx-auto flex size-14 items-center justify-center rounded-2xl bg-secondary text-indigo-600 dark:text-indigo-400 mb-6 shadow-2xs">
+          <VolumeX className="size-7" />
+        </div>
+
+        <p className="text-xs font-semibold tracking-wider text-indigo-600 uppercase dark:text-indigo-400">
+          404 · Missing Audio
         </p>
 
-        <h1 className="mt-3 text-3xl font-black">That sound isn’t here.</h1>
+        <h1 className="mt-2 text-3xl font-extrabold tracking-tight text-foreground sm:text-4xl">
+          That sound isn&apos;t here.
+        </h1>
 
-        <p className="mt-2 text-slate-500">
-          It may be private, removed, or the link may be incorrect.
+        <p className="mt-2.5 text-sm text-muted-foreground leading-relaxed">
+          The sound bite you requested may be private, undergoing review, or may have been permanently removed.
         </p>
 
-        <div className="mt-5 flex items-center justify-center gap-3">
-          <Link
-            href="/"
-            className="inline-block rounded-full bg-slate-950 px-5 py-2 text-sm font-semibold text-white dark:bg-white dark:text-slate-950"
+        <div className="mt-8 flex items-center justify-center gap-3">
+          <Button
+            nativeButton={false}
+            variant="primary"
+            size="md"
+            render={<Link href="/" />}
           >
-            Go Home
-          </Link>
+            <Home className="size-4" />
+            <span>Back to Soundboard</span>
+          </Button>
 
           <Button
             type="button"
             onClick={() => window.history.back()}
-            variant="secondary"
-            size="sm"
-            className="rounded-full"
-            aria-label="Go back"
+            variant="outline"
+            size="md"
+            aria-label="Go back to previous page"
           >
-            <ArrowLeftIcon className="size-4" />
+            <ArrowLeft className="size-4" />
+            <span>Go Back</span>
           </Button>
         </div>
       </div>

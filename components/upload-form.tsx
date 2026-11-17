@@ -1,6 +1,7 @@
 "use client"
 
 import { useEffect, type FormEvent } from "react"
+import { UploadCloud } from "lucide-react"
 
 import { useCreatorStore } from "@/components/creator/creator-store"
 import { Button } from "@/components/ui/button"
@@ -91,26 +92,27 @@ export function UploadForm() {
   return (
     <form onSubmit={submit} className="min-w-0">
       <Card>
-        <CardHeader className="border-b">
-          <CardTitle>Sound details</CardTitle>
+        <CardHeader className="border-b border-border/60 pb-5">
+          <CardTitle>Sound Details</CardTitle>
           <CardDescription>
-            Clear details help listeners discover and enjoy your sound.
+            Provide metadata and audio file details for community discovery.
           </CardDescription>
         </CardHeader>
         <CardContent className="pt-6">
           <FieldGroup>
             <Field>
-              <FieldLabel htmlFor="upload-title">Sound title</FieldLabel>
+              <FieldLabel htmlFor="upload-title">Sound Title</FieldLabel>
               <Input
                 id="upload-title"
                 name="title"
-                placeholder="Give your sound a name"
+                placeholder="e.g. Dramatic Dun Dun Dun"
                 required
                 minLength={2}
                 maxLength={100}
                 className="h-10"
               />
             </Field>
+
             <Field>
               <FieldLabel htmlFor="upload-description">
                 Description{" "}
@@ -121,11 +123,12 @@ export function UploadForm() {
               <Textarea
                 id="upload-description"
                 name="description"
-                placeholder="What should listeners know about this sound?"
+                placeholder="Give context or tips on how to use this sound..."
                 maxLength={1000}
-                rows={4}
+                rows={3}
               />
             </Field>
+
             <div className="grid gap-5 sm:grid-cols-2">
               <Field>
                 <FieldLabel htmlFor="upload-category">Category</FieldLabel>
@@ -135,7 +138,7 @@ export function UploadForm() {
                   required
                   defaultValue=""
                   disabled={!categories.length}
-                  className="h-10"
+                  className="w-full h-10"
                 >
                   <NativeSelectOption value="" disabled>
                     Select a category
@@ -155,37 +158,49 @@ export function UploadForm() {
                   </FieldDescription>
                 )}
               </Field>
+
               <Field>
                 <FieldLabel htmlFor="upload-tags">
                   Tags{" "}
                   <span className="font-normal text-muted-foreground">
-                    (optional)
+                    (comma separated)
                   </span>
                 </FieldLabel>
                 <Input
                   id="upload-tags"
                   name="tags"
-                  placeholder="cheerful, alert, retro"
+                  placeholder="anime, meme, laugh, stream"
                   className="h-10"
                 />
               </Field>
             </div>
+
+            {/* Audio File Input with Styled Box */}
             <Field>
-              <FieldLabel htmlFor="upload-audio">Audio file</FieldLabel>
-              <Input
-                id="upload-audio"
-                name="audio"
-                type="file"
-                accept=".mp3,.wav,audio/mpeg,audio/wav"
-                required
-                className="h-auto min-h-12 cursor-pointer border-dashed bg-muted/30 p-2 file:mr-3 file:rounded-md file:bg-secondary file:px-3 file:py-1.5"
-              />
-              <FieldDescription>
-                MP3 or WAV · up to 15 MB · 30 seconds maximum
-              </FieldDescription>
+              <FieldLabel htmlFor="upload-audio">Audio File (MP3 or WAV)</FieldLabel>
+              <div className="relative flex flex-col items-center justify-center rounded-2xl border-2 border-dashed border-border/80 bg-secondary/30 p-6 text-center transition-colors hover:border-indigo-500/50 hover:bg-secondary/50">
+                <UploadCloud className="size-8 text-indigo-600 dark:text-indigo-400 mb-2" />
+                <p className="text-xs font-semibold text-foreground">
+                  Choose an audio file to upload
+                </p>
+                <p className="mt-1 text-[11px] text-muted-foreground">
+                  MP3 or WAV up to 15 MB · Max 30 seconds
+                </p>
+                <input
+                  id="upload-audio"
+                  name="audio"
+                  type="file"
+                  accept=".mp3,.wav,audio/mpeg,audio/wav"
+                  required
+                  className="mt-3 text-xs text-muted-foreground file:mr-3 file:rounded-xl file:border file:border-border file:bg-card file:px-3 file:py-1.5 file:text-xs file:font-semibold file:text-foreground file:shadow-2xs hover:file:bg-secondary"
+                />
+              </div>
             </Field>
-            <FieldLabel className="items-start rounded-lg border bg-muted/30 p-3">
+
+            {/* Rights agreement check */}
+            <div className="flex items-start gap-3 rounded-xl border border-border/70 bg-secondary/40 p-3.5">
               <Checkbox
+                id="rights-check"
                 checked={rightsConfirmed}
                 onCheckedChange={(checked) =>
                   useCreatorStore
@@ -193,34 +208,36 @@ export function UploadForm() {
                     .setRightsConfirmed(checked === true)
                 }
                 aria-required="true"
+                className="mt-0.5"
               />
-              <span className="leading-relaxed font-normal">
-                I created this sound or have permission to upload and share it,
-                and I agree to the{" "}
+              <label htmlFor="rights-check" className="text-xs leading-relaxed text-muted-foreground select-none cursor-pointer">
+                I confirm that I created this recording or possess all required licenses and permissions to share it publicly under the{" "}
                 <a
                   href="/terms"
                   target="_blank"
                   rel="noreferrer"
-                  className="font-medium text-primary underline underline-offset-4"
+                  className="font-medium text-indigo-600 underline underline-offset-3 hover:text-indigo-500 dark:text-indigo-400"
                 >
-                  Terms of use
+                  Terms of Service
                 </a>
                 .
-              </span>
-            </FieldLabel>
+              </label>
+            </div>
           </FieldGroup>
         </CardContent>
-        <CardFooter className="flex-col items-stretch gap-3 sm:flex-row sm:items-center sm:justify-between">
+
+        <CardFooter className="flex flex-col items-stretch gap-3 border-t border-border/60 sm:flex-row sm:items-center sm:justify-between pt-5">
           <p className="text-xs text-muted-foreground">
-            Your sound stays private until it’s approved.
+            Your sound remains private until verified by a moderator.
           </p>
           <Button
             type="submit"
             disabled={busy || !categories.length}
+            variant="primary"
             size="md"
             className="w-full sm:w-auto"
           >
-            {busy ? "Uploading and verifying…" : "Submit for review"}
+            {busy ? "Uploading and verifying…" : "Submit For Review"}
           </Button>
         </CardFooter>
       </Card>

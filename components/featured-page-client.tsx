@@ -1,5 +1,8 @@
 "use client"
 
+import Link from "next/link"
+import { Sparkles } from "lucide-react"
+
 import { PublicSoundResults } from "@/components/public-sound-results"
 import { usePublicSounds } from "@/hooks/use-public-sounds"
 
@@ -7,19 +10,33 @@ export function FeaturedPageClient() {
   const results = usePublicSounds({ featured: true, sort: "popular" })
 
   return (
-    <main className="mx-auto min-h-[70vh] max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
-      <header className="mb-8">
-        <p className="text-xs font-semibold tracking-[0.2em] text-violet-600 uppercase dark:text-violet-400">
-          Picked by the team
-        </p>
-        <h1 className="mt-2 text-4xl font-black tracking-tight">
-          {" "}
-          Featured sounds
+    <main className="mx-auto min-h-[75vh] max-w-7xl px-4 py-8 sm:px-6 sm:py-10 lg:px-8">
+      {/* Breadcrumb */}
+      <nav
+        aria-label="Breadcrumb"
+        className="mb-6 flex items-center gap-2 text-xs font-medium text-muted-foreground"
+      >
+        <Link href="/" className="transition-colors hover:text-foreground">
+          Home
+        </Link>
+        <span className="text-border">/</span>
+        <span className="font-semibold text-foreground">Featured</span>
+      </nav>
+
+      {/* Header */}
+      <header className="mb-10 max-w-2xl">
+        <div className="inline-flex items-center gap-1.5 rounded-full border border-indigo-200/60 bg-indigo-50 px-3 py-1 text-xs font-semibold text-indigo-700 dark:border-indigo-900/60 dark:bg-indigo-950/40 dark:text-indigo-300">
+          <Sparkles className="size-3.5" />
+          <span>Curated Audio</span>
+        </div>
+        <h1 className="mt-4 text-3xl font-extrabold tracking-tight text-foreground sm:text-4xl">
+          Featured Sounds
         </h1>
-        <p className="mt-3 max-w-2xl text-slate-600 dark:text-slate-300">
-          A hand-picked collection of creator-made sounds worth hearing.
+        <p className="mt-3 text-sm leading-relaxed text-muted-foreground sm:text-base">
+          A hand-picked collection of exceptional creator-made sounds that stand out for quality and utility.
         </p>
       </header>
+
       <PublicSoundResults
         sounds={results.sounds}
         hasMore={results.hasMore}

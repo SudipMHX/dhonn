@@ -1,25 +1,84 @@
 import Link from "next/link"
+import { Volume2 } from "lucide-react"
 
 export function SiteFooter() {
   return (
-    <footer className="mt-16 border-t border-slate-200 bg-white/75 dark:border-slate-800 dark:bg-slate-950/75">
-      <div className="mx-auto flex max-w-7xl flex-col gap-6 px-4 py-8 text-sm text-slate-600 sm:px-6 lg:flex-row lg:items-center lg:justify-between lg:px-8 dark:text-slate-300">
-        <div>
-          <p className="text-lg font-bold text-slate-900 dark:text-white">
-            dhonn.
-          </p>
-          <p>Small sounds. Big moments. Made for sharing.</p>
+    <footer className="mt-20 border-t border-border/80 bg-card/40 backdrop-blur-sm">
+      <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
+        <div className="flex flex-col gap-8 md:flex-row md:items-center md:justify-between">
+          <div className="space-y-2">
+            <Link
+              href="/"
+              className="inline-flex items-center gap-2"
+              aria-label="dhonn. home"
+            >
+              <div className="flex size-7 items-center justify-center rounded-lg bg-indigo-600 text-white shadow-2xs">
+                <Volume2 className="size-3.5" strokeWidth={2.5} />
+              </div>
+              <span className="font-heading text-base font-bold tracking-tight text-foreground">
+                dhonn<span className="text-indigo-600 dark:text-indigo-400">.</span>
+              </span>
+            </Link>
+            <p className="text-xs text-muted-foreground leading-relaxed">
+              Curated short audio for streams, creators, and conversations.
+            </p>
+          </div>
+
+          <nav
+            aria-label="Footer navigation"
+            className="flex flex-wrap gap-x-6 gap-y-2.5 text-xs font-medium text-muted-foreground"
+          >
+            <Link
+              href="/about"
+              className="transition-colors hover:text-foreground"
+            >
+              About
+            </Link>
+            <Link
+              href="/category"
+              className="transition-colors hover:text-foreground"
+            >
+              Categories
+            </Link>
+            <Link
+              href="/featured"
+              className="transition-colors hover:text-foreground"
+            >
+              Featured
+            </Link>
+            <Link
+              href="/contact"
+              className="transition-colors hover:text-foreground"
+            >
+              Contact
+            </Link>
+            <Link
+              href="/privacy"
+              className="transition-colors hover:text-foreground"
+            >
+              Privacy Policy
+            </Link>
+            <Link
+              href="/terms"
+              className="transition-colors hover:text-foreground"
+            >
+              Terms of Service
+            </Link>
+            <Link
+              href="/report"
+              className="transition-colors hover:text-foreground"
+            >
+              Copyright &amp; Reports
+            </Link>
+          </nav>
         </div>
-        <nav
-          aria-label="Footer navigation"
-          className="flex flex-wrap gap-x-5 gap-y-2"
-        >
-          <Link href="/about">About</Link>
-          <Link href="/contact">Contact</Link>
-          <Link href="/privacy">Privacy</Link>
-          <Link href="/terms">Terms</Link>
-          <Link href="/report">Copyright & reports</Link>
-        </nav>
+
+        <div className="mt-8 border-t border-border/50 pt-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-muted-foreground/80">
+          <p>© {new Date().getFullYear()} dhonn. All rights reserved.</p>
+          <p className="flex items-center gap-1.5">
+            <span>Built for audio enthusiasts &amp; creators</span>
+          </p>
+        </div>
       </div>
     </footer>
   )

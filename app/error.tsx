@@ -2,47 +2,70 @@
 
 import { useEffect } from "react"
 import Link from "next/link"
+import { AlertCircle, Home, RotateCcw } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
 
 export default function ErrorPage({
   error,
+  reset,
   retry,
 }: {
   error: Error & { digest?: string }
-  retry: () => void
+  reset?: () => void
+  retry?: () => void
 }) {
   useEffect(() => {
     console.error(error)
   }, [error])
 
+  const handleRetry = reset ?? retry ?? (() => window.location.reload())
+
   return (
-    <main className="grid min-h-screen place-items-center bg-slate-100 px-4 dark:bg-slate-950">
-      <div className="max-w-md rounded-3xl border border-slate-200 bg-white p-8 text-center dark:border-slate-800 dark:bg-slate-900">
-        <p className="text-xs font-semibold tracking-widest text-rose-600 uppercase">
-          Something went wrong
+    <main className="grid min-h-[80vh] place-items-center px-4 py-20 text-center">
+      <div className="w-full max-w-md rounded-2xl border border-border/80 bg-card p-8 shadow-xs">
+        <div className="mx-auto flex size-12 items-center justify-center rounded-2xl bg-rose-50 text-rose-600 dark:bg-rose-950/50 dark:text-rose-400 mb-4">
+          <AlertCircle className="size-6" />
+        </div>
+
+        <p className="text-xs font-semibold tracking-wider text-rose-600 uppercase dark:text-rose-400">
+          Unexpected Error
         </p>
-        <h1 className="mt-3 text-2xl font-bold">We couldn’t load this page.</h1>
-        <p className="mt-2 text-sm text-slate-500">
-          An unexpected error interrupted this page. Try again, or return home
-          and reopen it.
+
+        <h1 className="mt-2 text-2xl font-bold tracking-tight text-foreground">
+          We couldn&apos;t load this page.
+        </h1>
+
+        <p className="mt-2 text-xs text-muted-foreground leading-relaxed">
+          An unexpected interruption occurred. Try reloading or return to the main soundboard library.
         </p>
+
         {error.digest && (
-          <p className="mt-4 text-xs text-slate-500">
-            If the problem continues, share this reference with support:{" "}
-            <code className="font-mono">{error.digest}</code>
-          </p>
+          <div className="mt-4 rounded-xl border border-border/60 bg-secondary/50 p-2.5 text-xs text-muted-foreground">
+            Error ID: <code className="font-mono text-foreground font-semibold">{error.digest}</code>
+          </div>
         )}
-        <div className="mt-5 flex flex-wrap justify-center gap-3">
-          <Button type="button" onClick={() => retry()} size="lg">
-            Try again
-          </Button>
-          <Link
-            href="/"
-            className="inline-flex h-12 items-center justify-center rounded-full border border-slate-200 bg-white px-5 text-sm font-medium text-slate-900 hover:bg-slate-100 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100 dark:hover:bg-slate-800"
+
+        <div className="mt-6 flex flex-wrap items-center justify-center gap-3">
+          <Button
+            type="button"
+            onClick={handleRetry}
+            variant="primary"
+            size="md"
           >
-            Go home
-          </Link>
+            <RotateCcw className="size-4" />
+            <span>Try Again</span>
+          </Button>
+
+          <Button
+            nativeButton={false}
+            variant="outline"
+            size="md"
+            render={<Link href="/" />}
+          >
+            <Home className="size-4" />
+            <span>Go Home</span>
+          </Button>
         </div>
       </div>
     </main>

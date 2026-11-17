@@ -105,15 +105,15 @@ export function AdminCategories() {
             />
           </Field>
         </FieldGroup>
-        <Button type="submit" size="sm">
-          Add category
+        <Button type="submit" variant="primary" size="md">
+          Add Category
         </Button>
       </form>
       <AdminList
         loading={loading}
         error={error}
         count={rows.length}
-        emptyMessage="Nothing to show yet."
+        emptyMessage="No categories created yet."
       >
         <Table>
           <TableHeader>
@@ -129,19 +129,19 @@ export function AdminCategories() {
               const id = adminText(row._id)
               return (
                 <TableRow key={id}>
-                  <TableCell className="font-medium">
+                  <TableCell className="font-semibold text-foreground">
                     {adminText(row.name)}
                   </TableCell>
-                  <TableCell className="whitespace-normal">
+                  <TableCell className="whitespace-normal text-muted-foreground">
                     {adminText(row.description)}
                   </TableCell>
-                  <TableCell>{adminText(row.slug)}</TableCell>
+                  <TableCell className="font-mono text-xs text-muted-foreground">{adminText(row.slug)}</TableCell>
                   <TableCell className="text-right">
                     <Button
                       type="button"
                       onClick={() => void mutate("category.delete", id)}
                       variant="destructive"
-                      size="sm"
+                      size="xs"
                     >
                       Delete
                     </Button>

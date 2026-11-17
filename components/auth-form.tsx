@@ -52,65 +52,90 @@ export function AuthForm({ mode }: { mode: "login" | "register" }) {
   return (
     <form onSubmit={submit} className="space-y-4">
       {register && (
-        <label className="block text-sm font-medium">
-          Your name
+        <div className="space-y-1.5">
+          <label htmlFor="auth-name" className="text-xs font-semibold text-foreground">
+            Display Name
+          </label>
           <input
+            id="auth-name"
             required
             minLength={2}
             maxLength={80}
             name="name"
             autoComplete="name"
-            className="mt-1.5 w-full rounded-xl border border-slate-200 bg-white px-4 py-3 outline-none focus:border-sky-500 dark:border-slate-700 dark:bg-slate-900"
+            placeholder="Alex Rivers"
+            className="h-10 w-full rounded-xl border border-input bg-card px-3.5 text-sm text-foreground transition-all placeholder:text-muted-foreground/60 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 focus:outline-none"
           />
-        </label>
+        </div>
       )}
-      <label className="block text-sm font-medium">
-        Email
+
+      <div className="space-y-1.5">
+        <label htmlFor="auth-email" className="text-xs font-semibold text-foreground">
+          Email Address
+        </label>
         <input
+          id="auth-email"
           required
           type="email"
           name="email"
           autoComplete="email"
-          className="mt-1.5 w-full rounded-xl border border-slate-200 bg-white px-4 py-3 outline-none focus:border-sky-500 dark:border-slate-700 dark:bg-slate-900"
+          placeholder="name@domain.com"
+          className="h-10 w-full rounded-xl border border-input bg-card px-3.5 text-sm text-foreground transition-all placeholder:text-muted-foreground/60 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 focus:outline-none"
         />
-      </label>
-      <label className="block text-sm font-medium">
-        Password
+      </div>
+
+      <div className="space-y-1.5">
+        <div className="flex items-center justify-between">
+          <label htmlFor="auth-password" className="text-xs font-semibold text-foreground">
+            Password
+          </label>
+          {register && (
+            <span className="text-[11px] text-muted-foreground">
+              Min. 10 characters
+            </span>
+          )}
+        </div>
         <input
+          id="auth-password"
           required
           type="password"
           name="password"
           autoComplete={register ? "new-password" : "current-password"}
           minLength={register ? 10 : undefined}
           maxLength={128}
-          className="mt-1.5 w-full rounded-xl border border-slate-200 bg-white px-4 py-3 outline-none focus:border-sky-500 dark:border-slate-700 dark:bg-slate-900"
+          placeholder="••••••••••••"
+          className="h-10 w-full rounded-xl border border-input bg-card px-3.5 text-sm text-foreground transition-all placeholder:text-muted-foreground/60 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 focus:outline-none"
         />
-        {register && (
-          <span className="mt-1 block text-xs font-normal text-slate-500">
-            Use at least 10 characters.
-          </span>
-        )}
-      </label>
+      </div>
+
       {error && (
-        <p
+        <div
           role="alert"
-          className="rounded-xl bg-rose-50 p-3 text-sm text-rose-700 dark:bg-rose-950/40 dark:text-rose-300"
+          className="rounded-xl border border-rose-200/80 bg-rose-50/70 p-3 text-xs font-medium text-rose-800 dark:border-rose-900/60 dark:bg-rose-950/30 dark:text-rose-300"
         >
           {error}
-        </p>
+        </div>
       )}
-      <Button type="submit" disabled={busy} className="w-full" size="lg">
-        {busy ? "Please wait…" : register ? "Create account" : "Sign in"}
+
+      <Button
+        type="submit"
+        disabled={busy}
+        variant="primary"
+        size="lg"
+        className="w-full mt-2 font-semibold"
+      >
+        {busy ? "Please wait…" : register ? "Create Account" : "Sign In"}
       </Button>
-      <p className="text-center text-sm text-slate-500">
-        {register ? "Already have an account?" : "New to dhonn.?"}{" "}
+
+      <div className="pt-2 text-center text-xs text-muted-foreground">
+        {register ? "Already have an account?" : "Don't have an account yet?"}{" "}
         <Link
-          className="font-semibold text-sky-600 dark:text-sky-400"
+          className="font-semibold text-indigo-600 transition-colors hover:text-indigo-500 dark:text-indigo-400"
           href={register ? "/login" : "/register"}
         >
-          {register ? "Sign in" : "Create an account"}
+          {register ? "Sign in" : "Sign up"}
         </Link>
-      </p>
+      </div>
     </form>
   )
 }

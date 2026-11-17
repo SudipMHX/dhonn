@@ -3,6 +3,7 @@
 import { Button } from "@/components/ui/button"
 import { Skeleton } from "@/components/ui/skeleton"
 import { SoundTile, type SoundCardData } from "@/components/sound-tile"
+import { Music2 } from "lucide-react"
 
 export function PublicSoundResults({
   sounds,
@@ -23,18 +24,18 @@ export function PublicSoundResults({
     return (
       <div
         role="alert"
-        className="rounded-3xl border border-rose-200 bg-rose-50 p-8 text-center text-rose-800 dark:border-rose-900 dark:bg-rose-950/40 dark:text-rose-200"
+        className="rounded-2xl border border-rose-200/80 bg-rose-50/50 p-8 text-center text-rose-800 dark:border-rose-900/60 dark:bg-rose-950/20 dark:text-rose-200"
       >
-        <p className="font-semibold">We couldn’t load the sound library.</p>
-        <p className="mt-2 text-sm">{error}</p>
+        <p className="font-semibold">Unable to load sound library</p>
+        <p className="mt-1.5 text-xs text-rose-600 dark:text-rose-300">{error}</p>
         <Button
           type="button"
           onClick={onRetry}
-          variant="secondary"
+          variant="destructive"
           size="sm"
           className="mt-4"
         >
-          Retry
+          Try Again
         </Button>
       </div>
     )
@@ -43,9 +44,9 @@ export function PublicSoundResults({
   if (sounds.length > 0) {
     return (
       <>
-        <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
-          {sounds.map((sound) => (
-            <SoundTile key={sound._id} sound={sound} />
+        <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
+          {sounds.map((sound, index) => (
+            <SoundTile key={sound._id} sound={sound} index={index} />
           ))}
           {loading &&
             Array.from({ length: 4 }, (_, index) => (
@@ -53,15 +54,16 @@ export function PublicSoundResults({
             ))}
         </div>
         {hasMore && onLoadMore && (
-          <div className="mt-8 text-center">
+          <div className="mt-10 text-center">
             <Button
               type="button"
               onClick={onLoadMore}
               disabled={loading}
-              variant="secondary"
+              variant="outline"
               size="lg"
+              className="rounded-xl px-6"
             >
-              Load more sounds
+              {loading ? "Loading..." : "Load More Sounds"}
             </Button>
           </div>
         )}
@@ -73,7 +75,7 @@ export function PublicSoundResults({
     return (
       <div
         aria-busy="true"
-        className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4"
+        className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4"
       >
         {Array.from({ length: 8 }, (_, index) => (
           <SoundTileSkeleton key={index} />
@@ -83,10 +85,13 @@ export function PublicSoundResults({
   }
 
   return (
-    <div className="rounded-3xl border border-dashed border-slate-300 bg-white p-12 text-center dark:border-slate-700 dark:bg-slate-900">
-      <p className="text-lg font-semibold">No sounds here yet.</p>
-      <p className="mt-2 text-sm text-slate-500">
-        Try a different search or check back after creators share new sounds.
+    <div className="flex flex-col items-center justify-center rounded-2xl border border-dashed border-border/80 bg-card/40 p-12 text-center">
+      <div className="flex size-12 items-center justify-center rounded-2xl bg-secondary text-muted-foreground mb-3">
+        <Music2 className="size-6" />
+      </div>
+      <p className="font-semibold text-foreground">No sounds found</p>
+      <p className="mt-1 max-w-sm text-xs text-muted-foreground leading-relaxed">
+        Try adjusting your search terms or filters to find what you&apos;re looking for.
       </p>
     </div>
   )
@@ -94,11 +99,24 @@ export function PublicSoundResults({
 
 function SoundTileSkeleton() {
   return (
-    <div className="space-y-3 rounded-[26px] border border-slate-200 bg-white p-3 shadow-sm dark:border-slate-800 dark:bg-slate-900">
-      <Skeleton className="h-36 rounded-[20px]" />
-      <Skeleton className="h-5 w-3/4" />
-      <Skeleton className="h-4 w-1/2" />
-      <Skeleton className="h-9 w-full rounded-full" />
+    <div className="flex flex-col justify-between rounded-2xl border border-border/60 bg-card p-4 space-y-4">
+      <div className="flex justify-between">
+        <Skeleton className="h-4 w-16 rounded-md" />
+        <Skeleton className="h-4 w-8 rounded-md" />
+      </div>
+      <div className="flex justify-center py-4">
+        <Skeleton className="size-18 rounded-2xl" />
+      </div>
+      <div className="space-y-1.5">
+        <Skeleton className="h-4 w-3/4 mx-auto" />
+      </div>
+      <div className="flex justify-between items-center pt-2 border-t border-border/40">
+        <Skeleton className="h-3 w-10" />
+        <div className="flex gap-1">
+          <Skeleton className="size-8 rounded-lg" />
+          <Skeleton className="size-8 rounded-lg" />
+        </div>
+      </div>
     </div>
   )
 }

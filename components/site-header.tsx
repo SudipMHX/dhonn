@@ -1,4 +1,3 @@
-
 "use client"
 
 import { useEffect, useRef, useState } from "react"
@@ -58,16 +57,17 @@ export function SiteHeader({ user }: { user: HeaderUser | null }) {
 
   return (
     <>
-      <header className="sticky top-0 z-40 w-full px-3 pt-2.5 sm:px-6 pointer-events-none">
-        <div className="dynamic-island backdrop-blur-[5px] mx-auto flex w-full items-center justify-between gap-3 pointer-events-auto sm:gap-4">
+      <header className="pointer-events-none sticky top-0 z-40 w-full px-3 pt-2.5 sm:px-6">
+        <div className="dynamic-island pointer-events-auto mx-auto flex w-full items-center justify-between gap-3 backdrop-blur-[5px] sm:gap-4">
           {/* Brand Logo */}
           <Link
             href="/"
             className="group flex shrink-0 items-center transition-opacity hover:opacity-90"
             aria-label="dhonn. home"
           >
-            <span className="font-heading text-md md:text-xl font-bold tracking-tight text-foreground">
-              dhonn<span className="text-indigo-600 dark:text-indigo-400">.</span>
+            <span className="text-md font-heading font-bold tracking-tight text-foreground md:text-xl">
+              dhonn
+              <span className="text-indigo-600 dark:text-indigo-400">.</span>
             </span>
           </Link>
 
@@ -106,7 +106,7 @@ export function SiteHeader({ user }: { user: HeaderUser | null }) {
             <form
               action="/search"
               role="search"
-              className="group relative hidden items-center md:flex"
+              className="group relative hidden items-center text-xs md:flex"
             >
               <label htmlFor="site-search" className="sr-only">
                 Search sounds
@@ -122,10 +122,10 @@ export function SiteHeader({ user }: { user: HeaderUser | null }) {
                 name="q"
                 type="search"
                 placeholder="Search sounds..."
-                className="h-8 w-32 rounded-full border border-border/70 bg-card/40 pr-7 pl-8 text-xs text-foreground transition-all placeholder:text-muted-foreground focus:w-48 focus:border-indigo-500/60 focus:bg-background focus:ring-2 focus:ring-indigo-500/15 focus:outline-none lg:w-40"
+                className="h-8 w-32 rounded-full border border-border/70 bg-card/40 pr-7 pl-8 text-xs text-foreground transition-all placeholder:text-muted-foreground focus:w-48 focus:border-indigo-500/60 focus:bg-background focus:ring-2 focus:ring-indigo-500/15 focus:outline-none lg:w-40 focus:dark:bg-inherit"
               />
 
-              <kbd className="pointer-events-none absolute right-2.5 hidden select-none rounded border border-border/70 bg-muted/50 px-1 py-0.5 text-[9px] font-mono text-muted-foreground lg:inline-block">
+              <kbd className="pointer-events-none absolute right-2.5 hidden rounded border border-border/70 bg-muted/50 px-1 py-0.5 font-mono text-[9px] text-muted-foreground select-none lg:inline-block">
                 /
               </kbd>
             </form>
@@ -143,10 +143,10 @@ export function SiteHeader({ user }: { user: HeaderUser | null }) {
                   aria-expanded={menuOpen}
                   aria-controls="account-menu"
                   onClick={() => setMenuOpen((open) => !open)}
-                  className={`flex size-7 md:size-8 items-center justify-center rounded-full border text-foreground transition-all ${
+                  className={`flex size-7 items-center justify-center rounded-full border text-foreground transition-all md:size-8 ${
                     menuOpen
                       ? "border-indigo-500 bg-secondary ring-2 ring-indigo-500/20"
-                      : "border-border/70 bg-card/60 hover:bg-secondary hover:border-border"
+                      : "border-border/70 bg-card/60 hover:border-border hover:bg-secondary"
                   }`}
                 >
                   <User aria-hidden="true" className="size-3 md:size-4" />
@@ -155,7 +155,7 @@ export function SiteHeader({ user }: { user: HeaderUser | null }) {
                 {menuOpen && (
                   <div
                     id="account-menu"
-                    className="absolute right-0 z-50 mt-2 w-64 overflow-hidden rounded-2xl border border-border/80 bg-card p-1.5 shadow-xl shadow-black/10 backdrop-blur-xl animate-in fade-in-0 zoom-in-95 duration-150"
+                    className="absolute right-0 z-50 mt-2 w-64 animate-in overflow-hidden rounded-2xl border border-border/80 bg-card p-1.5 shadow-xl shadow-black/10 backdrop-blur-xl duration-150 fade-in-0 zoom-in-95"
                   >
                     <div className="border-b border-border/60 px-3 py-2.5">
                       <p className="truncate text-sm font-semibold text-foreground">
@@ -247,17 +247,17 @@ export function SiteHeader({ user }: { user: HeaderUser | null }) {
                 )}
               </div>
             ) : (
-              <div className="hidden md:flex items-center gap-1.5 sm:gap-2">
+              <div className="hidden items-center gap-1.5 sm:gap-2 md:flex">
                 <Link
                   href="/login"
-                  className="hidden lg:block rounded-full px-3 py-1 text-xs font-semibold text-foreground transition-colors hover:bg-secondary/80"
+                  className="hidden rounded-full px-3 py-1 text-xs font-semibold text-foreground transition-colors hover:bg-secondary/80 lg:block"
                 >
                   Sign in
                 </Link>
 
                 <Link
                   href="/register"
-                  className="rounded-full bg-indigo-600 px-3.5 py-1 text-xs font-semibold text-white shadow-xs shadow-indigo-600/30 transition-all hover:bg-indigo-500 active:bg-indigo-700 active:scale-95 dark:bg-indigo-600 dark:hover:bg-indigo-500"
+                  className="rounded-full bg-indigo-600 px-3.5 py-1 text-xs font-semibold text-white shadow-xs shadow-indigo-600/30 transition-all hover:bg-indigo-500 active:scale-95 active:bg-indigo-700 dark:bg-indigo-600 dark:hover:bg-indigo-500"
                 >
                   Get started
                 </Link>
@@ -339,7 +339,7 @@ function NavLink({
       href={href}
       className={`rounded-full px-3 py-1 text-xs font-medium transition-all duration-200 ${
         active
-          ? "bg-secondary text-foreground font-semibold shadow-2xs"
+          ? "bg-secondary font-semibold text-foreground shadow-2xs"
           : "text-muted-foreground hover:bg-secondary/60 hover:text-foreground active:scale-95"
       }`}
     >
@@ -366,7 +366,7 @@ function MobileNavLink({
       aria-current={active ? "page" : undefined}
       className={`flex min-w-0 flex-1 flex-col items-center gap-1 rounded-xl px-1 py-1 text-[11px] font-medium transition-all ${
         active
-          ? "text-indigo-600 dark:text-indigo-400 font-semibold"
+          ? "font-semibold text-indigo-600 dark:text-indigo-400"
           : "text-muted-foreground hover:text-foreground"
       }`}
     >

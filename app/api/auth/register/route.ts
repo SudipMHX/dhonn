@@ -15,6 +15,7 @@ import {
 import { User } from "@/models"
 import { registerSchema } from "@/lib/validation/schemas"
 import { logError } from "@/lib/logger"
+import { verifyCaptcha } from "@/lib/captcha"
 
 export const runtime = "nodejs"
 
@@ -22,6 +23,34 @@ export async function POST(request: Request) {
   try {
     await enforceRateLimit("register", await getRequestSubject(), 5, 3600)
     const body = await readJson(request)
+
+    const captchaToken =
+      body &&
+      typeof body === "object" &&
+      "captchaToken" in body &&
+      typeof body.captchaToken === "string"
+        ? body.captchaToken
+        : ""
+    const captchaAnswer =
+      body &&
+      typeof body === "object" &&
+      "captchaAnswer" in body &&
+      typeof body.captchaAnswer === "string"
+        ? body.captchaAnswer
+        : ""
+
+    const verification = verifyCaptcha(captchaToken, captchaAnswer)
+    if (!verification.success) {
+      return Response.json(
+        {
+          error:
+            verification.error ||
+            "Invalid or expired captcha. Please try again.",
+        },
+        { status: 400 }
+      )
+    }
+
     const parsed = registerSchema.safeParse(body)
     if (!parsed.success)
       return Response.json(

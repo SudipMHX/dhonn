@@ -3,16 +3,64 @@ import { cache } from "react"
 
 import { Category, Favorite, PlayEvent, Sound } from "@/models"
 import { connectToDatabase } from "@/lib/db/mongoose"
-import type { z } from "zod"
-import type { soundQuerySchema } from "@/lib/validation/schemas"
 
-type SoundQuery = z.infer<typeof soundQuerySchema>
+export type SoundQueryParams = {
+  q?: string
+  category?: string
+  featured?: boolean
+  sort?: "trending" | "popular" | "newest" | "favorites"
+  page?: number
+  limit?: number
+}
+
+export type SoundQuery = SoundQueryParams
+
+export type PublicSoundItem = {
+  _id: string
+  slug: string
+  title: string
+  description: string
+  categoryName: string
+  tags: string[]
+  audio: { durationSeconds: number }
+  plays: number
+  favorites: number
+  featured?: boolean
+  trending?: boolean
+  publishedAt?: string
+}
+
+export type PublicSoundsResult = {
+  sounds: PublicSoundItem[]
+  hasMore: boolean
+  page: number
+}
+
+export type PublicCategoryItem = {
+  _id: string
+  name: string
+  slug: string
+  description?: string
+}
+
+export type HomeInitialData = {
+  categories: PublicCategoryItem[]
+  sounds: PublicSoundItem[]
+  featured: PublicSoundItem[]
+  recent: PublicSoundItem[]
+  hasMore: boolean
+}
 
 const soundCardFields =
   "slug title description categoryName tags audio.durationSeconds plays favorites featured trending publishedAt"
 
-export async function listPublicSounds(query: SoundQuery) {
+export async function listPublicSounds(
+  query: SoundQueryParams = {}
+): Promise<PublicSoundsResult> {
   await connectToDatabase()
+  const page = Math.max(1, query.page ?? 1)
+  const limit = Math.max(1, Math.min(100, query.limit ?? 24))
+
   const filter: Record<string, unknown> = { status: "published" }
   if (query.featured !== undefined) filter.featured = query.featured
   if (query.category) {
@@ -24,14 +72,15 @@ export async function listPublicSounds(query: SoundQuery) {
       })
         .select("_id")
         .lean()
-      if (!category) return { sounds: [], hasMore: false, page: query.page }
+      if (!category) return { sounds: [], hasMore: false, page }
       filter.category = category._id
     }
   }
 
-  if (query.q) filter.$text = { $search: query.q }
+  const trimmedQ = query.q?.trim()
+  if (trimmedQ) filter.$text = { $search: trimmedQ }
 
-  const sort: Record<string, 1 | -1 | { $meta: "textScore" }> = query.q
+  const sort: Record<string, 1 | -1 | { $meta: "textScore" }> = trimmedQ
     ? { score: { $meta: "textScore" as const } }
     : query.sort === "newest"
       ? { publishedAt: -1 as const }
@@ -40,18 +89,22 @@ export async function listPublicSounds(query: SoundQuery) {
         : query.sort === "favorites"
           ? { favorites: -1 as const }
           : { trending: -1 as const, plays: -1 as const }
+
   const results = await Sound.find(filter)
     .select(soundCardFields)
     .sort(sort)
-    .skip((query.page - 1) * query.limit)
-    .limit(query.limit + 1)
+    .skip((page - 1) * limit)
+    .limit(limit + 1)
     .lean()
 
-  const hasMore = results.length > query.limit
+  const hasMore = results.length > limit
+  const rawSounds = hasMore ? results.slice(0, limit) : results
+  const sounds = JSON.parse(JSON.stringify(rawSounds)) as PublicSoundItem[]
+
   return {
-    sounds: hasMore ? results.slice(0, query.limit) : results,
+    sounds,
     hasMore,
-    page: query.page,
+    page,
   }
 }
 
@@ -68,35 +121,71 @@ export const getCategoryBySlug = cache(async (slug: string) => {
   return Category.findOne({ slug }).select("name slug description").lean()
 })
 
-export async function getPublicCategories() {
+export async function getPublicCategories(): Promise<PublicCategoryItem[]> {
   await connectToDatabase()
-  return Category.find()
+  const categories = await Category.find()
     .select("name slug description")
     .sort({ name: 1 })
     .limit(100)
     .lean()
+  return JSON.parse(JSON.stringify(categories)) as PublicCategoryItem[]
 }
 
-export async function countPublishedInCategory(categoryId: Types.ObjectId) {
+export async function countPublishedInCategory(
+  categoryId: Types.ObjectId | string
+) {
   await connectToDatabase()
-  return Sound.countDocuments({ category: categoryId, status: "published" })
+  const id =
+    typeof categoryId === "string" && Types.ObjectId.isValid(categoryId)
+      ? new Types.ObjectId(categoryId)
+      : categoryId
+  return Sound.countDocuments({ category: id, status: "published" })
 }
 
 export async function getRelatedSounds(
-  soundId: Types.ObjectId,
-  categoryId: Types.ObjectId,
+  soundId: Types.ObjectId | string,
+  categoryId: Types.ObjectId | string,
   limit = 4
-) {
+): Promise<PublicSoundItem[]> {
   await connectToDatabase()
-  return Sound.find({
+  const sid =
+    typeof soundId === "string" && Types.ObjectId.isValid(soundId)
+      ? new Types.ObjectId(soundId)
+      : soundId
+  const cid =
+    typeof categoryId === "string" && Types.ObjectId.isValid(categoryId)
+      ? new Types.ObjectId(categoryId)
+      : categoryId
+  const results = await Sound.find({
     status: "published",
-    category: categoryId,
-    _id: { $ne: soundId },
+    category: cid,
+    _id: { $ne: sid },
   })
     .select(soundCardFields)
     .sort({ plays: -1 })
     .limit(limit)
     .lean()
+  return JSON.parse(JSON.stringify(results)) as PublicSoundItem[]
+}
+
+export async function getHomeInitialData(): Promise<HomeInitialData> {
+  await connectToDatabase()
+  const [categories, sounds, featured, recent] = await Promise.all([
+    getPublicCategories(),
+    listPublicSounds({ page: 1, limit: 18, sort: "trending" }),
+    listPublicSounds({ page: 1, limit: 6, sort: "popular", featured: true }),
+    listPublicSounds({ page: 1, limit: 6, sort: "newest" }),
+  ])
+
+  return JSON.parse(
+    JSON.stringify({
+      categories,
+      sounds: sounds.sounds,
+      featured: featured.sounds,
+      recent: recent.sounds,
+      hasMore: sounds.hasMore,
+    })
+  ) as HomeInitialData
 }
 
 export async function toggleFavorite(userId: string, soundId: string) {

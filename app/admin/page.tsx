@@ -137,14 +137,15 @@ export default async function AdminPage() {
       <div className="flex flex-wrap items-end justify-between gap-4 border-b border-border/80 pb-6">
         <div>
           <div className="inline-flex items-center gap-1.5 rounded-full border border-indigo-200/60 bg-indigo-50/70 px-2.5 py-0.5 text-[11px] font-semibold text-indigo-700 dark:border-indigo-900/60 dark:bg-indigo-950/40 dark:text-indigo-300">
-            <span className="size-1.5 rounded-full bg-emerald-500 animate-pulse" />
+            <span className="size-1.5 animate-pulse rounded-full bg-emerald-500" />
             <span>Mission Control • Live Cluster</span>
           </div>
           <h1 className="mt-2 text-2xl font-bold tracking-tight text-foreground sm:text-3xl">
             Operations &amp; Governance
           </h1>
           <p className="mt-1 text-xs text-muted-foreground">
-            Real-time platform telemetry, sound catalog curation, and moderation workbench.
+            Real-time platform telemetry, sound catalog curation, and moderation
+            workbench.
           </p>
         </div>
 
@@ -158,7 +159,7 @@ export default async function AdminPage() {
           >
             <span>Review Queue</span>
             {stats.pendingUploads > 0 && (
-              <span className="ml-1 rounded-full bg-amber-500 px-1.5 py-0.2 text-[10px] font-bold text-white">
+              <span className="py-0.2 ml-1 rounded-full bg-amber-500 px-1.5 text-[10px] font-bold text-white">
                 {stats.pendingUploads}
               </span>
             )}
@@ -214,55 +215,57 @@ export default async function AdminPage() {
 
       {/* Executive KPI Grid */}
       <div className="grid gap-3.5 sm:grid-cols-2 lg:grid-cols-3">
-        {kpis.map(({ label, description, value, href, icon: Icon, alert, badge }) => (
-          <Link
-            href={href}
-            prefetch={false}
-            key={label}
-            className="group rounded-xl focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none"
-          >
-            <Card
-              className={`h-full border transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md ${
-                alert
-                  ? "border-amber-300/80 bg-amber-50/20 dark:border-amber-900/60 dark:bg-amber-950/20"
-                  : "border-border/80 hover:border-indigo-500/40"
-              }`}
+        {kpis.map(
+          ({ label, description, value, href, icon: Icon, alert, badge }) => (
+            <Link
+              href={href}
+              prefetch={false}
+              key={label}
+              className="group rounded-xl focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none"
             >
-              <CardContent className="p-4 sm:p-5">
-                <div className="flex items-center justify-between">
-                  <span className="text-xs font-medium text-muted-foreground">
-                    {label}
-                  </span>
-                  <div
-                    className={`flex size-8 items-center justify-center rounded-lg transition-colors ${
-                      alert
-                        ? "bg-amber-100 text-amber-700 dark:bg-amber-950 dark:text-amber-300"
-                        : "bg-secondary text-muted-foreground group-hover:bg-indigo-50 group-hover:text-indigo-600 dark:group-hover:bg-indigo-950/50 dark:group-hover:text-indigo-300"
-                    }`}
-                  >
-                    <Icon className="size-4" />
-                  </div>
-                </div>
-
-                <div className="mt-3 flex items-baseline justify-between">
-                  <p className="font-mono text-2xl font-bold tracking-tight text-foreground tabular-nums sm:text-3xl">
-                    {Number(value ?? 0).toLocaleString()}
-                  </p>
-                  <ArrowRight className="size-4 text-muted-foreground opacity-0 transition-opacity group-hover:opacity-100" />
-                </div>
-
-                <div className="mt-2 flex items-center justify-between text-[11px] text-muted-foreground">
-                  <span className="truncate">{description}</span>
-                  {badge && (
-                    <span className="rounded-full bg-amber-100 px-2 py-0.2 font-semibold text-amber-800 dark:bg-amber-950 dark:text-amber-200">
-                      {badge}
+              <Card
+                className={`h-full border transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md ${
+                  alert
+                    ? "border-amber-300/80 bg-amber-50/20 dark:border-amber-900/60 dark:bg-amber-950/20"
+                    : "border-border/80 hover:border-indigo-500/40"
+                }`}
+              >
+                <CardContent className="p-4 sm:p-5">
+                  <div className="flex items-center justify-between">
+                    <span className="text-xs font-medium text-muted-foreground">
+                      {label}
                     </span>
-                  )}
-                </div>
-              </CardContent>
-            </Card>
-          </Link>
-        ))}
+                    <div
+                      className={`flex size-8 items-center justify-center rounded-lg transition-colors ${
+                        alert
+                          ? "bg-amber-100 text-amber-700 dark:bg-amber-950 dark:text-amber-300"
+                          : "bg-secondary text-muted-foreground group-hover:bg-indigo-50 group-hover:text-indigo-600 dark:group-hover:bg-indigo-950/50 dark:group-hover:text-indigo-300"
+                      }`}
+                    >
+                      <Icon className="size-4" />
+                    </div>
+                  </div>
+
+                  <div className="mt-3 flex items-baseline justify-between">
+                    <p className="font-mono text-2xl font-bold tracking-tight text-foreground tabular-nums sm:text-3xl">
+                      {Number(value ?? 0).toLocaleString()}
+                    </p>
+                    <ArrowRight className="size-4 text-muted-foreground opacity-0 transition-opacity group-hover:opacity-100" />
+                  </div>
+
+                  <div className="mt-2 flex items-center justify-between text-[11px] text-muted-foreground">
+                    <span className="truncate">{description}</span>
+                    {badge && (
+                      <span className="py-0.2 rounded-full bg-amber-100 px-2 font-semibold text-amber-800 dark:bg-amber-950 dark:text-amber-200">
+                        {badge}
+                      </span>
+                    )}
+                  </div>
+                </CardContent>
+              </Card>
+            </Link>
+          )
+        )}
       </div>
 
       {/* Split Workbench: Live Queue & Operations Ledger */}
@@ -302,13 +305,13 @@ export default async function AdminPage() {
                     className="flex items-center justify-between py-2.5 text-xs"
                   >
                     <div className="min-w-0 pr-3">
-                      <p className="font-semibold text-foreground truncate">
+                      <p className="truncate font-semibold text-foreground">
                         {sound.title}
                       </p>
                       <div className="mt-0.5 flex items-center gap-2 text-[11px] text-muted-foreground">
                         <span>{sound.owner?.name || "Creator"}</span>
                         <span>·</span>
-                        <span className="rounded bg-secondary px-1.5 py-0.2 font-medium">
+                        <span className="py-0.2 rounded bg-secondary px-1.5 font-medium">
                           {sound.categoryName || "General"}
                         </span>
                         {sound.audio?.durationSeconds && (
@@ -330,11 +333,11 @@ export default async function AdminPage() {
               </div>
             ) : (
               <div className="py-8 text-center">
-                <CheckCircle2 className="mx-auto size-8 text-emerald-500/80 mb-2" />
-                <p className="font-medium text-foreground text-xs">
+                <CheckCircle2 className="mx-auto mb-2 size-8 text-emerald-500/80" />
+                <p className="text-xs font-medium text-foreground">
                   Moderation Queue Clean
                 </p>
-                <p className="text-[11px] text-muted-foreground mt-0.5">
+                <p className="mt-0.5 text-[11px] text-muted-foreground">
                   All community sound submissions have been audited.
                 </p>
               </div>
@@ -343,7 +346,7 @@ export default async function AdminPage() {
 
           {/* Quick Management Shortcuts */}
           <div className="rounded-xl border border-border/80 bg-card p-5 shadow-xs">
-            <h3 className="text-xs font-bold uppercase tracking-wider text-muted-foreground mb-3">
+            <h3 className="mb-3 text-xs font-bold tracking-wider text-muted-foreground uppercase">
               Management Workbench
             </h3>
 
@@ -355,23 +358,23 @@ export default async function AdminPage() {
                     key={action.title}
                     href={action.href}
                     prefetch={false}
-                    className="group flex items-center justify-between rounded-xl border border-border/70 bg-secondary/30 p-3.5 transition-all duration-150 hover:bg-secondary/70 hover:border-indigo-500/40"
+                    className="group flex items-center justify-between rounded-xl border border-border/70 bg-secondary/30 p-3.5 transition-all duration-150 hover:border-indigo-500/40 hover:bg-secondary/70"
                   >
-                    <div className="flex items-center gap-3 min-w-0">
+                    <div className="flex min-w-0 items-center gap-3">
                       <div className="flex size-8 shrink-0 items-center justify-center rounded-lg bg-card text-muted-foreground transition-colors group-hover:text-indigo-600 dark:group-hover:text-indigo-400">
                         <Icon className="size-4" />
                       </div>
                       <div className="min-w-0">
-                        <p className="text-xs font-semibold text-foreground group-hover:text-indigo-600 dark:group-hover:text-indigo-400 truncate">
+                        <p className="truncate text-xs font-semibold text-foreground group-hover:text-indigo-600 dark:group-hover:text-indigo-400">
                           {action.title}
                         </p>
-                        <p className="text-[11px] text-muted-foreground truncate">
+                        <p className="truncate text-[11px] text-muted-foreground">
                           {action.description}
                         </p>
                       </div>
                     </div>
 
-                    <span className="font-mono text-xs font-semibold text-muted-foreground pl-2 shrink-0">
+                    <span className="shrink-0 pl-2 font-mono text-xs font-semibold text-muted-foreground">
                       {action.count}
                     </span>
                   </Link>
@@ -390,7 +393,9 @@ export default async function AdminPage() {
                 <div className="flex size-7 items-center justify-center rounded-lg bg-rose-50 text-rose-700 dark:bg-rose-950/60 dark:text-rose-300">
                   <AlertTriangle className="size-4" />
                 </div>
-                <h3 className="text-sm font-bold text-foreground">Content Disputes</h3>
+                <h3 className="text-sm font-bold text-foreground">
+                  Content Disputes
+                </h3>
               </div>
               <Link
                 href="/admin/reports"
@@ -405,10 +410,10 @@ export default async function AdminPage() {
                 {recentReports.map((report) => (
                   <div key={report._id} className="py-2.5 text-xs">
                     <div className="flex items-center justify-between gap-2">
-                      <span className="font-semibold text-foreground truncate">
+                      <span className="truncate font-semibold text-foreground">
                         {report.sound?.title || "Audio item"}
                       </span>
-                      <span className="rounded bg-rose-50 dark:bg-rose-950/60 text-rose-700 dark:text-rose-300 px-1.5 py-0.2 text-[10px] font-semibold uppercase">
+                      <span className="py-0.2 rounded bg-rose-50 px-1.5 text-[10px] font-semibold text-rose-700 uppercase dark:bg-rose-950/60 dark:text-rose-300">
                         {report.type}
                       </span>
                     </div>
@@ -420,9 +425,11 @@ export default async function AdminPage() {
               </div>
             ) : (
               <div className="py-6 text-center">
-                <ShieldCheck className="mx-auto size-7 text-emerald-500/80 mb-1.5" />
-                <p className="text-xs font-medium text-foreground">Zero Open Disputes</p>
-                <p className="text-[11px] text-muted-foreground mt-0.5">
+                <ShieldCheck className="mx-auto mb-1.5 size-7 text-emerald-500/80" />
+                <p className="text-xs font-medium text-foreground">
+                  Zero Open Disputes
+                </p>
+                <p className="mt-0.5 text-[11px] text-muted-foreground">
                   No pending DMCA or community flags.
                 </p>
               </div>
@@ -435,7 +442,9 @@ export default async function AdminPage() {
               <div className="flex size-7 items-center justify-center rounded-lg bg-indigo-50 text-indigo-700 dark:bg-indigo-950/60 dark:text-indigo-300">
                 <Shield className="size-4" />
               </div>
-              <h3 className="text-sm font-bold text-foreground">Security &amp; Health</h3>
+              <h3 className="text-sm font-bold text-foreground">
+                Security &amp; Health
+              </h3>
             </div>
 
             <div className="mt-3 space-y-2.5 text-xs">
@@ -458,7 +467,9 @@ export default async function AdminPage() {
                 </span>
               </div>
               <div className="flex items-center justify-between">
-                <span className="text-muted-foreground">Database Connectivity</span>
+                <span className="text-muted-foreground">
+                  Database Connectivity
+                </span>
                 <span className="inline-flex items-center gap-1 font-mono font-semibold text-emerald-600 dark:text-emerald-400">
                   <span className="size-1.5 rounded-full bg-emerald-500" />
                   Active

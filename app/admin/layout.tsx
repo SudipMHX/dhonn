@@ -27,21 +27,23 @@ export default async function AdminLayout({
               <div className="flex size-7 items-center justify-center rounded-lg bg-indigo-600 text-white shadow-xs shadow-indigo-600/30">
                 <Shield className="size-4" />
               </div>
-              <span className="font-extrabold tracking-tight">Admin Console</span>
+              <span className="font-extrabold tracking-tight">
+                Admin Console
+              </span>
             </Link>
 
-            <span className="hidden items-center gap-1.5 rounded-full border border-indigo-200/50 bg-indigo-50/60 px-2.5 py-0.5 text-[11px] font-mono text-indigo-700 dark:border-indigo-900/50 dark:bg-indigo-950/40 dark:text-indigo-300 sm:inline-flex">
+            <span className="hidden items-center gap-1.5 rounded-full border border-indigo-200/50 bg-indigo-50/60 px-2.5 py-0.5 font-mono text-[11px] text-indigo-700 sm:inline-flex dark:border-indigo-900/50 dark:bg-indigo-950/40 dark:text-indigo-300">
               <span className="size-1.5 rounded-full bg-emerald-500" />
               <span>{admin.email}</span>
             </span>
           </div>
 
-          <div className="flex shrink-0 items-center gap-2 sm:gap-3 text-xs">
+          <div className="flex shrink-0 items-center gap-2 text-xs sm:gap-3">
             <Button
               nativeButton={false}
               variant="outline"
               size="xs"
-              className="hidden sm:inline-flex rounded-lg"
+              className="hidden rounded-lg sm:inline-flex"
               render={<Link href="/" />}
             >
               <Globe className="size-3 text-muted-foreground" />
@@ -52,7 +54,7 @@ export default async function AdminLayout({
               nativeButton={false}
               variant="outline"
               size="xs"
-              className="hidden sm:inline-flex rounded-lg"
+              className="hidden rounded-lg sm:inline-flex"
               render={<Link href="/dashboard" />}
             >
               <span>Creator dashboard</span>

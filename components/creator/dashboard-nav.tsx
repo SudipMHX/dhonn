@@ -2,13 +2,7 @@
 
 import Link from "next/link"
 import { usePathname } from "next/navigation"
-import {
-  Compass,
-  LayoutDashboard,
-  Music,
-  Settings,
-  Upload,
-} from "lucide-react"
+import { Compass, LayoutDashboard, Music, Settings, Upload } from "lucide-react"
 
 const NAV_GROUPS = [
   {
@@ -68,7 +62,8 @@ export function DashboardNav() {
               const Icon = item.icon
               const active = item.exact
                 ? pathname === item.href
-                : pathname === item.href || pathname?.startsWith(`${item.href}/`)
+                : pathname === item.href ||
+                  pathname?.startsWith(`${item.href}/`)
 
               return (
                 <Link
@@ -77,7 +72,7 @@ export function DashboardNav() {
                   prefetch={false}
                   className={`group relative flex items-center gap-2.5 rounded-xl px-3 py-2 text-xs font-medium transition-all duration-150 ${
                     active
-                      ? "bg-indigo-50/90 text-indigo-700 shadow-xs dark:bg-indigo-950/50 dark:text-indigo-300 font-semibold"
+                      ? "bg-indigo-50/90 font-semibold text-indigo-700 shadow-xs dark:bg-indigo-950/50 dark:text-indigo-300"
                       : "text-muted-foreground hover:bg-secondary/70 hover:text-foreground"
                   }`}
                 >

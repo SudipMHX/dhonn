@@ -1,5 +1,7 @@
 import { HomeSoundboardClient } from "@/components/home-soundboard-client"
+import { getHomeInitialData } from "@/lib/services/sounds"
 
-export default function HomePage() {
-  return <HomeSoundboardClient />
+export default async function HomePage() {
+  const initialData = await getHomeInitialData()
+  return <HomeSoundboardClient initialData={initialData} />
 }

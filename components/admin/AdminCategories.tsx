@@ -80,12 +80,15 @@ export function AdminCategories() {
 
       {/* Create Category Form Card */}
       <div className="my-6 rounded-xl border border-border/80 bg-card p-5 shadow-xs">
-        <div className="mb-4 flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-indigo-600 dark:text-indigo-400">
+        <div className="mb-4 flex items-center gap-2 text-xs font-semibold tracking-wider text-indigo-600 uppercase dark:text-indigo-400">
           <FolderPlus className="size-4" />
           <span>Create New Category</span>
         </div>
 
-        <form onSubmit={createCategory} className="flex flex-col gap-4 sm:flex-row sm:items-end">
+        <form
+          onSubmit={createCategory}
+          className="flex flex-col gap-4 sm:flex-row sm:items-end"
+        >
           <FieldGroup className="grid flex-1 gap-4 sm:grid-cols-2">
             <Field>
               <FieldLabel htmlFor="category-name">Category Name</FieldLabel>
@@ -101,7 +104,9 @@ export function AdminCategories() {
               />
             </Field>
             <Field>
-              <FieldLabel htmlFor="category-description">Description</FieldLabel>
+              <FieldLabel htmlFor="category-description">
+                Description
+              </FieldLabel>
               <Textarea
                 id="category-description"
                 maxLength={240}
@@ -109,11 +114,16 @@ export function AdminCategories() {
                 value={description}
                 onChange={(event) => setDescription(event.target.value)}
                 placeholder="Short description for SEO and discovery"
-                className="min-h-10 text-xs sm:text-sm resize-none"
+                className="min-h-10 resize-none text-xs sm:text-sm"
               />
             </Field>
           </FieldGroup>
-          <Button type="submit" variant="primary" size="md" className="shrink-0 gap-1.5 rounded-xl">
+          <Button
+            type="submit"
+            variant="primary"
+            size="md"
+            className="shrink-0 gap-1.5 rounded-xl"
+          >
             <FolderPlus className="size-4" />
             <span>Add Category</span>
           </Button>
@@ -148,7 +158,7 @@ export function AdminCategories() {
                       <span>{adminText(row.name)}</span>
                     </div>
                   </TableCell>
-                  <TableCell className="max-w-md whitespace-normal text-xs text-muted-foreground leading-relaxed">
+                  <TableCell className="max-w-md text-xs leading-relaxed whitespace-normal text-muted-foreground">
                     {adminText(row.description) || "No description provided"}
                   </TableCell>
                   <TableCell>
@@ -166,7 +176,7 @@ export function AdminCategories() {
                       title="Delete category"
                     >
                       <Trash2 className="size-3.5" />
-                      <span className="hidden sm:inline ml-1">Delete</span>
+                      <span className="ml-1 hidden sm:inline">Delete</span>
                     </Button>
                   </TableCell>
                 </TableRow>

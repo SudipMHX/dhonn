@@ -8,8 +8,8 @@ export type TelemetryStat = {
 }
 
 const DEFAULT_BAR_HEIGHTS = [
-  32, 54, 42, 68, 50, 85, 46, 72, 38, 80, 58, 92, 44, 66, 48, 88,
-  35, 75, 52, 95, 40, 62, 30, 78, 56, 84, 45, 69, 36, 76, 54, 86,
+  32, 54, 42, 68, 50, 85, 46, 72, 38, 80, 58, 92, 44, 66, 48, 88, 35, 75, 52,
+  95, 40, 62, 30, 78, 56, 84, 45, 69, 36, 76, 54, 86,
 ]
 
 export function AmbientActivityChart({
@@ -42,7 +42,7 @@ export function AmbientActivityChart({
       />
 
       {/* Header Row */}
-      <div className="flex flex-wrap items-center justify-between gap-3 text-xs font-mono text-zinc-400">
+      <div className="flex flex-wrap items-center justify-between gap-3 font-mono text-xs text-zinc-400">
         <span className="flex items-center gap-1.5 font-semibold tracking-wider text-indigo-400 uppercase">
           <Icon className="size-3.5" />
           <span>{title}</span>
@@ -53,14 +53,14 @@ export function AmbientActivityChart({
       </div>
 
       {subtitle && (
-        <p className="mt-2 text-xs leading-relaxed text-zinc-400 max-w-xl">
+        <p className="mt-2 max-w-xl text-xs leading-relaxed text-zinc-400">
           {subtitle}
         </p>
       )}
 
       {/* Animated Waveform Visualizer Bars */}
       <div
-        className="my-6 flex h-24 sm:h-28 items-end gap-1 sm:gap-1.5 overflow-hidden"
+        className="my-6 flex h-24 items-end gap-1 overflow-hidden sm:h-28 sm:gap-1.5"
         aria-hidden="true"
       >
         {bars.map((height, index) => (
@@ -74,7 +74,7 @@ export function AmbientActivityChart({
 
       {/* Telemetry Strip */}
       {telemetry.length > 0 && (
-        <div className="mb-4 grid grid-cols-2 gap-3 sm:grid-cols-4 border-t border-white/10 pt-4">
+        <div className="mb-4 grid grid-cols-2 gap-3 border-t border-white/10 pt-4 sm:grid-cols-4">
           {telemetry.map((stat) => (
             <div key={stat.label} className="space-y-0.5">
               <p className="font-mono text-xs text-zinc-400">{stat.label}</p>
@@ -91,8 +91,8 @@ export function AmbientActivityChart({
 
       {/* Footer Info */}
       <div className="flex items-center justify-between border-t border-white/10 pt-3 text-xs">
-        <p className="text-[11px] text-zinc-400 truncate pr-2">{footerText}</p>
-        <div className="flex items-center gap-1 text-indigo-400 font-mono shrink-0">
+        <p className="truncate pr-2 text-[11px] text-zinc-400">{footerText}</p>
+        <div className="flex shrink-0 items-center gap-1 font-mono text-indigo-400">
           <AudioLines className="size-4" />
         </div>
       </div>

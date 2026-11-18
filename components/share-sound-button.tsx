@@ -50,7 +50,9 @@ export function ShareSoundButton({
         !navigator.canShare({ files: [file] })
       ) {
         downloadAudio(`${audioUrl}?download=1`)
-        toast.info("This device can't share audio files. Downloading the audio.")
+        toast.info(
+          "This device can't share audio files. Downloading the audio."
+        )
         return
       }
 
@@ -61,7 +63,9 @@ export function ShareSoundButton({
         if (!(error instanceof TypeError)) throw error
 
         downloadAudio(`${audioUrl}?download=1`)
-        toast.info("This device can't share audio files. Downloading the audio.")
+        toast.info(
+          "This device can't share audio files. Downloading the audio."
+        )
         return
       }
 
@@ -80,12 +84,15 @@ export function ShareSoundButton({
       onClick={() => void shareSound()}
       className={
         className ??
-        "rounded-xl border-border bg-card hover:bg-secondary text-muted-foreground hover:text-foreground"
+        "rounded-xl border-border bg-card text-muted-foreground hover:bg-secondary hover:text-foreground"
       }
       aria-label={`Share ${title}`}
       title={`Share ${title}`}
     >
-      <Share2 className={shareText ? "size-3.5" : "size-3"} aria-hidden="true" />
+      <Share2
+        className={shareText ? "size-3.5" : "size-3"}
+        aria-hidden="true"
+      />
       {shareText && <span>Share</span>}
     </Button>
   )

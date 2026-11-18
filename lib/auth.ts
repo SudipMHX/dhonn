@@ -1,4 +1,4 @@
-import NextAuth from "next-auth"
+import NextAuth, { CredentialsSignin } from "next-auth"
 import Credentials from "next-auth/providers/credentials"
 import { compare } from "bcryptjs"
 import { z } from "zod"
@@ -11,10 +11,17 @@ import {
   RateLimitError,
 } from "@/lib/rate-limit"
 import { createHash } from "node:crypto"
+import { verifyCaptcha } from "@/lib/captcha"
+
+class CaptchaSigninError extends CredentialsSignin {
+  code = "captcha_failed"
+}
 
 const credentialsSchema = z.object({
   email: z.string().trim().email().max(254),
   password: z.string().min(1).max(128),
+  captchaToken: z.string().min(1),
+  captchaAnswer: z.string().min(1),
 })
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
@@ -26,10 +33,20 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
       credentials: {
         email: { label: "Email", type: "email" },
         password: { label: "Password", type: "password" },
+        captchaToken: { label: "Captcha Token", type: "text" },
+        captchaAnswer: { label: "Captcha Answer", type: "text" },
       },
       async authorize(input) {
         const credentials = credentialsSchema.safeParse(input)
         if (!credentials.success) return null
+
+        const verification = verifyCaptcha(
+          credentials.data.captchaToken,
+          credentials.data.captchaAnswer
+        )
+        if (!verification.success) {
+          throw new CaptchaSigninError()
+        }
 
         const subject = await getRequestSubject()
         const emailHash = createHash("sha256")

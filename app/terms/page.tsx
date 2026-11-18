@@ -4,7 +4,8 @@ import { ArrowLeft, FileText } from "lucide-react"
 
 export const metadata: Metadata = {
   title: "Terms of Service",
-  description: "Terms and conditions for publishing and consuming audio on dhonn.",
+  description:
+    "Terms and conditions for publishing and consuming audio on dhonn.",
 }
 
 export default function TermsPage() {
@@ -39,7 +40,9 @@ export default function TermsPage() {
             1. Acceptance &amp; Scope
           </h2>
           <p>
-            By accessing dhonn, browsing audio recordings, creating an account, or submitting audio clips, you agree to comply with and be bound by these Terms of Service.
+            By accessing dhonn, browsing audio recordings, creating an account,
+            or submitting audio clips, you agree to comply with and be bound by
+            these Terms of Service.
           </p>
         </section>
 
@@ -48,10 +51,17 @@ export default function TermsPage() {
             2. Creator Audio Submissions &amp; Rights
           </h2>
           <p>
-            You may only upload audio you personally recorded, created, or possess documented licensing and legal authorization to distribute. Submitting copyrighted, infringing, defamatory, abusive, or unlawful audio is strictly prohibited.
+            You may only upload audio you personally recorded, created, or
+            possess documented licensing and legal authorization to distribute.
+            Submitting copyrighted, infringing, defamatory, abusive, or unlawful
+            audio is strictly prohibited.
           </p>
           <p>
-            You retain all underlying intellectual property rights in your original recordings. By submitting audio to dhonn, you grant the platform a non-exclusive, worldwide, royalty-free license to store, transcode, moderate, display, and stream your audio to platform listeners.
+            You retain all underlying intellectual property rights in your
+            original recordings. By submitting audio to dhonn, you grant the
+            platform a non-exclusive, worldwide, royalty-free license to store,
+            transcode, moderate, display, and stream your audio to platform
+            listeners.
           </p>
         </section>
 
@@ -60,7 +70,10 @@ export default function TermsPage() {
             3. Moderation &amp; Removal
           </h2>
           <p>
-            Every audio submission remains private until approved by a platform moderator. dhonn reserves the right to decline, unpublish, or permanently delete any recording that violates platform quality rules or is subject to a valid copyright infringement notice.
+            Every audio submission remains private until approved by a platform
+            moderator. dhonn reserves the right to decline, unpublish, or
+            permanently delete any recording that violates platform quality
+            rules or is subject to a valid copyright infringement notice.
           </p>
         </section>
 
@@ -69,7 +82,10 @@ export default function TermsPage() {
             4. Account Responsibility
           </h2>
           <p>
-            You are responsible for safeguarding your login credentials and for all activities originating from your account. Accounts exhibiting abusive behavior, spamming, or repeated copyright infringements are subject to immediate suspension.
+            You are responsible for safeguarding your login credentials and for
+            all activities originating from your account. Accounts exhibiting
+            abusive behavior, spamming, or repeated copyright infringements are
+            subject to immediate suspension.
           </p>
         </section>
       </div>

@@ -10,11 +10,11 @@ export default function NotFound() {
     <main className="relative grid min-h-[80vh] place-items-center px-4 py-20 text-center">
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute top-1/2 left-1/2 -z-10 -translate-x-1/2 -translate-y-1/2 size-80 rounded-full bg-indigo-500/10 blur-[100px]"
+        className="pointer-events-none absolute top-1/2 left-1/2 -z-10 size-80 -translate-x-1/2 -translate-y-1/2 rounded-full bg-indigo-500/10 blur-[100px]"
       />
 
       <div className="max-w-md">
-        <div className="mx-auto flex size-14 items-center justify-center rounded-2xl bg-secondary text-indigo-600 dark:text-indigo-400 mb-6 shadow-2xs">
+        <div className="mx-auto mb-6 flex size-14 items-center justify-center rounded-2xl bg-secondary text-indigo-600 shadow-2xs dark:text-indigo-400">
           <VolumeX className="size-7" />
         </div>
 
@@ -26,8 +26,9 @@ export default function NotFound() {
           That sound isn&apos;t here.
         </h1>
 
-        <p className="mt-2.5 text-sm text-muted-foreground leading-relaxed">
-          The sound bite you requested may be private, undergoing review, or may have been permanently removed.
+        <p className="mt-2.5 text-sm leading-relaxed text-muted-foreground">
+          The sound bite you requested may be private, undergoing review, or may
+          have been permanently removed.
         </p>
 
         <div className="mt-8 flex items-center justify-center gap-3">

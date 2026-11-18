@@ -4,10 +4,22 @@ import Link from "next/link"
 import { Sparkles } from "lucide-react"
 
 import { PublicSoundResults } from "@/components/public-sound-results"
+import type { SoundCardData } from "@/components/sound-tile"
 import { usePublicSounds } from "@/hooks/use-public-sounds"
 
-export function FeaturedPageClient() {
-  const results = usePublicSounds({ featured: true, sort: "popular" })
+export function FeaturedPageClient({
+  initialSounds,
+  initialHasMore,
+}: {
+  initialSounds?: SoundCardData[]
+  initialHasMore?: boolean
+} = {}) {
+  const results = usePublicSounds({
+    featured: true,
+    sort: "popular",
+    initialSounds,
+    initialHasMore,
+  })
 
   return (
     <main className="mx-auto min-h-[75vh] max-w-7xl px-4 py-8 sm:px-6 sm:py-10 lg:px-8">
@@ -33,7 +45,8 @@ export function FeaturedPageClient() {
           Featured Sounds
         </h1>
         <p className="mt-3 text-sm leading-relaxed text-muted-foreground sm:text-base">
-          A hand-picked collection of exceptional creator-made sounds that stand out for quality and utility.
+          A hand-picked collection of exceptional creator-made sounds that stand
+          out for quality and utility.
         </p>
       </header>
 

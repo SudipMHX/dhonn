@@ -7,16 +7,14 @@ const alertVariants = cva(
   {
     variants: {
       variant: {
-        default:
-          "border-border/80 bg-secondary/50 text-foreground",
+        default: "border-border/80 bg-secondary/50 text-foreground",
         destructive:
-          "border-rose-200/80 bg-rose-50 text-rose-800 dark:border-rose-900/60 dark:bg-rose-950/30 dark:text-rose-200 *:data-[slot=alert-description]:text-rose-700 dark:*:data-[slot=alert-description]:text-rose-300",
+          "border-rose-200/80 bg-rose-50 text-rose-800 *:data-[slot=alert-description]:text-rose-700 dark:border-rose-900/60 dark:bg-rose-950/30 dark:text-rose-200 dark:*:data-[slot=alert-description]:text-rose-300",
         success:
-          "border-emerald-200/80 bg-emerald-50 text-emerald-800 dark:border-emerald-900/60 dark:bg-emerald-950/30 dark:text-emerald-200 *:data-[slot=alert-description]:text-emerald-700 dark:*:data-[slot=alert-description]:text-emerald-300",
+          "border-emerald-200/80 bg-emerald-50 text-emerald-800 *:data-[slot=alert-description]:text-emerald-700 dark:border-emerald-900/60 dark:bg-emerald-950/30 dark:text-emerald-200 dark:*:data-[slot=alert-description]:text-emerald-300",
         warning:
-          "border-amber-200/80 bg-amber-50 text-amber-800 dark:border-amber-900/60 dark:bg-amber-950/30 dark:text-amber-200 *:data-[slot=alert-description]:text-amber-700 dark:*:data-[slot=alert-description]:text-amber-300",
-        info:
-          "border-indigo-200/80 bg-indigo-50 text-indigo-800 dark:border-indigo-900/60 dark:bg-indigo-950/30 dark:text-indigo-200 *:data-[slot=alert-description]:text-indigo-700 dark:*:data-[slot=alert-description]:text-indigo-300",
+          "border-amber-200/80 bg-amber-50 text-amber-800 *:data-[slot=alert-description]:text-amber-700 dark:border-amber-900/60 dark:bg-amber-950/30 dark:text-amber-200 dark:*:data-[slot=alert-description]:text-amber-300",
+        info: "border-indigo-200/80 bg-indigo-50 text-indigo-800 *:data-[slot=alert-description]:text-indigo-700 dark:border-indigo-900/60 dark:bg-indigo-950/30 dark:text-indigo-200 dark:*:data-[slot=alert-description]:text-indigo-300",
       },
     },
     defaultVariants: {
@@ -45,7 +43,7 @@ function AlertTitle({ className, ...props }: React.ComponentProps<"div">) {
     <div
       data-slot="alert-title"
       className={cn(
-        "font-semibold tracking-tight leading-snug group-has-[>svg]/alert:col-start-2",
+        "leading-snug font-semibold tracking-tight group-has-[>svg]/alert:col-start-2",
         className
       )}
       {...props}

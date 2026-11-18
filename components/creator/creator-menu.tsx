@@ -36,7 +36,7 @@ export function CreatorMenu() {
             className="fixed inset-0 z-40 cursor-default bg-black/20 backdrop-blur-xs"
           />
 
-          <nav className="absolute top-full right-0 z-50 mt-2 w-56 rounded-2xl border border-border/80 bg-card p-1.5 shadow-xl shadow-black/10 backdrop-blur-xl animate-in fade-in-0 zoom-in-95 duration-150">
+          <nav className="absolute top-full right-0 z-50 mt-2 w-56 animate-in rounded-2xl border border-border/80 bg-card p-1.5 shadow-xl shadow-black/10 backdrop-blur-xl duration-150 fade-in-0 zoom-in-95">
             <Link
               href="/dashboard"
               onClick={() => setOpen(false)}

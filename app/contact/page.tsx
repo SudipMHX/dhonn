@@ -1,10 +1,17 @@
 import type { Metadata } from "next"
 import Link from "next/link"
-import { ArrowLeft, ArrowRight, Mail, MessageSquare, ShieldAlert } from "lucide-react"
+import {
+  ArrowLeft,
+  ArrowRight,
+  Mail,
+  MessageSquare,
+  ShieldAlert,
+} from "lucide-react"
 
 export const metadata: Metadata = {
   title: "Contact dhonn.",
-  description: "Get in touch with the dhonn team for general questions or copyright reports.",
+  description:
+    "Get in touch with the dhonn team for general questions or copyright reports.",
 }
 
 export default function ContactPage() {
@@ -31,7 +38,8 @@ export default function ContactPage() {
           Get in touch
         </h1>
         <p className="text-sm leading-relaxed text-muted-foreground">
-          Have a question about dhonn, audio rights, or general platform operations? We&apos;re here to assist.
+          Have a question about dhonn, audio rights, or general platform
+          operations? We&apos;re here to assist.
         </p>
       </div>
 
@@ -40,12 +48,15 @@ export default function ContactPage() {
         {/* Content & Copyright Report */}
         <div className="flex flex-col justify-between rounded-2xl border border-border/80 bg-card p-6 shadow-xs">
           <div>
-            <div className="flex size-10 items-center justify-center rounded-xl bg-rose-50 text-rose-600 dark:bg-rose-950/50 dark:text-rose-400 mb-4">
+            <div className="mb-4 flex size-10 items-center justify-center rounded-xl bg-rose-50 text-rose-600 dark:bg-rose-950/50 dark:text-rose-400">
               <ShieldAlert className="size-5" />
             </div>
-            <h2 className="font-bold text-foreground">Content &amp; Copyright</h2>
-            <p className="mt-1.5 text-xs text-muted-foreground leading-relaxed">
-              If you believe a sound violates your copyright or community guidelines, submit an official takedown report.
+            <h2 className="font-bold text-foreground">
+              Content &amp; Copyright
+            </h2>
+            <p className="mt-1.5 text-xs leading-relaxed text-muted-foreground">
+              If you believe a sound violates your copyright or community
+              guidelines, submit an official takedown report.
             </p>
           </div>
           <div className="mt-6">
@@ -62,11 +73,11 @@ export default function ContactPage() {
         {/* General Inquiries */}
         <div className="flex flex-col justify-between rounded-2xl border border-border/80 bg-card p-6 shadow-xs">
           <div>
-            <div className="flex size-10 items-center justify-center rounded-xl bg-indigo-50 text-indigo-600 dark:bg-indigo-950/50 dark:text-indigo-400 mb-4">
+            <div className="mb-4 flex size-10 items-center justify-center rounded-xl bg-indigo-50 text-indigo-600 dark:bg-indigo-950/50 dark:text-indigo-400">
               <Mail className="size-5" />
             </div>
             <h2 className="font-bold text-foreground">Direct Email</h2>
-            <p className="mt-1.5 text-xs text-muted-foreground leading-relaxed">
+            <p className="mt-1.5 text-xs leading-relaxed text-muted-foreground">
               {email
                 ? "Send us a direct note for partnerships, platform feedback, or operational inquiries."
                 : "For general inquiries, platform feedback, or creator support."}

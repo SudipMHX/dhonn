@@ -80,7 +80,8 @@ export function AdminNav() {
               const Icon = item.icon
               const active = item.exact
                 ? pathname === item.href
-                : pathname === item.href || pathname?.startsWith(`${item.href}/`)
+                : pathname === item.href ||
+                  pathname?.startsWith(`${item.href}/`)
 
               return (
                 <Link
@@ -115,7 +116,7 @@ export function AdminNav() {
       ))}
 
       {/* System Status Pill */}
-      <div className="mt-auto border-t border-border/60 pt-4 px-3">
+      <div className="mt-auto border-t border-border/60 px-3 pt-4">
         <div className="flex items-center gap-2 text-[11px] font-medium text-muted-foreground">
           <span className="relative flex size-2">
             <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75" />

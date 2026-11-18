@@ -12,7 +12,7 @@
     "typecheck": "next typegen && tsc --noEmit",
     "seed": "tsx scripts/seed.ts",
     "admin:indexes": "tsx scripts/create-admin-indexes.ts",
-    "test": "tsx --test tests/validation.test.ts"
+    "test": "tsx --test tests/**/*.test.ts"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.1150.0",

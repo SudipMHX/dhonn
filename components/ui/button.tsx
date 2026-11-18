@@ -12,16 +12,16 @@ const buttonVariants = cva(
         primary:
           "bg-indigo-600 text-white shadow-xs shadow-indigo-600/20 hover:bg-indigo-500 active:bg-indigo-700 dark:bg-indigo-600 dark:hover:bg-indigo-500",
         outline:
-          "border-border bg-card/60 backdrop-blur-xs text-foreground shadow-xs hover:bg-secondary hover:border-border/80 active:bg-secondary/70",
+          "border-border bg-card/60 text-foreground shadow-xs backdrop-blur-xs hover:border-border/80 hover:bg-secondary active:bg-secondary/70",
         secondary:
-          "bg-secondary text-secondary-foreground border border-border/40 hover:bg-secondary/80 hover:border-border active:bg-secondary/60",
+          "border border-border/40 bg-secondary text-secondary-foreground hover:border-border hover:bg-secondary/80 active:bg-secondary/60",
         ghost:
           "text-foreground/80 hover:bg-secondary/80 hover:text-foreground active:bg-secondary",
         destructive:
-          "bg-destructive/10 text-destructive border border-destructive/20 hover:bg-destructive hover:text-white dark:bg-destructive/20 dark:hover:bg-destructive dark:hover:text-white",
-        link: "text-indigo-600 underline-offset-4 hover:underline dark:text-indigo-400 p-0 h-auto",
+          "border border-destructive/20 bg-destructive/10 text-destructive hover:bg-destructive hover:text-white dark:bg-destructive/20 dark:hover:bg-destructive dark:hover:text-white",
+        link: "h-auto p-0 text-indigo-600 underline-offset-4 hover:underline dark:text-indigo-400",
         subtle:
-          "bg-indigo-50 text-indigo-700 border border-indigo-200/50 hover:bg-indigo-100/80 active:bg-indigo-100 dark:bg-indigo-950/40 dark:text-indigo-300 dark:border-indigo-800/40 dark:hover:bg-indigo-950/70",
+          "border border-indigo-200/50 bg-indigo-50 text-indigo-700 hover:bg-indigo-100/80 active:bg-indigo-100 dark:border-indigo-800/40 dark:bg-indigo-950/40 dark:text-indigo-300 dark:hover:bg-indigo-950/70",
       },
       size: {
         xs: "h-7 gap-1 rounded-lg px-2 text-xs [&_svg:not([class*='size-'])]:size-3",
@@ -29,11 +29,13 @@ const buttonVariants = cva(
         default:
           "h-9 gap-2 rounded-xl px-3.5 text-sm font-medium [&_svg:not([class*='size-'])]:size-4",
         md: "h-10 gap-2 rounded-xl px-4 text-sm font-medium [&_svg:not([class*='size-'])]:size-4",
-        lg: "h-11 gap-2.5 rounded-xl px-5 text-sm sm:text-base font-medium [&_svg:not([class*='size-'])]:size-4.5",
+        lg: "h-11 gap-2.5 rounded-xl px-5 text-sm font-medium sm:text-base [&_svg:not([class*='size-'])]:size-4.5",
         icon: "size-9 rounded-xl p-0 [&_svg:not([class*='size-'])]:size-4",
         "icon-xs": "size-7 rounded-lg p-0 [&_svg:not([class*='size-'])]:size-3",
-        "icon-sm": "size-8 rounded-lg p-0 [&_svg:not([class*='size-'])]:size-3.5",
-        "icon-lg": "size-10 rounded-xl p-0 [&_svg:not([class*='size-'])]:size-5",
+        "icon-sm":
+          "size-8 rounded-lg p-0 [&_svg:not([class*='size-'])]:size-3.5",
+        "icon-lg":
+          "size-10 rounded-xl p-0 [&_svg:not([class*='size-'])]:size-5",
       },
     },
     defaultVariants: {

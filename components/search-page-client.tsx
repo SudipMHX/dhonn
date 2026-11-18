@@ -5,6 +5,7 @@ import Link from "next/link"
 import { Compass, Search, X } from "lucide-react"
 
 import { PublicSoundResults } from "@/components/public-sound-results"
+import type { SoundCardData } from "@/components/sound-tile"
 import { usePublicSounds } from "@/hooks/use-public-sounds"
 
 type Sort = "trending" | "popular" | "newest" | "favorites"
@@ -13,14 +14,24 @@ export function SearchPageClient({
   initialQuery,
   initialCategory,
   initialSort,
+  initialSounds,
+  initialHasMore,
 }: {
   initialQuery: string
   initialCategory: string
   initialSort: Sort
+  initialSounds?: SoundCardData[]
+  initialHasMore?: boolean
 }) {
   const [query, setQuery] = useState(initialQuery)
   const [sort, setSort] = useState<Sort>(initialSort)
-  const results = usePublicSounds({ query, category: initialCategory, sort })
+  const results = usePublicSounds({
+    query,
+    category: initialCategory,
+    sort,
+    initialSounds,
+    initialHasMore,
+  })
 
   return (
     <main className="mx-auto min-h-[75vh] max-w-7xl px-4 py-8 sm:px-6 sm:py-10 lg:px-8">
@@ -46,7 +57,8 @@ export function SearchPageClient({
           Explore Sounds
         </h1>
         <p className="mt-3 text-sm leading-relaxed text-muted-foreground sm:text-base">
-          Find creator-made sounds by keyword, topic, reaction, or descriptive tag.
+          Find creator-made sounds by keyword, topic, reaction, or descriptive
+          tag.
         </p>
       </header>
 
@@ -54,7 +66,7 @@ export function SearchPageClient({
       <section aria-label="Search results">
         <div className="mb-8 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <div className="relative w-full sm:max-w-xl">
-            <Search className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 size-4 text-muted-foreground" />
+            <Search className="pointer-events-none absolute top-1/2 left-3.5 size-4 -translate-y-1/2 text-muted-foreground" />
             <input
               type="search"
               maxLength={100}
@@ -73,7 +85,7 @@ export function SearchPageClient({
                   results.reset()
                   setQuery("")
                 }}
-                className="absolute right-3 top-1/2 -translate-y-1/2 rounded-md p-1 text-muted-foreground hover:text-foreground"
+                className="absolute top-1/2 right-3 -translate-y-1/2 rounded-md p-1 text-muted-foreground hover:text-foreground"
               >
                 <X className="size-3.5" />
                 <span className="sr-only">Clear search</span>
@@ -89,7 +101,7 @@ export function SearchPageClient({
                 results.reset()
                 setSort(event.target.value as Sort)
               }}
-              className="h-10 rounded-xl border border-border/80 bg-card px-3 text-xs font-medium text-foreground outline-none transition-colors hover:bg-secondary focus:border-indigo-500"
+              className="h-10 rounded-xl border border-border/80 bg-card px-3 text-xs font-medium text-foreground transition-colors outline-none hover:bg-secondary focus:border-indigo-500"
             >
               <option value="trending">Trending</option>
               <option value="popular">Most played</option>

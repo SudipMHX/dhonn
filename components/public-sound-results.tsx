@@ -27,7 +27,9 @@ export function PublicSoundResults({
         className="rounded-2xl border border-rose-200/80 bg-rose-50/50 p-8 text-center text-rose-800 dark:border-rose-900/60 dark:bg-rose-950/20 dark:text-rose-200"
       >
         <p className="font-semibold">Unable to load sound library</p>
-        <p className="mt-1.5 text-xs text-rose-600 dark:text-rose-300">{error}</p>
+        <p className="mt-1.5 text-xs text-rose-600 dark:text-rose-300">
+          {error}
+        </p>
         <Button
           type="button"
           onClick={onRetry}
@@ -86,12 +88,13 @@ export function PublicSoundResults({
 
   return (
     <div className="flex flex-col items-center justify-center rounded-2xl border border-dashed border-border/80 bg-card/40 p-12 text-center">
-      <div className="flex size-12 items-center justify-center rounded-2xl bg-secondary text-muted-foreground mb-3">
+      <div className="mb-3 flex size-12 items-center justify-center rounded-2xl bg-secondary text-muted-foreground">
         <Music2 className="size-6" />
       </div>
       <p className="font-semibold text-foreground">No sounds found</p>
-      <p className="mt-1 max-w-sm text-xs text-muted-foreground leading-relaxed">
-        Try adjusting your search terms or filters to find what you&apos;re looking for.
+      <p className="mt-1 max-w-sm text-xs leading-relaxed text-muted-foreground">
+        Try adjusting your search terms or filters to find what you&apos;re
+        looking for.
       </p>
     </div>
   )
@@ -99,7 +102,7 @@ export function PublicSoundResults({
 
 function SoundTileSkeleton() {
   return (
-    <div className="flex flex-col justify-between rounded-xl border border-border/60 bg-card p-3 space-y-3">
+    <div className="flex flex-col justify-between space-y-3 rounded-xl border border-border/60 bg-card p-3">
       <div className="flex items-center justify-between">
         <Skeleton className="h-3.5 w-14 rounded-md" />
         <Skeleton className="h-3 w-7 rounded-md" />
@@ -108,7 +111,7 @@ function SoundTileSkeleton() {
         <Skeleton className="size-12 rounded-xl" />
       </div>
       <div className="flex h-8 items-center justify-center">
-        <Skeleton className="h-3.5 w-4/5 mx-auto rounded-md" />
+        <Skeleton className="mx-auto h-3.5 w-4/5 rounded-md" />
       </div>
       <div className="flex items-center justify-between border-t border-border/40 pt-2">
         <Skeleton className="h-3 w-8 rounded-md" />

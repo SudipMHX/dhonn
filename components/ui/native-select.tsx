@@ -25,7 +25,7 @@ function NativeSelect({
         data-size={size}
         className={cn(
           "w-full min-w-0 appearance-none rounded-xl border border-input bg-card py-2 pr-9 pl-3.5 text-sm text-foreground transition-all outline-none select-none placeholder:text-muted-foreground focus-visible:border-ring focus-visible:ring-2 focus-visible:ring-ring/25 disabled:pointer-events-none disabled:cursor-not-allowed aria-invalid:border-destructive aria-invalid:ring-2 aria-invalid:ring-destructive/20 dark:bg-card/60",
-          size === "sm" ? "h-8 py-1 pr-8 pl-2.5 text-xs rounded-lg" : "h-10"
+          size === "sm" ? "h-8 rounded-lg py-1 pr-8 pl-2.5 text-xs" : "h-10"
         )}
         {...props}
       />
@@ -45,7 +45,7 @@ function NativeSelectOption({
   return (
     <option
       data-slot="native-select-option"
-      className={cn("bg-card text-foreground py-1", className)}
+      className={cn("bg-card py-1 text-foreground", className)}
       {...props}
     />
   )
@@ -58,7 +58,7 @@ function NativeSelectOptGroup({
   return (
     <optgroup
       data-slot="native-select-optgroup"
-      className={cn("bg-card text-foreground font-semibold", className)}
+      className={cn("bg-card font-semibold text-foreground", className)}
       {...props}
     />
   )

@@ -31,7 +31,10 @@ export default async function EmbedSoundPage({
           </span>
         </div>
 
-        <h1 className="mt-2.5 truncate text-sm font-bold text-foreground" title={sound.title}>
+        <h1
+          className="mt-2.5 truncate text-sm font-bold text-foreground"
+          title={sound.title}
+        >
           {sound.title}
         </h1>
 
@@ -39,7 +42,7 @@ export default async function EmbedSoundPage({
           controls
           preload="none"
           src={`/api/sounds/${encodeURIComponent(sound.slug)}/audio`}
-          className="mt-3 w-full h-8"
+          className="mt-3 h-8 w-full"
         />
 
         <div className="mt-2.5 flex items-center justify-between border-t border-border/50 pt-2 text-[11px] text-muted-foreground">

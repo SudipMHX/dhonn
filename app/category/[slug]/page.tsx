@@ -5,6 +5,7 @@ import { CategoryPageClient } from "@/components/category-page-client"
 import {
   countPublishedInCategory,
   getCategoryBySlug,
+  listPublicSounds,
 } from "@/lib/services/sounds"
 
 type PageProps = { params: Promise<{ slug: string }> }
@@ -33,6 +34,14 @@ export default async function CategoryPage({ params }: PageProps) {
   const { slug } = await params
   const category = await getCategoryBySlug(slug)
   if (!category) notFound()
+
+  const result = await listPublicSounds({
+    category: category._id.toString(),
+    sort: "trending",
+    page: 1,
+    limit: 18,
+  })
+
   return (
     <CategoryPageClient
       categoryId={category._id.toString()}
@@ -41,6 +50,8 @@ export default async function CategoryPage({ params }: PageProps) {
         category.description ||
         `Browse creator-made ${category.name.toLowerCase()} sounds.`
       }
+      initialSounds={result.sounds}
+      initialHasMore={result.hasMore}
     />
   )
 }

@@ -36,10 +36,14 @@ export default function UploadPage() {
             Upload Sound
           </h1>
           <p className="mt-1 text-xs text-muted-foreground sm:text-sm">
-            Publish your audio recording or sound bite to the dhonn community library.
+            Publish your audio recording or sound bite to the dhonn community
+            library.
           </p>
         </div>
-        <Badge variant="outline" className="w-fit gap-1.5 py-1 text-xs border-emerald-500/30 bg-emerald-500/10 text-emerald-600 dark:text-emerald-400">
+        <Badge
+          variant="outline"
+          className="w-fit gap-1.5 border-emerald-500/30 bg-emerald-500/10 py-1 text-xs text-emerald-600 dark:text-emerald-400"
+        >
           <Sparkles className="size-3.5" />
           <span>Instant Publishing</span>
         </Badge>
@@ -66,31 +70,40 @@ export default function UploadPage() {
                     1
                   </span>
                   <div>
-                    <p className="text-xs font-semibold text-foreground">Upload Audio File</p>
-                    <p className="mt-0.5 text-xs text-muted-foreground leading-relaxed">
-                      Select an MP3 or WAV recording and add descriptive title and tags.
+                    <p className="text-xs font-semibold text-foreground">
+                      Upload Audio File
+                    </p>
+                    <p className="mt-0.5 text-xs leading-relaxed text-muted-foreground">
+                      Select an MP3 or WAV recording and add descriptive title
+                      and tags.
                     </p>
                   </div>
                 </li>
                 <li className="flex gap-3">
-                  <span className="grid size-6 shrink-0 place-items-center rounded-full bg-indigo-600/10 text-indigo-600 dark:bg-indigo-400/10 dark:text-indigo-400 text-xs font-bold">
+                  <span className="grid size-6 shrink-0 place-items-center rounded-full bg-indigo-600/10 text-xs font-bold text-indigo-600 dark:bg-indigo-400/10 dark:text-indigo-400">
                     2
                   </span>
                   <div>
-                    <p className="text-xs font-semibold text-foreground">Instant Verification</p>
-                    <p className="mt-0.5 text-xs text-muted-foreground leading-relaxed">
-                      Audio format, duration (≤ 30s), waveform integrity, and sha256 deduplication verify in seconds.
+                    <p className="text-xs font-semibold text-foreground">
+                      Instant Verification
+                    </p>
+                    <p className="mt-0.5 text-xs leading-relaxed text-muted-foreground">
+                      Audio format, duration (≤ 30s), waveform integrity, and
+                      sha256 deduplication verify in seconds.
                     </p>
                   </div>
                 </li>
                 <li className="flex gap-3">
-                  <span className="grid size-6 shrink-0 place-items-center rounded-full bg-emerald-600/15 text-emerald-600 dark:bg-emerald-400/15 dark:text-emerald-400 text-xs font-bold">
+                  <span className="grid size-6 shrink-0 place-items-center rounded-full bg-emerald-600/15 text-xs font-bold text-emerald-600 dark:bg-emerald-400/15 dark:text-emerald-400">
                     3
                   </span>
                   <div>
-                    <p className="text-xs font-semibold text-foreground">Live Instant Release</p>
-                    <p className="mt-0.5 text-xs text-muted-foreground leading-relaxed">
-                      Your sound is published live immediately to search, category feeds, and soundboards.
+                    <p className="text-xs font-semibold text-foreground">
+                      Live Instant Release
+                    </p>
+                    <p className="mt-0.5 text-xs leading-relaxed text-muted-foreground">
+                      Your sound is published live immediately to search,
+                      category feeds, and soundboards.
                     </p>
                   </div>
                 </li>
@@ -102,13 +115,15 @@ export default function UploadPage() {
             <AlertCircle className="size-4" />
             <AlertTitle>Copyright Notice</AlertTitle>
             <AlertDescription>
-              Only submit audio you personally created or hold explicit authorization to share. Sounds are verified and published live immediately upon upload.
+              Only submit audio you personally created or hold explicit
+              authorization to share. Sounds are verified and published live
+              immediately upon upload.
             </AlertDescription>
           </Alert>
 
           <Card size="sm">
             <CardContent className="space-y-2.5">
-              <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+              <p className="text-xs font-semibold tracking-wider text-muted-foreground uppercase">
                 Specifications Checklist
               </p>
               <div className="flex items-center gap-2 text-xs text-muted-foreground">

@@ -78,7 +78,10 @@ export default async function AccountSettingsPage() {
               </p>
               <p className="flex gap-2">
                 <BadgeCheck className="mt-0.5 size-4 shrink-0 text-indigo-600 dark:text-indigo-400" />
-                <span>Your existing password is required to authorize password updates.</span>
+                <span>
+                  Your existing password is required to authorize password
+                  updates.
+                </span>
               </p>
             </CardContent>
           </Card>

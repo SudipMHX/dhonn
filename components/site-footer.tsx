@@ -3,7 +3,7 @@ import { Volume2 } from "lucide-react"
 
 export function SiteFooter() {
   return (
-    <footer className="hidden md:block mt-20 border-t border-border/80 bg-card/40 backdrop-blur-sm">
+    <footer className="mt-20 hidden border-t border-border/80 bg-card/40 backdrop-blur-sm md:block">
       <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
         <div className="flex flex-col gap-8 md:flex-row md:items-center md:justify-between">
           <div className="space-y-2">
@@ -16,10 +16,11 @@ export function SiteFooter() {
                 <Volume2 className="size-3.5" strokeWidth={2.5} />
               </div>
               <span className="font-heading text-base font-bold tracking-tight text-foreground">
-                dhonn<span className="text-indigo-600 dark:text-indigo-400">.</span>
+                dhonn
+                <span className="text-indigo-600 dark:text-indigo-400">.</span>
               </span>
             </Link>
-            <p className="text-xs text-muted-foreground leading-relaxed">
+            <p className="text-xs leading-relaxed text-muted-foreground">
               Curated short audio for streams, creators, and conversations.
             </p>
           </div>
@@ -73,7 +74,7 @@ export function SiteFooter() {
           </nav>
         </div>
 
-        <div className="mt-8 border-t border-border/50 pt-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-muted-foreground/80">
+        <div className="mt-8 flex flex-col items-center justify-between gap-4 border-t border-border/50 pt-6 text-xs text-muted-foreground/80 sm:flex-row">
           <p>© {new Date().getFullYear()} dhonn. All rights reserved.</p>
           <p className="flex items-center gap-1.5">
             <span>Built for audio enthusiasts &amp; creators</span>

@@ -23,8 +23,7 @@ const badgeVariants = cva(
           "border-emerald-200/60 bg-emerald-50 text-emerald-700 dark:border-emerald-900/60 dark:bg-emerald-950/40 dark:text-emerald-300 [a]:hover:bg-emerald-100",
         warning:
           "border-amber-200/60 bg-amber-50 text-amber-700 dark:border-amber-900/60 dark:bg-amber-950/40 dark:text-amber-300 [a]:hover:bg-amber-100",
-        info:
-          "border-sky-200/60 bg-sky-50 text-sky-700 dark:border-sky-900/60 dark:bg-sky-950/40 dark:text-sky-300 [a]:hover:bg-sky-100",
+        info: "border-sky-200/60 bg-sky-50 text-sky-700 dark:border-sky-900/60 dark:bg-sky-950/40 dark:text-sky-300 [a]:hover:bg-sky-100",
         indigo:
           "border-indigo-200/60 bg-indigo-50 text-indigo-700 dark:border-indigo-900/60 dark:bg-indigo-950/40 dark:text-indigo-300 [a]:hover:bg-indigo-100",
       },

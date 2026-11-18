@@ -18,7 +18,11 @@ export type DashboardUploadItem = {
   audio?: { durationSeconds?: number }
 }
 
-export function DashboardUploadRow({ upload }: { upload: DashboardUploadItem }) {
+export function DashboardUploadRow({
+  upload,
+}: {
+  upload: DashboardUploadItem
+}) {
   const audioRef = useRef<HTMLAudioElement>(null)
   const [playing, setPlaying] = useState(false)
 
@@ -112,7 +116,10 @@ export function DashboardUploadRow({ upload }: { upload: DashboardUploadItem }) 
 
       {/* Status */}
       <TableCell>
-        <Badge variant={statusVariant} className="gap-1.5 text-[11px] capitalize">
+        <Badge
+          variant={statusVariant}
+          className="gap-1.5 text-[11px] capitalize"
+        >
           <span
             className={`size-1.5 rounded-full ${
               upload.status === "published"

@@ -90,8 +90,10 @@ export function AdminUsers() {
                   {/* User with avatar circle */}
                   <TableCell className="font-semibold text-foreground">
                     <div className="flex items-center gap-2.5">
-                      <div className="flex size-7 shrink-0 items-center justify-center rounded-full bg-indigo-50 font-bold text-xs text-indigo-700 dark:bg-indigo-950/60 dark:text-indigo-300">
-                        {name.charAt(0).toUpperCase() || <UserIcon className="size-3.5" />}
+                      <div className="flex size-7 shrink-0 items-center justify-center rounded-full bg-indigo-50 text-xs font-bold text-indigo-700 dark:bg-indigo-950/60 dark:text-indigo-300">
+                        {name.charAt(0).toUpperCase() || (
+                          <UserIcon className="size-3.5" />
+                        )}
                       </div>
                       <span>{name}</span>
                     </div>
@@ -138,7 +140,7 @@ export function AdminUsers() {
                       }
                       variant={active ? "destructive" : "primary"}
                       size="xs"
-                      className="rounded-lg gap-1"
+                      className="gap-1 rounded-lg"
                     >
                       {active ? (
                         <>

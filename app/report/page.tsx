@@ -35,7 +35,8 @@ export default async function ReportPage({
           Report a Sound
         </h1>
         <p className="text-sm leading-relaxed text-muted-foreground">
-          Submit copyright claims, intellectual property concerns, or inappropriate content notifications directly to our moderation team.
+          Submit copyright claims, intellectual property concerns, or
+          inappropriate content notifications directly to our moderation team.
         </p>
       </div>
 

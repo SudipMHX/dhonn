@@ -22,9 +22,7 @@ export async function getAdminOverview() {
     }),
     Category.estimatedDocumentCount(),
     Sound.find({ status: "pending" })
-      .select(
-        "title slug categoryName owner audio.durationSeconds createdAt"
-      )
+      .select("title slug categoryName owner audio.durationSeconds createdAt")
       .populate("owner", "name email")
       .sort({ createdAt: -1 })
       .limit(4)

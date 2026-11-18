@@ -106,7 +106,7 @@ export function AdminSoundCard({
   return (
     <TableRow className="group/row">
       {/* Sound title & audio preview trigger */}
-      <TableCell className="min-w-64 max-w-xs whitespace-normal">
+      <TableCell className="max-w-xs min-w-64 whitespace-normal">
         <div className="flex items-start gap-3">
           {slug && (
             <button
@@ -138,17 +138,17 @@ export function AdminSoundCard({
 
             <div className="mt-1 flex flex-wrap items-center gap-1.5 text-[11px] text-muted-foreground">
               {Boolean(row.featured) && (
-                <span className="inline-flex items-center gap-0.5 rounded px-1 py-0.2 font-medium text-amber-700 bg-amber-50 dark:bg-amber-950/50 dark:text-amber-300 border border-amber-200/50 dark:border-amber-900/50">
+                <span className="py-0.2 inline-flex items-center gap-0.5 rounded border border-amber-200/50 bg-amber-50 px-1 font-medium text-amber-700 dark:border-amber-900/50 dark:bg-amber-950/50 dark:text-amber-300">
                   <Sparkles className="size-2.5" /> Featured
                 </span>
               )}
               {Boolean(row.trending) && (
-                <span className="inline-flex items-center gap-0.5 rounded px-1 py-0.2 font-medium text-indigo-700 bg-indigo-50 dark:bg-indigo-950/50 dark:text-indigo-300 border border-indigo-200/50 dark:border-indigo-900/50">
+                <span className="py-0.2 inline-flex items-center gap-0.5 rounded border border-indigo-200/50 bg-indigo-50 px-1 font-medium text-indigo-700 dark:border-indigo-900/50 dark:bg-indigo-950/50 dark:text-indigo-300">
                   <Flame className="size-2.5" /> Trending
                 </span>
               )}
               {Boolean(row.categoryName) && (
-                <span className="truncate rounded bg-secondary px-1.5 py-0.2 text-[10px] font-medium text-muted-foreground">
+                <span className="py-0.2 truncate rounded bg-secondary px-1.5 text-[10px] font-medium text-muted-foreground">
                   {adminText(row.categoryName)}
                 </span>
               )}
@@ -164,7 +164,9 @@ export function AdminSoundCard({
             {ownerName.charAt(0).toUpperCase()}
           </div>
           <div className="min-w-0">
-            <p className="line-clamp-1 font-medium text-foreground text-xs">{ownerName}</p>
+            <p className="line-clamp-1 text-xs font-medium text-foreground">
+              {ownerName}
+            </p>
             {ownerEmail && (
               <p className="line-clamp-1 font-mono text-[10px] text-muted-foreground">
                 {ownerEmail}
@@ -176,7 +178,10 @@ export function AdminSoundCard({
 
       {/* Status */}
       <TableCell>
-        <Badge variant={statusVariant} className="gap-1.5 text-[11px] capitalize">
+        <Badge
+          variant={statusVariant}
+          className="gap-1.5 text-[11px] capitalize"
+        >
           <span
             className={`size-1.5 rounded-full ${
               status === "published"
@@ -203,11 +208,17 @@ export function AdminSoundCard({
             {durationSec > 0 ? `${durationSec.toFixed(1)}s` : "0.0s"}
           </div>
           <div className="flex items-center gap-2 text-[11px]">
-            <span className="inline-flex items-center gap-0.5" title="Total plays">
+            <span
+              className="inline-flex items-center gap-0.5"
+              title="Total plays"
+            >
               <Volume2 className="size-3 text-muted-foreground/70" />
               <span>{Number(row.plays ?? 0).toLocaleString()}</span>
             </span>
-            <span className="inline-flex items-center gap-0.5" title="Favorites">
+            <span
+              className="inline-flex items-center gap-0.5"
+              title="Favorites"
+            >
               <Heart className="size-3 text-rose-500/70" />
               <span>{Number(row.favorites ?? 0).toLocaleString()}</span>
             </span>
@@ -283,7 +294,7 @@ export function AdminSoundCard({
             }
             variant="outline"
             size="xs"
-            className={`rounded-lg ${row.featured ? "border-amber-300 text-amber-700 bg-amber-50/50 dark:border-amber-800 dark:bg-amber-950/40 dark:text-amber-300" : ""}`}
+            className={`rounded-lg ${row.featured ? "border-amber-300 bg-amber-50/50 text-amber-700 dark:border-amber-800 dark:bg-amber-950/40 dark:text-amber-300" : ""}`}
           >
             <Sparkles className="size-3" />
             <span>{row.featured ? "Featured" : "Feature"}</span>
@@ -298,7 +309,7 @@ export function AdminSoundCard({
             }
             variant="outline"
             size="xs"
-            className={`rounded-lg ${row.trending ? "border-indigo-300 text-indigo-700 bg-indigo-50/50 dark:border-indigo-800 dark:bg-indigo-950/40 dark:text-indigo-300" : ""}`}
+            className={`rounded-lg ${row.trending ? "border-indigo-300 bg-indigo-50/50 text-indigo-700 dark:border-indigo-800 dark:bg-indigo-950/40 dark:text-indigo-300" : ""}`}
           >
             <Flame className="size-3" />
             <span>{row.trending ? "Trending" : "Trend"}</span>
@@ -319,7 +330,12 @@ export function AdminSoundCard({
           >
             <DialogTrigger
               render={
-                <Button type="button" variant="outline" size="xs" className="rounded-lg">
+                <Button
+                  type="button"
+                  variant="outline"
+                  size="xs"
+                  className="rounded-lg"
+                >
                   <Edit3 className="size-3" />
                   <span>Edit</span>
                 </Button>

@@ -16,10 +16,12 @@ export type PrimaryMetric = {
   trend?: "up" | "down" | "neutral"
 }
 
-const DEFAULT_POINTS = [24, 38, 30, 48, 42, 68, 55, 78, 62, 85, 70, 94, 82, 90, 76, 88]
+const DEFAULT_POINTS = [
+  24, 38, 30, 48, 42, 68, 55, 78, 62, 85, 70, 94, 82, 90, 76, 88,
+]
 const DEFAULT_BARS = [
-  30, 45, 38, 62, 48, 75, 42, 80, 56, 92, 44, 70, 52, 86, 38, 74,
-  48, 88, 54, 95, 42, 65, 36, 78, 50, 82, 46, 68, 40, 76, 52, 85,
+  30, 45, 38, 62, 48, 75, 42, 80, 56, 92, 44, 70, 52, 86, 38, 74, 48, 88, 54,
+  95, 42, 65, 36, 78, 50, 82, 46, 68, 40, 76, 52, 85,
 ]
 
 export function TelemetryChart({
@@ -93,11 +95,13 @@ export function TelemetryChart({
             <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75" />
             <span className="relative inline-flex size-2.5 rounded-full bg-emerald-500" />
           </span>
-          <span className="text-xs font-semibold tracking-wider text-indigo-400 uppercase font-mono">
+          <span className="font-mono text-xs font-semibold tracking-wider text-indigo-400 uppercase">
             {badge}
           </span>
           <span className="text-zinc-600">/</span>
-          <h2 className="text-sm font-bold tracking-tight text-white">{title}</h2>
+          <h2 className="text-sm font-bold tracking-tight text-white">
+            {title}
+          </h2>
         </div>
 
         {/* View toggle */}
@@ -128,7 +132,7 @@ export function TelemetryChart({
       </div>
 
       {subtitle && (
-        <p className="mt-1 text-xs text-zinc-400 max-w-2xl leading-relaxed">
+        <p className="mt-1 max-w-2xl text-xs leading-relaxed text-zinc-400">
           {subtitle}
         </p>
       )}
@@ -136,7 +140,9 @@ export function TelemetryChart({
       {/* Primary Hero Metric Callout */}
       <div className="mt-5 flex flex-wrap items-baseline justify-between gap-4 border-t border-white/10 pt-4">
         <div>
-          <p className="text-xs font-medium text-zinc-400">{primaryMetric.label}</p>
+          <p className="text-xs font-medium text-zinc-400">
+            {primaryMetric.label}
+          </p>
           <div className="mt-1 flex items-baseline gap-3">
             <span className="font-mono text-3xl font-extrabold tracking-tight text-white tabular-nums sm:text-4xl">
               {primaryMetric.value}
@@ -150,12 +156,12 @@ export function TelemetryChart({
           </div>
         </div>
 
-        <div className="flex items-center gap-4 text-xs font-mono text-zinc-400">
+        <div className="flex items-center gap-4 font-mono text-xs text-zinc-400">
           <div className="flex items-center gap-1.5">
-            <Radio className="size-3.5 text-indigo-400 animate-pulse" />
+            <Radio className="size-3.5 animate-pulse text-indigo-400" />
             <span>48kHz Studio</span>
           </div>
-          <div className="hidden sm:flex items-center gap-1.5">
+          <div className="hidden items-center gap-1.5 sm:flex">
             <Activity className="size-3.5 text-emerald-400" />
             <span>&lt;80ms Response</span>
           </div>
@@ -173,12 +179,24 @@ export function TelemetryChart({
               aria-hidden="true"
             >
               <defs>
-                <linearGradient id={`${gradientId}-area`} x1="0" y1="0" x2="0" y2="1">
+                <linearGradient
+                  id={`${gradientId}-area`}
+                  x1="0"
+                  y1="0"
+                  x2="0"
+                  y2="1"
+                >
                   <stop offset="0%" stopColor="#818cf8" stopOpacity="0.4" />
                   <stop offset="50%" stopColor="#6366f1" stopOpacity="0.1" />
                   <stop offset="100%" stopColor="#4f46e5" stopOpacity="0" />
                 </linearGradient>
-                <linearGradient id={`${gradientId}-line`} x1="0" y1="0" x2="1" y2="0">
+                <linearGradient
+                  id={`${gradientId}-line`}
+                  x1="0"
+                  y1="0"
+                  x2="1"
+                  y2="0"
+                >
                   <stop offset="0%" stopColor="#818cf8" />
                   <stop offset="50%" stopColor="#a855f7" />
                   <stop offset="100%" stopColor="#ec4899" />
@@ -237,7 +255,7 @@ export function TelemetryChart({
                       cx={pt.x}
                       cy={pt.y}
                       r="7"
-                      className="fill-indigo-400/20 animate-ping"
+                      className="animate-ping fill-indigo-400/20"
                     />
                   </g>
                 )
@@ -261,7 +279,7 @@ export function TelemetryChart({
         )}
 
         {/* Time Axis Labels */}
-        <div className="mt-2 flex items-center justify-between border-t border-white/5 pt-2 text-[10px] font-mono text-zinc-500">
+        <div className="mt-2 flex items-center justify-between border-t border-white/5 pt-2 font-mono text-[10px] text-zinc-500">
           {timeLabels.map((lbl, idx) => (
             <span key={idx}>{lbl}</span>
           ))}
@@ -270,15 +288,19 @@ export function TelemetryChart({
 
       {/* Telemetry Metrics Strip */}
       {metrics.length > 0 && (
-        <div className="mt-5 grid grid-cols-2 gap-3 sm:grid-cols-4 border-t border-white/10 pt-4">
+        <div className="mt-5 grid grid-cols-2 gap-3 border-t border-white/10 pt-4 sm:grid-cols-4">
           {metrics.map((metric) => (
             <div key={metric.label} className="space-y-0.5">
-              <p className="font-mono text-[11px] text-zinc-400">{metric.label}</p>
+              <p className="font-mono text-[11px] text-zinc-400">
+                {metric.label}
+              </p>
               <p className="font-mono text-lg font-bold tracking-tight text-white tabular-nums sm:text-xl">
                 {metric.value}
               </p>
               {metric.note && (
-                <p className="text-[10px] text-zinc-500 truncate">{metric.note}</p>
+                <p className="truncate text-[10px] text-zinc-500">
+                  {metric.note}
+                </p>
               )}
             </div>
           ))}
@@ -287,16 +309,18 @@ export function TelemetryChart({
 
       {/* Bottom Telemetry Footer */}
       <div className="mt-4 flex items-center justify-between border-t border-white/10 pt-3 text-xs">
-        <div className="flex items-center gap-2 text-zinc-400 text-[11px]">
-          <span className="flex items-center gap-1 text-emerald-400 font-mono">
+        <div className="flex items-center gap-2 text-[11px] text-zinc-400">
+          <span className="flex items-center gap-1 font-mono text-emerald-400">
             <span className="size-1.5 rounded-full bg-emerald-500" />
             <span>Operational</span>
           </span>
           <span className="text-zinc-600">·</span>
-          <span className="truncate">Global edge CDN cached audio streaming</span>
+          <span className="truncate">
+            Global edge CDN cached audio streaming
+          </span>
         </div>
 
-        <div className="flex items-center gap-1 text-indigo-400 font-mono text-[11px]">
+        <div className="flex items-center gap-1 font-mono text-[11px] text-indigo-400">
           <AudioLines className="size-3.5" />
           <span>dhonn.:telemetry</span>
         </div>

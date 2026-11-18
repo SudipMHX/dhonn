@@ -63,7 +63,7 @@ export default function SoundDetailLoading() {
               </div>
             </section>
 
-            <aside className="h-fit rounded-xl border border-border/80 bg-secondary/30 p-6 space-y-4">
+            <aside className="h-fit space-y-4 rounded-xl border border-border/80 bg-secondary/30 p-6">
               <Skeleton className="h-10 w-full rounded-xl" />
               <Skeleton className="h-32 w-full" />
               <Skeleton className="h-10 w-full rounded-xl" />

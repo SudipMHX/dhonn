@@ -27,7 +27,9 @@ export default async function DashboardLayout({
               <div className="flex size-7 items-center justify-center rounded-lg bg-indigo-600 text-white shadow-xs shadow-indigo-600/30">
                 <Sparkles className="size-4" />
               </div>
-              <span className="font-extrabold tracking-tight">Creator Studio</span>
+              <span className="font-extrabold tracking-tight">
+                Creator Studio
+              </span>
             </Link>
 
             <span className="hidden items-center gap-1.5 rounded-full border border-border/60 bg-secondary/50 px-2.5 py-0.5 text-[11px] font-medium text-muted-foreground sm:inline-flex">
@@ -35,13 +37,13 @@ export default async function DashboardLayout({
             </span>
           </div>
 
-          <div className="flex items-center gap-2 sm:gap-3 text-xs">
+          <div className="flex items-center gap-2 text-xs sm:gap-3">
             {user.role === "admin" && (
               <Button
                 variant="outline"
                 size="xs"
                 render={<Link href="/admin" />}
-                className="hidden sm:inline-flex rounded-lg border-indigo-200/60 text-indigo-700 bg-indigo-50/50 hover:bg-indigo-100/70 dark:border-indigo-900/60 dark:bg-indigo-950/40 dark:text-indigo-300"
+                className="hidden rounded-lg border-indigo-200/60 bg-indigo-50/50 text-indigo-700 hover:bg-indigo-100/70 sm:inline-flex dark:border-indigo-900/60 dark:bg-indigo-950/40 dark:text-indigo-300"
               >
                 <Shield className="size-3 text-indigo-600 dark:text-indigo-400" />
                 <span>Admin Console</span>

@@ -43,11 +43,12 @@ export function ReportForm({ soundId = "" }: { soundId?: string }) {
       role="status"
       className="flex items-start gap-3 rounded-2xl border border-emerald-200/80 bg-emerald-50/70 p-6 text-emerald-900 dark:border-emerald-900/60 dark:bg-emerald-950/30 dark:text-emerald-200"
     >
-      <CheckCircle2 className="size-5 shrink-0 text-emerald-600 dark:text-emerald-400 mt-0.5" />
+      <CheckCircle2 className="mt-0.5 size-5 shrink-0 text-emerald-600 dark:text-emerald-400" />
       <div>
-        <p className="font-semibold text-sm">Report submitted successfully</p>
-        <p className="mt-1 text-xs text-emerald-800 dark:text-emerald-300 leading-relaxed">
-          Thank you for helping keep the community safe. Our moderation team will investigate this report and take appropriate action.
+        <p className="text-sm font-semibold">Report submitted successfully</p>
+        <p className="mt-1 text-xs leading-relaxed text-emerald-800 dark:text-emerald-300">
+          Thank you for helping keep the community safe. Our moderation team
+          will investigate this report and take appropriate action.
         </p>
       </div>
     </div>
@@ -57,7 +58,10 @@ export function ReportForm({ soundId = "" }: { soundId?: string }) {
       className="space-y-5 rounded-2xl border border-border/80 bg-card p-6 shadow-xs sm:p-8"
     >
       <div className="space-y-1.5">
-        <label htmlFor="report-sound-id" className="text-xs font-semibold text-foreground">
+        <label
+          htmlFor="report-sound-id"
+          className="text-xs font-semibold text-foreground"
+        >
           Sound ID
         </label>
         <input
@@ -67,12 +71,15 @@ export function ReportForm({ soundId = "" }: { soundId?: string }) {
           defaultValue={soundId}
           pattern="[a-fA-F0-9]{24}"
           placeholder="24-character hexadecimal Sound ID"
-          className="h-10 w-full rounded-xl border border-input bg-card px-3.5 text-sm font-mono text-foreground transition-all placeholder:text-muted-foreground/60 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 focus:outline-none"
+          className="h-10 w-full rounded-xl border border-input bg-card px-3.5 font-mono text-sm text-foreground transition-all placeholder:text-muted-foreground/60 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 focus:outline-none"
         />
       </div>
 
       <div className="space-y-1.5">
-        <label htmlFor="report-type" className="text-xs font-semibold text-foreground">
+        <label
+          htmlFor="report-type"
+          className="text-xs font-semibold text-foreground"
+        >
           Report Category
         </label>
         <select
@@ -81,13 +88,18 @@ export function ReportForm({ soundId = "" }: { soundId?: string }) {
           className="h-10 w-full rounded-xl border border-input bg-card px-3 text-sm text-foreground transition-all outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20"
         >
           <option value="copyright">Copyright or Intellectual Property</option>
-          <option value="inappropriate">Inappropriate or Harmful Content</option>
+          <option value="inappropriate">
+            Inappropriate or Harmful Content
+          </option>
           <option value="other">Other Concern</option>
         </select>
       </div>
 
       <div className="space-y-1.5">
-        <label htmlFor="report-details" className="text-xs font-semibold text-foreground">
+        <label
+          htmlFor="report-details"
+          className="text-xs font-semibold text-foreground"
+        >
           Report Details
         </label>
         <textarea
@@ -103,7 +115,10 @@ export function ReportForm({ soundId = "" }: { soundId?: string }) {
       </div>
 
       <div className="space-y-1.5">
-        <label htmlFor="report-email" className="text-xs font-semibold text-foreground">
+        <label
+          htmlFor="report-email"
+          className="text-xs font-semibold text-foreground"
+        >
           Email for Follow-up{" "}
           <span className="font-normal text-muted-foreground">(optional)</span>
         </label>
@@ -126,7 +141,12 @@ export function ReportForm({ soundId = "" }: { soundId?: string }) {
         </div>
       )}
 
-      <Button type="submit" variant="destructive" size="md" className="w-full sm:w-auto">
+      <Button
+        type="submit"
+        variant="destructive"
+        size="md"
+        className="w-full sm:w-auto"
+      >
         Submit Report
       </Button>
     </form>

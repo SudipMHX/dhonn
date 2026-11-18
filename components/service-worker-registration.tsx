@@ -26,11 +26,11 @@ export function ServiceWorkerRegistration() {
       navigator.serviceWorker.addEventListener(
         "controllerchange",
         handleControllerChange,
-        { once: true },
+        { once: true }
       )
       reloadTimer = window.setTimeout(
         () => window.sessionStorage.removeItem(reloadKey),
-        10000,
+        10000
       )
     }
 
@@ -43,7 +43,7 @@ export function ServiceWorkerRegistration() {
 
     const pageCacheTimer = window.setTimeout(() => {
       const urls = Array.from(
-        document.querySelectorAll<HTMLAnchorElement>("a[href]"),
+        document.querySelectorAll<HTMLAnchorElement>("a[href]")
       )
         .map((link) => link.href)
         .filter((url) => new URL(url).pathname !== pathname)
@@ -58,7 +58,7 @@ export function ServiceWorkerRegistration() {
       if (handleControllerChange) {
         navigator.serviceWorker.removeEventListener(
           "controllerchange",
-          handleControllerChange,
+          handleControllerChange
         )
       }
       if (reloadTimer !== undefined) window.clearTimeout(reloadTimer)

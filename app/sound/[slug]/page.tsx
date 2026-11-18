@@ -153,7 +153,7 @@ export default async function SoundDetailPage({ params }: PageProps) {
                   <ArrowUpRight className="size-3.5 shrink-0 text-white/60" />
                 </Link>
 
-                <span className="inline-flex items-center gap-1.5 rounded-full border border-white/10 bg-white/[0.08] px-3 py-1.5 text-xs font-mono font-medium text-white/80 tabular-nums backdrop-blur-md">
+                <span className="inline-flex items-center gap-1.5 rounded-full border border-white/10 bg-white/[0.08] px-3 py-1.5 font-mono text-xs font-medium text-white/80 tabular-nums backdrop-blur-md">
                   <Clock3 className="size-3.5" />
                   {formatDuration(sound.audio.durationSeconds)}
                 </span>
@@ -214,7 +214,7 @@ export default async function SoundDetailPage({ params }: PageProps) {
                 </span>
               </div>
 
-              <h1 className="text-2xl leading-tight font-bold tracking-tight text-foreground break-words sm:text-3xl lg:text-4xl">
+              <h1 className="text-2xl leading-tight font-bold tracking-tight break-words text-foreground sm:text-3xl lg:text-4xl">
                 {sound.title}
               </h1>
 
@@ -289,14 +289,14 @@ export default async function SoundDetailPage({ params }: PageProps) {
               <dl className="mt-5 divide-y divide-border/60 text-xs">
                 <div className="flex items-start justify-between gap-3 py-3 first:pt-0">
                   <dt className="text-muted-foreground">Creator</dt>
-                  <dd className="max-w-[60%] text-right font-medium text-foreground break-words">
+                  <dd className="max-w-[60%] text-right font-medium break-words text-foreground">
                     {sound.owner?.name ?? "dhonn creator"}
                   </dd>
                 </div>
 
                 <div className="flex items-start justify-between gap-3 py-3">
                   <dt className="text-muted-foreground">Category</dt>
-                  <dd className="max-w-[60%] text-right font-medium text-foreground break-words">
+                  <dd className="max-w-[60%] text-right font-medium break-words text-foreground">
                     {sound.categoryName}
                   </dd>
                 </div>

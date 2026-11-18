@@ -5,6 +5,7 @@ import Link from "next/link"
 import { Disc3, Search } from "lucide-react"
 
 import { PublicSoundResults } from "@/components/public-sound-results"
+import type { SoundCardData } from "@/components/sound-tile"
 import { usePublicSounds } from "@/hooks/use-public-sounds"
 
 type Sort = "trending" | "popular" | "newest" | "favorites"
@@ -13,14 +14,24 @@ export function CategoryPageClient({
   categoryId,
   name,
   description,
+  initialSounds,
+  initialHasMore,
 }: {
   categoryId: string
   name: string
   description: string
+  initialSounds?: SoundCardData[]
+  initialHasMore?: boolean
 }) {
   const [query, setQuery] = useState("")
   const [sort, setSort] = useState<Sort>("trending")
-  const results = usePublicSounds({ query, category: categoryId, sort })
+  const results = usePublicSounds({
+    query,
+    category: categoryId,
+    sort,
+    initialSounds,
+    initialHasMore,
+  })
 
   return (
     <main className="mx-auto min-h-[75vh] max-w-7xl px-4 py-8 sm:px-6 sm:py-10 lg:px-8">
@@ -33,7 +44,10 @@ export function CategoryPageClient({
           Home
         </Link>
         <span className="text-border">/</span>
-        <Link href="/category" className="transition-colors hover:text-foreground">
+        <Link
+          href="/category"
+          className="transition-colors hover:text-foreground"
+        >
           Categories
         </Link>
         <span className="text-border">/</span>
@@ -58,7 +72,7 @@ export function CategoryPageClient({
       <section aria-label={`${name} sound library`}>
         <div className="mb-8 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <div className="relative w-full sm:max-w-md">
-            <Search className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 size-4 text-muted-foreground" />
+            <Search className="pointer-events-none absolute top-1/2 left-3.5 size-4 -translate-y-1/2 text-muted-foreground" />
             <input
               type="search"
               maxLength={100}
@@ -80,7 +94,7 @@ export function CategoryPageClient({
                 results.reset()
                 setSort(event.target.value as Sort)
               }}
-              className="h-9 rounded-lg border border-border/80 bg-card px-3 text-xs font-medium text-foreground outline-none transition-colors hover:bg-secondary focus:border-indigo-500"
+              className="h-9 rounded-lg border border-border/80 bg-card px-3 text-xs font-medium text-foreground transition-colors outline-none hover:bg-secondary focus:border-indigo-500"
             >
               <option value="trending">Trending</option>
               <option value="popular">Most played</option>

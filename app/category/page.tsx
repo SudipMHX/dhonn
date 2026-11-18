@@ -62,10 +62,12 @@ export default async function CategoriesPage() {
         </ul>
       ) : (
         <div className="flex flex-col items-center justify-center rounded-2xl border border-dashed border-border/80 bg-card/40 p-12 text-center">
-          <div className="flex size-12 items-center justify-center rounded-2xl bg-secondary text-muted-foreground mb-3">
+          <div className="mb-3 flex size-12 items-center justify-center rounded-2xl bg-secondary text-muted-foreground">
             <Music className="size-6" />
           </div>
-          <p className="font-semibold text-foreground">No categories available yet</p>
+          <p className="font-semibold text-foreground">
+            No categories available yet
+          </p>
           <p className="mt-1 text-xs text-muted-foreground">
             Categories will appear once created by an administrator.
           </p>

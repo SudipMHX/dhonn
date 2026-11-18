@@ -1,20 +1,29 @@
 "use client"
 
 import Link from "next/link"
-import { useEffect, useState } from "react"
-import { ArrowRight, AudioLines, Flame, Music2, Search, Sparkles, Upload } from "lucide-react"
+import { useEffect, useRef, useState } from "react"
+import {
+  ArrowRight,
+  AudioLines,
+  Flame,
+  Music2,
+  Search,
+  Sparkles,
+  Upload,
+} from "lucide-react"
 
 import { Button } from "@/components/ui/button"
 import { Skeleton } from "@/components/ui/skeleton"
 import { SoundCardData, SoundTile } from "@/components/sound-tile"
+import { fetchCategoriesAction, fetchSoundsAction } from "@/lib/actions/sounds"
+import type { HomeInitialData } from "@/lib/services/sounds"
 
 type Category = { _id: string; name: string; slug: string }
-type SoundResponse = { sounds: SoundCardData[]; hasMore: boolean }
 type Sort = "trending" | "popular" | "newest" | "favorites"
 
 function SoundTileSkeleton() {
   return (
-    <div className="flex flex-col justify-between rounded-xl border border-border/60 bg-card p-3 space-y-3">
+    <div className="flex flex-col justify-between space-y-3 rounded-xl border border-border/60 bg-card p-3">
       <div className="flex items-center justify-between">
         <Skeleton className="h-3.5 w-14 rounded-md" />
         <Skeleton className="h-3 w-7 rounded-md" />
@@ -23,7 +32,7 @@ function SoundTileSkeleton() {
         <Skeleton className="size-12 rounded-xl" />
       </div>
       <div className="flex h-8 items-center justify-center">
-        <Skeleton className="h-3.5 w-4/5 mx-auto rounded-md" />
+        <Skeleton className="mx-auto h-3.5 w-4/5 rounded-md" />
       </div>
       <div className="flex items-center justify-between border-t border-border/40 pt-2">
         <Skeleton className="h-3 w-8 rounded-md" />
@@ -39,7 +48,10 @@ function SoundTileSkeleton() {
 
 function SoundTileSkeletonGrid({ count }: { count: number }) {
   return (
-    <div aria-busy="true" className="grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6">
+    <div
+      aria-busy="true"
+      className="grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6"
+    >
       {Array.from({ length: count }, (_, index) => (
         <SoundTileSkeleton key={index} />
       ))}
@@ -52,104 +64,122 @@ export function HomeSoundboardClient({
   initialCategory = "",
   pageTitle,
   pageDescription,
+  initialData,
 }: {
   initialQuery?: string
   initialCategory?: string
   pageTitle?: string
   pageDescription?: string
+  initialData?: HomeInitialData
 }) {
   const [query, setQuery] = useState(initialQuery)
   const [category, setCategory] = useState(initialCategory)
   const [sort, setSort] = useState<Sort>("trending")
   const [page, setPage] = useState(1)
-  const [sounds, setSounds] = useState<SoundCardData[]>([])
-  const [featured, setFeatured] = useState<SoundCardData[]>([])
-  const [recent, setRecent] = useState<SoundCardData[]>([])
-  const [hasMore, setHasMore] = useState(false)
-  const [categories, setCategories] = useState<Category[]>([])
-  const [loading, setLoading] = useState(true)
+  const [sounds, setSounds] = useState<SoundCardData[]>(
+    initialData?.sounds ?? []
+  )
+  const [featured, setFeatured] = useState<SoundCardData[]>(
+    initialData?.featured ?? []
+  )
+  const [recent, setRecent] = useState<SoundCardData[]>(
+    initialData?.recent ?? []
+  )
+  const [hasMore, setHasMore] = useState(initialData?.hasMore ?? false)
+  const [categories, setCategories] = useState<Category[]>(
+    initialData?.categories ?? []
+  )
+  const [loading, setLoading] = useState(initialData ? false : true)
   const [error, setError] = useState("")
   const [retry, setRetry] = useState(0)
 
-  useEffect(() => {
-    const controller = new AbortController()
-    fetch("/api/categories", { signal: controller.signal })
-      .then((response) => {
-        if (!response.ok) throw new Error("Categories are unavailable.")
-        return response.json() as Promise<Category[]>
-      })
-      .then(setCategories)
-      .catch((cause: unknown) => {
-        if (cause instanceof DOMException && cause.name === "AbortError") return
-        setError("Categories are temporarily unavailable.")
-      })
-    return () => controller.abort()
-  }, [])
+  const isInitialMount = useRef(Boolean(initialData))
 
   useEffect(() => {
-    const controller = new AbortController()
+    if (initialData?.categories && initialData.categories.length > 0) return
+    let active = true
+    fetchCategoriesAction()
+      .then((data) => {
+        if (active) setCategories(data)
+      })
+      .catch(() => {
+        if (active) setError("Categories are temporarily unavailable.")
+      })
+    return () => {
+      active = false
+    }
+  }, [initialData])
+
+  useEffect(() => {
+    if (isInitialMount.current) {
+      isInitialMount.current = false
+      return
+    }
+
+    let active = true
     const timer = window.setTimeout(
       async () => {
         setLoading(true)
         setError("")
-        const params = new URLSearchParams({
-          q: query,
-          sort,
-          page: String(page),
-          limit: "18",
-        })
-        if (category) params.set("category", category)
+
         try {
-          const discovery = page === 1 && !query && !category
-          const [response, featuredResponse, recentResponse] =
-            await Promise.all([
-              fetch(`/api/sounds?${params.toString()}`, {
-                signal: controller.signal,
-              }),
-              discovery
-                ? fetch("/api/sounds?featured=true&sort=popular&limit=6", {
-                    signal: controller.signal,
-                  })
-                : Promise.resolve(null),
-              discovery
-                ? fetch("/api/sounds?sort=newest&limit=6", {
-                    signal: controller.signal,
-                  })
-                : Promise.resolve(null),
-            ])
-          if (!response.ok)
-            throw new Error("The sound library is temporarily unavailable.")
-          const data = (await response.json()) as SoundResponse
+          const trimmed = query.trim()
+          const discovery = page === 1 && !trimmed && !category
+          const [soundsRes, featuredRes, recentRes] = await Promise.all([
+            fetchSoundsAction({
+              q: trimmed || undefined,
+              category: category || undefined,
+              sort,
+              page,
+              limit: 18,
+            }),
+            discovery
+              ? fetchSoundsAction({
+                  featured: true,
+                  sort: "popular",
+                  limit: 6,
+                  page: 1,
+                })
+              : Promise.resolve(null),
+            discovery
+              ? fetchSoundsAction({
+                  sort: "newest",
+                  limit: 6,
+                  page: 1,
+                })
+              : Promise.resolve(null),
+          ])
+
+          if (!active) return
+
           setSounds((current) =>
-            page === 1 ? data.sounds : [...current, ...data.sounds]
+            page === 1 ? soundsRes.sounds : [...current, ...soundsRes.sounds]
           )
-          setHasMore(data.hasMore)
-          if (featuredResponse?.ok) {
-            const featuredData =
-              (await featuredResponse.json()) as SoundResponse
-            setFeatured(featuredData.sounds)
+          setHasMore(soundsRes.hasMore)
+
+          if (featuredRes) {
+            setFeatured(featuredRes.sounds)
           }
-          if (recentResponse?.ok) {
-            const recentData = (await recentResponse.json()) as SoundResponse
-            setRecent(recentData.sounds)
+          if (recentRes) {
+            setRecent(recentRes.sounds)
           }
         } catch (cause) {
-          if (cause instanceof DOMException && cause.name === "AbortError")
-            return
+          if (!active) return
           setError(
             cause instanceof Error
               ? cause.message
               : "The sound library is temporarily unavailable."
           )
         } finally {
-          if (!controller.signal.aborted) setLoading(false)
+          if (active) setLoading(false)
         }
       },
-      query ? 300 : 0
+      query.trim() ? 300 : 0
     )
+
     return () => {
+      active = false
       window.clearTimeout(timer)
-      controller.abort()
     }
   }, [query, category, sort, page, retry])
 
@@ -169,7 +199,7 @@ export function HomeSoundboardClient({
     <div className="min-h-screen bg-background text-foreground">
       <main className="mx-auto max-w-7xl px-4 py-6 sm:px-6 sm:py-8 lg:px-8">
         {/* Hero Section */}
-        <section className="hidden lg:block relative overflow-hidden rounded-3xl border border-border/80 bg-card p-6 shadow-xs sm:p-10 lg:p-12">
+        <section className="relative hidden overflow-hidden rounded-3xl border border-border/80 bg-card p-6 shadow-xs sm:p-10 lg:block lg:p-12">
           {/* Subtle Ambient Light Gradients */}
           <div
             aria-hidden="true"
@@ -182,12 +212,12 @@ export function HomeSoundboardClient({
 
           <div className="grid gap-8 lg:grid-cols-[1.3fr_0.9fr] lg:items-center">
             <div className="flex flex-col justify-center">
-              <div className="inline-flex items-center gap-2 rounded-full border border-indigo-200/60 bg-indigo-50/80 px-3 py-1 text-xs font-semibold text-indigo-700 dark:border-indigo-900/60 dark:bg-indigo-950/40 dark:text-indigo-300 w-fit">
+              <div className="inline-flex w-fit items-center gap-2 rounded-full border border-indigo-200/60 bg-indigo-50/80 px-3 py-1 text-xs font-semibold text-indigo-700 dark:border-indigo-900/60 dark:bg-indigo-950/40 dark:text-indigo-300">
                 <Sparkles className="size-3.5" />
                 <span>The Premier Creator Soundboard</span>
               </div>
 
-              <h1 className="mt-5 text-3xl font-extrabold tracking-tight sm:text-5xl lg:text-6xl text-foreground leading-[1.1]">
+              <h1 className="mt-5 text-3xl leading-[1.1] font-extrabold tracking-tight text-foreground sm:text-5xl lg:text-6xl">
                 {pageTitle ?? (
                   <>
                     Little sounds.
@@ -224,8 +254,8 @@ export function HomeSoundboardClient({
 
             {/* Ambient Soundboard Showcase Card */}
             <div className="relative overflow-hidden rounded-2xl border border-border/80 bg-zinc-950 p-6 text-white shadow-xl dark:border-border/60">
-              <div className="flex items-center justify-between text-xs font-mono text-zinc-400">
-                <span className="flex items-center gap-1.5 text-indigo-400 font-semibold tracking-wider uppercase">
+              <div className="flex items-center justify-between font-mono text-xs text-zinc-400">
+                <span className="flex items-center gap-1.5 font-semibold tracking-wider text-indigo-400 uppercase">
                   <Flame className="size-3.5" />
                   <span>Trending Shelf</span>
                 </span>
@@ -251,12 +281,16 @@ export function HomeSoundboardClient({
                 ))}
               </div>
 
-              <div className="flex items-center justify-between pt-2 border-t border-white/10 text-xs">
+              <div className="flex items-center justify-between border-t border-white/10 pt-2 text-xs">
                 <div>
-                  <p className="font-semibold text-white">Tap any tile to trigger</p>
-                  <p className="text-zinc-400 text-[11px]">Lossless playback &amp; instant link copying</p>
+                  <p className="font-semibold text-white">
+                    Tap any tile to trigger
+                  </p>
+                  <p className="text-[11px] text-zinc-400">
+                    Lossless playback &amp; instant link copying
+                  </p>
                 </div>
-                <div className="flex items-center gap-1 text-indigo-400 font-mono">
+                <div className="flex items-center gap-1 font-mono text-indigo-400">
                   <AudioLines className="size-4" />
                 </div>
               </div>
@@ -364,7 +398,7 @@ export function HomeSoundboardClient({
 
             {/* Instant Filter Search Bar */}
             <div className="relative w-full md:max-w-xs">
-              <Search className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 size-4 text-muted-foreground" />
+              <Search className="pointer-events-none absolute top-1/2 left-3.5 size-4 -translate-y-1/2 text-muted-foreground" />
               <input
                 value={query}
                 onChange={(event) =>
@@ -438,7 +472,7 @@ export function HomeSoundboardClient({
                 onChange={(event) =>
                   changeFilter(() => setSort(event.target.value as Sort))
                 }
-                className="h-8 rounded-lg border border-border/80 bg-card px-2.5 text-xs font-medium text-foreground outline-none transition-colors hover:bg-secondary focus:border-indigo-500"
+                className="h-8 rounded-lg border border-border/80 bg-card px-2.5 text-xs font-medium text-foreground transition-colors outline-none hover:bg-secondary focus:border-indigo-500"
               >
                 <option value="trending">Trending</option>
                 <option value="popular">Most played</option>
@@ -498,12 +532,15 @@ export function HomeSoundboardClient({
             <SoundTileSkeletonGrid count={12} />
           ) : (
             <div className="flex flex-col items-center justify-center rounded-2xl border border-dashed border-border/80 bg-card/40 p-12 text-center">
-              <div className="flex size-12 items-center justify-center rounded-2xl bg-secondary text-muted-foreground mb-3">
+              <div className="mb-3 flex size-12 items-center justify-center rounded-2xl bg-secondary text-muted-foreground">
                 <Music2 className="size-6" />
               </div>
-              <p className="font-semibold text-foreground">No sounds here yet</p>
-              <p className="mt-1 max-w-sm text-xs text-muted-foreground leading-relaxed">
-                Try searching for something else or explore different categories.
+              <p className="font-semibold text-foreground">
+                No sounds here yet
+              </p>
+              <p className="mt-1 max-w-sm text-xs leading-relaxed text-muted-foreground">
+                Try searching for something else or explore different
+                categories.
               </p>
             </div>
           )}

@@ -19,7 +19,7 @@ export default async function RegisterPage() {
       {/* Ambient background glow */}
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute top-1/2 left-1/2 -z-10 -translate-x-1/2 -translate-y-1/2 size-96 rounded-full bg-indigo-500/10 blur-[120px]"
+        className="pointer-events-none absolute top-1/2 left-1/2 -z-10 size-96 -translate-x-1/2 -translate-y-1/2 rounded-full bg-indigo-500/10 blur-[120px]"
       />
 
       <div className="w-full max-w-md rounded-2xl border border-border/80 bg-card p-7 shadow-xl shadow-black/[0.03] sm:p-9 dark:shadow-black/25">
@@ -34,8 +34,9 @@ export default async function RegisterPage() {
           <h1 className="text-2xl font-bold tracking-tight text-foreground sm:text-3xl">
             Create an account
           </h1>
-          <p className="mt-2 text-xs text-muted-foreground leading-relaxed">
-            Join dhonn to publish sounds, curate favorites across devices, and share audio.
+          <p className="mt-2 text-xs leading-relaxed text-muted-foreground">
+            Join dhonn to publish sounds, curate favorites across devices, and
+            share audio.
           </p>
         </div>
 

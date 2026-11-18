@@ -145,7 +145,9 @@ export function CreatorUploadRow({
                 {upload.title}
               </Link>
             ) : (
-              <p className="line-clamp-1 font-semibold text-foreground">{upload.title}</p>
+              <p className="line-clamp-1 font-semibold text-foreground">
+                {upload.title}
+              </p>
             )}
           </div>
         </div>
@@ -160,7 +162,10 @@ export function CreatorUploadRow({
 
       {/* Status */}
       <TableCell>
-        <Badge variant={statusVariant} className="gap-1.5 text-[11px] capitalize">
+        <Badge
+          variant={statusVariant}
+          className="gap-1.5 text-[11px] capitalize"
+        >
           <span
             className={`size-1.5 rounded-full ${
               upload.status === "published"
@@ -181,9 +186,11 @@ export function CreatorUploadRow({
       </TableCell>
 
       {/* Moderation Note */}
-      <TableCell className="max-w-xs whitespace-normal text-xs text-muted-foreground">
+      <TableCell className="max-w-xs text-xs whitespace-normal text-muted-foreground">
         {upload.moderationNote ? (
-          <p className="line-clamp-2 leading-relaxed">{upload.moderationNote}</p>
+          <p className="line-clamp-2 leading-relaxed">
+            {upload.moderationNote}
+          </p>
         ) : (
           "—"
         )}
@@ -191,7 +198,7 @@ export function CreatorUploadRow({
 
       {/* Actions */}
       <TableCell className="min-w-36 text-right">
-        <div className="flex justify-end items-center gap-1.5">
+        <div className="flex items-center justify-end gap-1.5">
           {canEdit && (
             <Dialog
               open={editOpen}
@@ -211,7 +218,12 @@ export function CreatorUploadRow({
             >
               <DialogTrigger
                 render={
-                  <Button type="button" variant="outline" size="xs" className="rounded-lg gap-1">
+                  <Button
+                    type="button"
+                    variant="outline"
+                    size="xs"
+                    className="gap-1 rounded-lg"
+                  >
                     <Edit3 className="size-3" />
                     <span>Edit</span>
                   </Button>

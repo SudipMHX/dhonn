@@ -48,13 +48,14 @@ export function AdminMenu() {
             className="fixed inset-0 z-40 cursor-default bg-black/30 backdrop-blur-xs"
           />
 
-          <nav className="absolute top-full right-0 z-50 mt-2 w-56 rounded-2xl border border-border/80 bg-card p-1.5 shadow-xl shadow-black/15 backdrop-blur-xl animate-in fade-in-0 zoom-in-95 duration-150">
+          <nav className="absolute top-full right-0 z-50 mt-2 w-56 animate-in rounded-2xl border border-border/80 bg-card p-1.5 shadow-xl shadow-black/15 backdrop-blur-xl duration-150 fade-in-0 zoom-in-95">
             {links.map((link) => {
               const Icon = link.icon
               const active =
                 link.href === "/admin"
                   ? pathname === "/admin"
-                  : pathname === link.href || pathname?.startsWith(`${link.href}/`)
+                  : pathname === link.href ||
+                    pathname?.startsWith(`${link.href}/`)
 
               return (
                 <Link

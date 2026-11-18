@@ -50,7 +50,10 @@ export function FavoriteProvider({ children }: { children: React.ReactNode }) {
       .catch((cause: unknown) => {
         setFavorites(readLocalFavorites())
         if (cause instanceof TypeError) {
-          console.warn("Favorite sync is unavailable; using local favorites.", cause)
+          console.warn(
+            "Favorite sync is unavailable; using local favorites.",
+            cause
+          )
           return
         }
         if (navigator.onLine) {

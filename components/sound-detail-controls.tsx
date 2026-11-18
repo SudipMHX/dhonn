@@ -160,7 +160,7 @@ export function SoundDetailControls({
   return (
     <section
       aria-label="Sound playback controls"
-      className="mt-6 overflow-hidden rounded-2xl border border-border/80 bg-card p-5 sm:p-7 shadow-xs"
+      className="mt-6 overflow-hidden rounded-2xl border border-border/80 bg-card p-5 shadow-xs sm:p-7"
     >
       {/* Visual Scrubber Timeline */}
       <div className="space-y-2.5">
@@ -180,7 +180,7 @@ export function SoundDetailControls({
           />
         </div>
 
-        <div className="flex justify-between text-xs font-mono font-medium text-muted-foreground">
+        <div className="flex justify-between font-mono text-xs font-medium text-muted-foreground">
           <span>{formatTime(currentTime)}</span>
           <span>{formatTime(duration)}</span>
         </div>
@@ -206,17 +206,17 @@ export function SoundDetailControls({
           aria-pressed={playing}
           className={`relative flex size-20 items-center justify-center rounded-2xl transition-all duration-300 active:scale-95 ${
             playing
-              ? "bg-indigo-600 text-white shadow-lg shadow-indigo-600/30 ring-4 ring-indigo-500/20"
-              : "border border-border/80 bg-foreground text-background shadow-md hover:bg-foreground/90 hover:scale-105"
+              ? "bg-indigo-600 text-white shadow-lg ring-4 shadow-indigo-600/30 ring-indigo-500/20"
+              : "border border-border/80 bg-foreground text-background shadow-md hover:scale-105 hover:bg-foreground/90"
           }`}
         >
           {playing ? (
-            <div className="flex items-end gap-1.5 h-6" aria-hidden="true">
-              <span className="w-1.5 rounded-full bg-white animate-soundwave-1" />
-              <span className="w-1.5 rounded-full bg-white animate-soundwave-2" />
-              <span className="w-1.5 rounded-full bg-white animate-soundwave-3" />
-              <span className="w-1.5 rounded-full bg-white animate-soundwave-4" />
-              <span className="w-1.5 rounded-full bg-white animate-soundwave-5" />
+            <div className="flex h-6 items-end gap-1.5" aria-hidden="true">
+              <span className="animate-soundwave-1 w-1.5 rounded-full bg-white" />
+              <span className="animate-soundwave-2 w-1.5 rounded-full bg-white" />
+              <span className="animate-soundwave-3 w-1.5 rounded-full bg-white" />
+              <span className="animate-soundwave-4 w-1.5 rounded-full bg-white" />
+              <span className="animate-soundwave-5 w-1.5 rounded-full bg-white" />
             </div>
           ) : (
             <Play className="ml-1 size-8 fill-current" />
@@ -301,7 +301,7 @@ export function SoundDetailControls({
           variant="outline"
           size="md"
           onClick={() => void copyEmbed()}
-          className="rounded-xl border border-border/80 bg-secondary/40 text-foreground col-span-2 sm:col-span-1"
+          className="col-span-2 rounded-xl border border-border/80 bg-secondary/40 text-foreground sm:col-span-1"
         >
           {copiedEmbed ? (
             <Check className="size-4 text-emerald-500" />

@@ -45,7 +45,7 @@ export function CreatorUploads() {
       <div className="flex flex-col gap-2.5 sm:flex-row sm:items-center">
         {/* Search input with clear button */}
         <div className="relative w-full sm:max-w-sm">
-          <Search className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 size-4 text-muted-foreground" />
+          <Search className="pointer-events-none absolute top-1/2 left-3.5 size-4 -translate-y-1/2 text-muted-foreground" />
           <Input
             type="search"
             value={uploads.search}
@@ -53,14 +53,14 @@ export function CreatorUploads() {
             placeholder="Search your uploads by title..."
             aria-label="Search your uploads"
             maxLength={100}
-            className="pl-9 pr-8 h-9 text-xs"
+            className="h-9 pr-8 pl-9 text-xs"
           />
           {uploads.search && (
             <button
               type="button"
               onClick={() => uploads.setSearch("")}
               aria-label="Clear search"
-              className="absolute right-2.5 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
+              className="absolute top-1/2 right-2.5 -translate-y-1/2 text-muted-foreground hover:text-foreground"
             >
               <X className="size-3.5" />
             </button>
@@ -72,11 +72,13 @@ export function CreatorUploads() {
           value={uploads.status}
           onChange={(event) => uploads.setStatus(event.target.value)}
           aria-label="Filter uploads by status"
-          className="w-full sm:w-44 h-9 text-xs"
+          className="h-9 w-full text-xs sm:w-44"
         >
           <NativeSelectOption value="all">All statuses</NativeSelectOption>
           <NativeSelectOption value="uploading">Uploading</NativeSelectOption>
-          <NativeSelectOption value="pending">Pending review</NativeSelectOption>
+          <NativeSelectOption value="pending">
+            Pending review
+          </NativeSelectOption>
           <NativeSelectOption value="published">Published</NativeSelectOption>
           <NativeSelectOption value="rejected">Rejected</NativeSelectOption>
           <NativeSelectOption value="removed">Removed</NativeSelectOption>
@@ -87,7 +89,7 @@ export function CreatorUploads() {
           value={String(uploads.limit)}
           onChange={(event) => uploads.setLimit(Number(event.target.value))}
           aria-label="Uploads per page"
-          className="w-full sm:ml-auto sm:w-36 h-9 text-xs"
+          className="h-9 w-full text-xs sm:ml-auto sm:w-36"
         >
           {[10, 25, 50].map((value) => (
             <NativeSelectOption key={value} value={value}>
@@ -100,8 +102,9 @@ export function CreatorUploads() {
       {/* Pagination Bar */}
       <div className="flex items-center justify-between gap-3 border-t border-border/60 pt-3">
         <p className="text-xs text-muted-foreground" aria-live="polite">
-          Page <span className="font-semibold text-foreground">{uploads.page}</span> ·{" "}
-          <span className="font-mono">{uploads.limit}</span> records per page
+          Page{" "}
+          <span className="font-semibold text-foreground">{uploads.page}</span>{" "}
+          · <span className="font-mono">{uploads.limit}</span> records per page
         </p>
 
         <div className="flex items-center gap-1.5">
@@ -111,7 +114,7 @@ export function CreatorUploads() {
             size="xs"
             disabled={uploads.loading || uploads.page === 1}
             onClick={uploads.goToPreviousPage}
-            className="rounded-lg h-7 px-2.5 text-xs"
+            className="h-7 rounded-lg px-2.5 text-xs"
           >
             <ChevronLeft className="size-3.5" />
             <span>Previous</span>
@@ -123,7 +126,7 @@ export function CreatorUploads() {
             size="xs"
             disabled={uploads.loading || !uploads.hasMore}
             onClick={uploads.goToNextPage}
-            className="rounded-lg h-7 px-2.5 text-xs"
+            className="h-7 rounded-lg px-2.5 text-xs"
           >
             <span>Next</span>
             <ChevronRight className="size-3.5" />
@@ -161,11 +164,13 @@ export function CreatorUploads() {
         </div>
       ) : uploads.error ? null : !uploads.items.length ? (
         <div className="flex flex-col items-center justify-center rounded-2xl border border-dashed border-border/80 bg-card/40 p-12 text-center">
-          <div className="flex size-11 items-center justify-center rounded-xl bg-secondary text-muted-foreground mb-3">
+          <div className="mb-3 flex size-11 items-center justify-center rounded-xl bg-secondary text-muted-foreground">
             <Inbox className="size-5" />
           </div>
-          <p className="font-semibold text-foreground text-sm">No uploads found</p>
-          <p className="mt-1 max-w-sm text-xs text-muted-foreground leading-relaxed">
+          <p className="text-sm font-semibold text-foreground">
+            No uploads found
+          </p>
+          <p className="mt-1 max-w-sm text-xs leading-relaxed text-muted-foreground">
             {uploads.search || uploads.status !== "all"
               ? "No uploads match the current search or status filter."
               : "You haven’t uploaded any sounds yet. Click upload to get started."}

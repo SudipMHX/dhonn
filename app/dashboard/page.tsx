@@ -92,7 +92,8 @@ export default async function DashboardPage() {
             Welcome back, {user.name.split(" ")[0]}.
           </h1>
           <p className="mt-1 text-xs text-muted-foreground">
-            Audience listening telemetry, catalog management, and your personalized soundboard.
+            Audience listening telemetry, catalog management, and your
+            personalized soundboard.
           </p>
         </div>
 
@@ -182,7 +183,7 @@ export default async function DashboardPage() {
                   <ArrowRight className="size-4 text-muted-foreground opacity-0 transition-opacity group-hover:opacity-100" />
                 </div>
 
-                <p className="mt-2 text-[11px] text-muted-foreground truncate">
+                <p className="mt-2 truncate text-[11px] text-muted-foreground">
                   {description}
                 </p>
               </CardContent>
@@ -201,7 +202,8 @@ export default async function DashboardPage() {
                 Latest Audio Submissions
               </h2>
               <p className="text-[11px] text-muted-foreground">
-                Review moderation states and audition your audio clips in real-time
+                Review moderation states and audition your audio clips in
+                real-time
               </p>
             </div>
             <Button
@@ -243,9 +245,12 @@ export default async function DashboardPage() {
                       <div className="flex size-10 items-center justify-center rounded-xl bg-secondary text-muted-foreground">
                         <Music2 className="size-5" />
                       </div>
-                      <p className="font-semibold text-foreground">No uploads yet</p>
+                      <p className="font-semibold text-foreground">
+                        No uploads yet
+                      </p>
                       <p className="text-xs text-muted-foreground">
-                        Share your first soundboard reaction with the creator community.
+                        Share your first soundboard reaction with the creator
+                        community.
                       </p>
                       <Button
                         nativeButton={false}
@@ -273,7 +278,9 @@ export default async function DashboardPage() {
               <div className="flex size-7 items-center justify-center rounded-lg bg-indigo-50 text-indigo-700 dark:bg-indigo-950/60 dark:text-indigo-300">
                 <ShieldCheck className="size-4" />
               </div>
-              <h3 className="text-sm font-bold text-foreground">Studio Engine</h3>
+              <h3 className="text-sm font-bold text-foreground">
+                Studio Engine
+              </h3>
             </div>
 
             <div className="mt-3 space-y-2.5 text-xs">
@@ -327,7 +334,7 @@ export default async function DashboardPage() {
       <section id="favorites" className="scroll-mt-24 space-y-3">
         <div className="flex items-center justify-between">
           <div>
-            <div className="flex items-center gap-1.5 text-xs font-semibold tracking-wider text-rose-600 dark:text-rose-400 uppercase">
+            <div className="flex items-center gap-1.5 text-xs font-semibold tracking-wider text-rose-600 uppercase dark:text-rose-400">
               <Heart className="size-3.5 fill-current" />
               <span>Saved Favorites</span>
             </div>
@@ -335,7 +342,8 @@ export default async function DashboardPage() {
               Quick Trigger Shelf
             </h2>
             <p className="text-xs text-muted-foreground">
-              Sounds you&apos;ve saved for rapid triggering during streams and group chats.
+              Sounds you&apos;ve saved for rapid triggering during streams and
+              group chats.
             </p>
           </div>
           <Link
@@ -354,9 +362,10 @@ export default async function DashboardPage() {
           </div>
         ) : (
           <div className="flex flex-col items-center justify-center rounded-2xl border border-dashed border-border/80 bg-card/40 p-10 text-center">
-            <Heart className="size-8 text-muted-foreground/40 mb-2" />
+            <Heart className="mb-2 size-8 text-muted-foreground/40" />
             <p className="text-xs font-medium text-muted-foreground">
-              Save sounds you love from the public library to see them pinned here.
+              Save sounds you love from the public library to see them pinned
+              here.
             </p>
           </div>
         )}
@@ -365,7 +374,7 @@ export default async function DashboardPage() {
       {/* Recently Played Section */}
       <section id="recent" className="scroll-mt-24 space-y-3">
         <div>
-          <div className="flex items-center gap-1.5 text-xs font-semibold tracking-wider text-indigo-600 dark:text-indigo-400 uppercase">
+          <div className="flex items-center gap-1.5 text-xs font-semibold tracking-wider text-indigo-600 uppercase dark:text-indigo-400">
             <History className="size-3.5" />
             <span>Playback History</span>
           </div>
@@ -373,7 +382,8 @@ export default async function DashboardPage() {
             Recently Played
           </h2>
           <p className="text-xs text-muted-foreground">
-            Audio triggers recorded from this account across all your active sessions.
+            Audio triggers recorded from this account across all your active
+            sessions.
           </p>
         </div>
 
@@ -389,9 +399,10 @@ export default async function DashboardPage() {
           </div>
         ) : (
           <div className="flex flex-col items-center justify-center rounded-2xl border border-dashed border-border/80 bg-card/40 p-10 text-center">
-            <History className="size-8 text-muted-foreground/40 mb-2" />
+            <History className="mb-2 size-8 text-muted-foreground/40" />
             <p className="text-xs font-medium text-muted-foreground">
-              Sounds you play while signed in will appear here for fast re-triggering.
+              Sounds you play while signed in will appear here for fast
+              re-triggering.
             </p>
           </div>
         )}

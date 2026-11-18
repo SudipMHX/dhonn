@@ -112,9 +112,11 @@ export function AdminReports() {
                 <TableRow key={id}>
                   {/* Target Sound & Report Type */}
                   <TableCell className="min-w-48 whitespace-normal">
-                    <p className="font-semibold text-foreground">{soundTitle}</p>
+                    <p className="font-semibold text-foreground">
+                      {soundTitle}
+                    </p>
                     <div className="mt-1 flex items-center gap-1.5">
-                      <span className="inline-flex items-center gap-1 rounded bg-secondary px-1.5 py-0.5 text-[10px] font-medium text-muted-foreground uppercase tracking-wider">
+                      <span className="inline-flex items-center gap-1 rounded bg-secondary px-1.5 py-0.5 text-[10px] font-medium tracking-wider text-muted-foreground uppercase">
                         <AlertTriangle className="size-2.5 text-amber-500" />
                         <span>{reportType || "Notice"}</span>
                       </span>
@@ -128,7 +130,10 @@ export function AdminReports() {
 
                   {/* Status */}
                   <TableCell>
-                    <Badge variant={statusVariant} className="gap-1.5 capitalize">
+                    <Badge
+                      variant={statusVariant}
+                      className="gap-1.5 capitalize"
+                    >
                       <span
                         className={`size-1.5 rounded-full ${
                           reportStatus === "resolved"
@@ -145,7 +150,7 @@ export function AdminReports() {
                   </TableCell>
 
                   {/* Report details */}
-                  <TableCell className="max-w-xs whitespace-normal text-xs text-muted-foreground">
+                  <TableCell className="max-w-xs text-xs whitespace-normal text-muted-foreground">
                     <p className="line-clamp-2 leading-relaxed">
                       {adminText(row.details)}
                     </p>
@@ -164,7 +169,7 @@ export function AdminReports() {
                           }
                           variant="outline"
                           size="xs"
-                          className="rounded-lg gap-1"
+                          className="gap-1 rounded-lg"
                         >
                           <Eye className="size-3" />
                           <span>Review</span>
@@ -182,7 +187,7 @@ export function AdminReports() {
                           }
                           variant="destructive"
                           size="xs"
-                          className="rounded-lg gap-1"
+                          className="gap-1 rounded-lg"
                         >
                           <Trash2 className="size-3" />
                           <span>Remove</span>
@@ -199,7 +204,7 @@ export function AdminReports() {
                           }
                           variant="primary"
                           size="xs"
-                          className="rounded-lg gap-1"
+                          className="gap-1 rounded-lg"
                         >
                           <Check className="size-3" />
                           <span>Resolve</span>
@@ -216,7 +221,7 @@ export function AdminReports() {
                           }
                           variant="outline"
                           size="xs"
-                          className="rounded-lg gap-1"
+                          className="gap-1 rounded-lg"
                         >
                           <X className="size-3" />
                           <span>Dismiss</span>

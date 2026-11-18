@@ -104,11 +104,13 @@ export function AdminList({
   if (!count) {
     return (
       <div className="mt-6 flex flex-col items-center justify-center rounded-2xl border border-dashed border-border/80 bg-card/40 p-12 text-center">
-        <div className="flex size-11 items-center justify-center rounded-xl bg-secondary text-muted-foreground mb-3">
+        <div className="mb-3 flex size-11 items-center justify-center rounded-xl bg-secondary text-muted-foreground">
           <Inbox className="size-5" />
         </div>
-        <p className="font-semibold text-foreground text-sm">No records found</p>
-        <p className="mt-1 max-w-sm text-xs text-muted-foreground leading-relaxed">
+        <p className="text-sm font-semibold text-foreground">
+          No records found
+        </p>
+        <p className="mt-1 max-w-sm text-xs leading-relaxed text-muted-foreground">
           {emptyMessage}
         </p>
       </div>
@@ -150,7 +152,7 @@ export function AdminListToolbar({
       <div className="flex flex-col gap-2.5 sm:flex-row sm:items-center">
         {/* Search input with clear button */}
         <div className="relative w-full sm:max-w-sm">
-          <Search className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 size-4 text-muted-foreground" />
+          <Search className="pointer-events-none absolute top-1/2 left-3.5 size-4 -translate-y-1/2 text-muted-foreground" />
           <Input
             type="search"
             value={search}
@@ -158,14 +160,14 @@ export function AdminListToolbar({
             placeholder="Search records by title, user, tag..."
             aria-label="Search records"
             maxLength={100}
-            className="pl-9 pr-8 h-9 text-xs"
+            className="h-9 pr-8 pl-9 text-xs"
           />
           {search && (
             <button
               type="button"
               onClick={() => onSearchChange("")}
               aria-label="Clear search"
-              className="absolute right-2.5 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
+              className="absolute top-1/2 right-2.5 -translate-y-1/2 text-muted-foreground hover:text-foreground"
             >
               <X className="size-3.5" />
             </button>
@@ -178,7 +180,7 @@ export function AdminListToolbar({
             value={status}
             onChange={(event) => onStatusChange(event.target.value)}
             aria-label="Filter by status"
-            className="w-full sm:w-40 h-9 text-xs"
+            className="h-9 w-full text-xs sm:w-40"
           >
             {statusOptions.map((option) => (
               <NativeSelectOption key={option.value} value={option.value}>
@@ -193,7 +195,7 @@ export function AdminListToolbar({
           value={String(limit)}
           onChange={(event) => onLimitChange(Number(event.target.value))}
           aria-label="Rows per page"
-          className="w-full sm:ml-auto sm:w-36 h-9 text-xs"
+          className="h-9 w-full text-xs sm:ml-auto sm:w-36"
         >
           {[10, 25, 50].map((value) => (
             <NativeSelectOption key={value} value={value}>
@@ -217,7 +219,7 @@ export function AdminListToolbar({
             size="xs"
             disabled={loading || page === 1}
             onClick={onPreviousPage}
-            className="rounded-lg h-7 px-2.5 text-xs"
+            className="h-7 rounded-lg px-2.5 text-xs"
           >
             <ChevronLeft className="size-3.5" />
             <span>Previous</span>
@@ -229,7 +231,7 @@ export function AdminListToolbar({
             size="xs"
             disabled={loading || !hasMore}
             onClick={onNextPage}
-            className="rounded-lg h-7 px-2.5 text-xs"
+            className="h-7 rounded-lg px-2.5 text-xs"
           >
             <span>Next</span>
             <ChevronRight className="size-3.5" />

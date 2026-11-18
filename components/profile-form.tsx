@@ -52,7 +52,10 @@ export function ProfileForm({ name }: { name: string }) {
         </CardHeader>
         <CardContent className="space-y-6 pt-6">
           <section aria-labelledby="profile-details-heading">
-            <h2 id="profile-details-heading" className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+            <h2
+              id="profile-details-heading"
+              className="text-xs font-semibold tracking-wider text-muted-foreground uppercase"
+            >
               Public Profile
             </h2>
             <FieldGroup className="mt-3">
@@ -69,7 +72,8 @@ export function ProfileForm({ name }: { name: string }) {
                   className="h-10"
                 />
                 <FieldDescription>
-                  This name is displayed as the creator on your published audio tiles.
+                  This name is displayed as the creator on your published audio
+                  tiles.
                 </FieldDescription>
               </Field>
             </FieldGroup>
@@ -78,7 +82,10 @@ export function ProfileForm({ name }: { name: string }) {
           <Separator className="border-border/60" />
 
           <section aria-labelledby="password-heading">
-            <h2 id="password-heading" className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+            <h2
+              id="password-heading"
+              className="text-xs font-semibold tracking-wider text-muted-foreground uppercase"
+            >
               Change Password
             </h2>
             <p className="mt-1 text-xs text-muted-foreground">

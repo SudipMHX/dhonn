@@ -24,7 +24,7 @@ export default function ErrorPage({
   return (
     <main className="grid min-h-[80vh] place-items-center px-4 py-20 text-center">
       <div className="w-full max-w-md rounded-2xl border border-border/80 bg-card p-8 shadow-xs">
-        <div className="mx-auto flex size-12 items-center justify-center rounded-2xl bg-rose-50 text-rose-600 dark:bg-rose-950/50 dark:text-rose-400 mb-4">
+        <div className="mx-auto mb-4 flex size-12 items-center justify-center rounded-2xl bg-rose-50 text-rose-600 dark:bg-rose-950/50 dark:text-rose-400">
           <AlertCircle className="size-6" />
         </div>
 
@@ -36,13 +36,17 @@ export default function ErrorPage({
           We couldn&apos;t load this page.
         </h1>
 
-        <p className="mt-2 text-xs text-muted-foreground leading-relaxed">
-          An unexpected interruption occurred. Try reloading or return to the main soundboard library.
+        <p className="mt-2 text-xs leading-relaxed text-muted-foreground">
+          An unexpected interruption occurred. Try reloading or return to the
+          main soundboard library.
         </p>
 
         {error.digest && (
           <div className="mt-4 rounded-xl border border-border/60 bg-secondary/50 p-2.5 text-xs text-muted-foreground">
-            Error ID: <code className="font-mono text-foreground font-semibold">{error.digest}</code>
+            Error ID:{" "}
+            <code className="font-mono font-semibold text-foreground">
+              {error.digest}
+            </code>
           </div>
         )}
 

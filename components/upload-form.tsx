@@ -138,7 +138,7 @@ export function UploadForm() {
                   required
                   defaultValue=""
                   disabled={!categories.length}
-                  className="w-full h-10"
+                  className="h-10 w-full"
                 >
                   <NativeSelectOption value="" disabled>
                     Select a category
@@ -177,9 +177,11 @@ export function UploadForm() {
 
             {/* Audio File Input with Styled Box */}
             <Field>
-              <FieldLabel htmlFor="upload-audio">Audio File (MP3 or WAV)</FieldLabel>
+              <FieldLabel htmlFor="upload-audio">
+                Audio File (MP3 or WAV)
+              </FieldLabel>
               <div className="relative flex flex-col items-center justify-center rounded-2xl border-2 border-dashed border-border/80 bg-secondary/30 p-6 text-center transition-colors hover:border-indigo-500/50 hover:bg-secondary/50">
-                <UploadCloud className="size-8 text-indigo-600 dark:text-indigo-400 mb-2" />
+                <UploadCloud className="mb-2 size-8 text-indigo-600 dark:text-indigo-400" />
                 <p className="text-xs font-semibold text-foreground">
                   Choose an audio file to upload
                 </p>
@@ -210,8 +212,12 @@ export function UploadForm() {
                 aria-required="true"
                 className="mt-0.5"
               />
-              <label htmlFor="rights-check" className="text-xs leading-relaxed text-muted-foreground select-none cursor-pointer">
-                I confirm that I created this recording or possess all required licenses and permissions to share it publicly under the{" "}
+              <label
+                htmlFor="rights-check"
+                className="cursor-pointer text-xs leading-relaxed text-muted-foreground select-none"
+              >
+                I confirm that I created this recording or possess all required
+                licenses and permissions to share it publicly under the{" "}
                 <a
                   href="/terms"
                   target="_blank"
@@ -226,9 +232,9 @@ export function UploadForm() {
           </FieldGroup>
         </CardContent>
 
-        <CardFooter className="flex flex-col items-stretch gap-3 border-t border-border/60 sm:flex-row sm:items-center sm:justify-between pt-5">
+        <CardFooter className="flex flex-col items-stretch gap-3 border-t border-border/60 pt-5 sm:flex-row sm:items-center sm:justify-between">
           <p className="flex items-center gap-1.5 text-xs text-muted-foreground">
-            <span className="inline-block size-2 rounded-full bg-emerald-500 animate-pulse" />
+            <span className="inline-block size-2 animate-pulse rounded-full bg-emerald-500" />
             Verified audio is published live immediately.
           </p>
           <Button
@@ -236,7 +242,7 @@ export function UploadForm() {
             disabled={busy || !categories.length}
             variant="primary"
             size="md"
-            className="w-full sm:w-auto font-medium"
+            className="w-full font-medium sm:w-auto"
           >
             {busy ? "Uploading and verifying…" : "Publish Sound"}
           </Button>

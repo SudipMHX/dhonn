@@ -266,7 +266,7 @@ export function HomeSoundboardClient({
 
         {/* Featured Sounds Section */}
         {!query && !category && (featured.length > 0 || loading) && (
-          <section className="mt-12">
+          <section className="md:mt-12">
             <div className="mb-5 flex items-end justify-between">
               <div>
                 <div className="flex items-center gap-1.5 text-xs font-semibold tracking-wider text-indigo-600 uppercase dark:text-indigo-400">
@@ -306,7 +306,7 @@ export function HomeSoundboardClient({
         )}
 
         {/* Recently Added Section */}
-        {!query && !category && (recent.length > 0 || loading) && (
+        {/* {!query && !category && (recent.length > 0 || loading) && (
           <section className="mt-12">
             <div className="mb-5 flex items-end justify-between">
               <div>
@@ -348,7 +348,7 @@ export function HomeSoundboardClient({
               </div>
             )}
           </section>
-        )}
+        )} */}
 
         {/* Main Soundboard Library Section */}
         <section id="library" className="mt-14 scroll-mt-24">

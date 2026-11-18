@@ -29,7 +29,15 @@ export const metadata: Metadata = {
   },
   description: "Discover, play, and share quick creator-made sounds.",
   icons: {
-    apple: "/app-icon-192.png",
+    icon: [
+      { url: "/icon.svg", type: "image/svg+xml" },
+      { url: "/favicon.ico", sizes: "32x32" },
+      { url: "/app-icon-192.png", sizes: "192x192", type: "image/png" },
+    ],
+    apple: [
+      { url: "/app-icon-192.png", sizes: "192x192", type: "image/png" },
+    ],
+    shortcut: "/favicon.ico",
   },
 }
 

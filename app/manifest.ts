@@ -7,8 +7,8 @@ export default function manifest(): MetadataRoute.Manifest {
     description: "Discover, play, and share quick creator-made sounds.",
     start_url: "/",
     display: "standalone",
-    background_color: "#020617",
-    theme_color: "#020617",
+    background_color: "#09090b",
+    theme_color: "#4f46e5",
     icons: [
       {
         src: "/app-icon-192.png",

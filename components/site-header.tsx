@@ -1,3 +1,4 @@
+
 "use client"
 
 import { useEffect, useRef, useState } from "react"
@@ -17,7 +18,6 @@ import {
   Sparkles,
   Upload,
   User,
-  Volume2,
 } from "lucide-react"
 
 import { ThemeToggle } from "@/components/theme-toggle"
@@ -30,31 +30,10 @@ type HeaderUser = {
 
 export function SiteHeader({ user }: { user: HeaderUser | null }) {
   const [menuOpen, setMenuOpen] = useState(false)
-  const [scrolled, setScrolled] = useState(false)
   const menuRef = useRef<HTMLDivElement>(null)
   const pathname = usePathname()
 
-  useEffect(() => {
-    let frame = 0
-
-    function update() {
-      frame = 0
-      const y = window.scrollY
-      setScrolled((prev) => (y > 20 ? true : y < 8 ? false : prev))
-    }
-
-    function onScroll() {
-      if (!frame) frame = requestAnimationFrame(update)
-    }
-
-    update()
-    window.addEventListener("scroll", onScroll, { passive: true })
-    return () => {
-      window.removeEventListener("scroll", onScroll)
-      if (frame) cancelAnimationFrame(frame)
-    }
-  }, [])
-
+  // Close account menu when clicking outside or pressing Escape
   useEffect(() => {
     if (!menuOpen) return
 
@@ -70,6 +49,7 @@ export function SiteHeader({ user }: { user: HeaderUser | null }) {
 
     document.addEventListener("pointerdown", handlePointerDown)
     document.addEventListener("keydown", handleKeyDown)
+
     return () => {
       document.removeEventListener("pointerdown", handlePointerDown)
       document.removeEventListener("keydown", handleKeyDown)
@@ -78,29 +58,17 @@ export function SiteHeader({ user }: { user: HeaderUser | null }) {
 
   return (
     <>
-      <header className="sticky top-0 z-40 w-full px-3 pt-3 pb-1 transition-all duration-300 sm:px-6">
-        <div
-          className={`mx-auto flex max-w-7xl items-center justify-between gap-4 rounded-2xl border px-3.5 py-2.5 transition-all duration-300 ${
-            scrolled
-              ? "border-border/80 bg-background/85 shadow-lg shadow-black/[0.03] backdrop-blur-xl dark:shadow-black/25"
-              : "border-border/60 bg-background/70 backdrop-blur-md"
-          }`}
-        >
+      <header className="sticky top-0 z-40 w-full px-3 pt-2.5 sm:px-6 pointer-events-none">
+        <div className="dynamic-island backdrop-blur-[5px] mx-auto flex w-full items-center justify-between gap-3 pointer-events-auto sm:gap-4">
           {/* Brand Logo */}
           <Link
             href="/"
-            className="group flex shrink-0 items-center gap-2.5 transition-opacity hover:opacity-90"
+            className="group flex shrink-0 items-center transition-opacity hover:opacity-90"
             aria-label="dhonn. home"
           >
-            <div className="flex size-8 items-center justify-center rounded-xl bg-indigo-600 text-white shadow-xs shadow-indigo-600/30 transition-transform duration-200 group-hover:scale-105">
-              <Volume2 className="size-4" strokeWidth={2.5} />
-            </div>
-            <div className="flex items-baseline gap-1">
-              <span className="font-heading text-lg font-bold tracking-tight text-foreground">
-                dhonn
-              </span>
-              <span className="size-1.5 rounded-full bg-indigo-600 dark:bg-indigo-400" />
-            </div>
+            <span className="font-heading text-md md:text-xl font-bold tracking-tight text-foreground">
+              dhonn<span className="text-indigo-600 dark:text-indigo-400">.</span>
+            </span>
           </Link>
 
           {/* Desktop Navigation */}
@@ -111,6 +79,7 @@ export function SiteHeader({ user }: { user: HeaderUser | null }) {
             <NavLink href="/featured" active={pathname === "/featured"}>
               Featured
             </NavLink>
+
             <NavLink
               href="/category"
               active={
@@ -119,9 +88,11 @@ export function SiteHeader({ user }: { user: HeaderUser | null }) {
             >
               Categories
             </NavLink>
+
             <NavLink href="/search" active={pathname === "/search"}>
               Explore
             </NavLink>
+
             <NavLink
               href="/dashboard"
               active={pathname.startsWith("/dashboard")}
@@ -140,18 +111,21 @@ export function SiteHeader({ user }: { user: HeaderUser | null }) {
               <label htmlFor="site-search" className="sr-only">
                 Search sounds
               </label>
+
               <Search
                 aria-hidden="true"
                 className="pointer-events-none absolute left-3 size-4 text-muted-foreground transition-colors group-focus-within:text-indigo-600 dark:group-focus-within:text-indigo-400"
               />
+
               <input
                 id="site-search"
                 name="q"
                 type="search"
                 placeholder="Search sounds..."
-                className="h-9 w-36 rounded-xl border border-input bg-card/60 pr-8 pl-9 text-xs text-foreground transition-all placeholder:text-muted-foreground focus:w-56 focus:border-indigo-500 focus:bg-card focus:ring-2 focus:ring-indigo-500/20 focus:outline-none lg:w-48"
+                className="h-8 w-32 rounded-full border border-border/70 bg-card/40 pr-7 pl-8 text-xs text-foreground transition-all placeholder:text-muted-foreground focus:w-48 focus:border-indigo-500/60 focus:bg-background focus:ring-2 focus:ring-indigo-500/15 focus:outline-none lg:w-40"
               />
-              <kbd className="pointer-events-none absolute right-2.5 hidden select-none rounded border border-border bg-muted/60 px-1.5 py-0.5 text-[10px] font-mono text-muted-foreground lg:inline-block">
+
+              <kbd className="pointer-events-none absolute right-2.5 hidden select-none rounded border border-border/70 bg-muted/50 px-1 py-0.5 text-[9px] font-mono text-muted-foreground lg:inline-block">
                 /
               </kbd>
             </form>
@@ -169,13 +143,13 @@ export function SiteHeader({ user }: { user: HeaderUser | null }) {
                   aria-expanded={menuOpen}
                   aria-controls="account-menu"
                   onClick={() => setMenuOpen((open) => !open)}
-                  className={`flex size-9 items-center justify-center rounded-xl border text-foreground transition-all ${
+                  className={`flex size-7 md:size-8 items-center justify-center rounded-full border text-foreground transition-all ${
                     menuOpen
                       ? "border-indigo-500 bg-secondary ring-2 ring-indigo-500/20"
-                      : "border-border bg-card hover:bg-secondary hover:border-border/80"
+                      : "border-border/70 bg-card/60 hover:bg-secondary hover:border-border"
                   }`}
                 >
-                  <User aria-hidden="true" className="size-4" />
+                  <User aria-hidden="true" className="size-3 md:size-4" />
                 </button>
 
                 {menuOpen && (
@@ -183,15 +157,17 @@ export function SiteHeader({ user }: { user: HeaderUser | null }) {
                     id="account-menu"
                     className="absolute right-0 z-50 mt-2 w-64 overflow-hidden rounded-2xl border border-border/80 bg-card p-1.5 shadow-xl shadow-black/10 backdrop-blur-xl animate-in fade-in-0 zoom-in-95 duration-150"
                   >
-                    <div className="px-3 py-2.5 border-b border-border/60">
+                    <div className="border-b border-border/60 px-3 py-2.5">
                       <p className="truncate text-sm font-semibold text-foreground">
                         {user.name || "Your account"}
                       </p>
+
                       {user.email && (
                         <p className="mt-0.5 truncate text-xs text-muted-foreground">
                           {user.email}
                         </p>
                       )}
+
                       {user.role === "admin" && (
                         <span className="mt-1.5 inline-block rounded-md bg-indigo-50 px-2 py-0.5 text-[10px] font-semibold tracking-wide text-indigo-700 uppercase dark:bg-indigo-950/60 dark:text-indigo-300">
                           Administrator
@@ -212,6 +188,7 @@ export function SiteHeader({ user }: { user: HeaderUser | null }) {
                           Admin Console
                         </AccountMenuLink>
                       )}
+
                       <AccountMenuLink
                         href="/dashboard"
                         icon={<LayoutDashboard className="size-4" />}
@@ -219,6 +196,7 @@ export function SiteHeader({ user }: { user: HeaderUser | null }) {
                       >
                         Dashboard Overview
                       </AccountMenuLink>
+
                       <AccountMenuLink
                         href="/dashboard/upload"
                         icon={<Upload className="size-4" />}
@@ -226,6 +204,7 @@ export function SiteHeader({ user }: { user: HeaderUser | null }) {
                       >
                         Upload Sound
                       </AccountMenuLink>
+
                       <AccountMenuLink
                         href="/dashboard/uploads"
                         icon={<Music className="size-4" />}
@@ -233,6 +212,7 @@ export function SiteHeader({ user }: { user: HeaderUser | null }) {
                       >
                         Manage Uploads
                       </AccountMenuLink>
+
                       <AccountMenuLink
                         href="/dashboard/settings"
                         icon={<Settings className="size-4" />}
@@ -254,6 +234,7 @@ export function SiteHeader({ user }: { user: HeaderUser | null }) {
                               error
                             )
                           }
+
                           await signOut({ redirectTo: "/" })
                         }}
                         className="flex w-full items-center gap-2.5 rounded-xl px-3 py-2 text-left text-xs font-medium text-rose-600 transition hover:bg-rose-50 dark:text-rose-400 dark:hover:bg-rose-950/40"
@@ -266,16 +247,17 @@ export function SiteHeader({ user }: { user: HeaderUser | null }) {
                 )}
               </div>
             ) : (
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-1.5 sm:gap-2">
                 <Link
                   href="/login"
-                  className="rounded-xl px-3.5 py-1.5 text-xs font-semibold text-foreground transition-colors hover:bg-secondary"
+                  className="rounded-full px-3 py-1 text-xs font-semibold text-foreground transition-colors hover:bg-secondary/80"
                 >
                   Sign in
                 </Link>
+
                 <Link
                   href="/register"
-                  className="rounded-xl bg-indigo-600 px-3.5 py-1.5 text-xs font-semibold text-white shadow-xs shadow-indigo-600/30 transition-all hover:bg-indigo-500 active:bg-indigo-700 dark:bg-indigo-600 dark:hover:bg-indigo-500"
+                  className="rounded-full bg-indigo-600 px-3.5 py-1 text-xs font-semibold text-white shadow-xs shadow-indigo-600/30 transition-all hover:bg-indigo-500 active:bg-indigo-700 active:scale-95 dark:bg-indigo-600 dark:hover:bg-indigo-500"
                 >
                   Get started
                 </Link>
@@ -297,12 +279,14 @@ export function SiteHeader({ user }: { user: HeaderUser | null }) {
             icon={<Home className="size-5" />}
             active={pathname === "/"}
           />
+
           <MobileNavLink
             href="/featured"
             label="Featured"
             icon={<Sparkles className="size-5" />}
             active={pathname === "/featured"}
           />
+
           <MobileNavLink
             href="/category"
             label="Categories"
@@ -311,12 +295,14 @@ export function SiteHeader({ user }: { user: HeaderUser | null }) {
               pathname === "/category" || pathname.startsWith("/category/")
             }
           />
+
           <MobileNavLink
             href="/search"
             label="Explore"
             icon={<Compass className="size-5" />}
             active={pathname === "/search"}
           />
+
           <MobileNavLink
             href={user ? "/dashboard" : "/login"}
             label={user ? "Library" : "Account"}
@@ -351,10 +337,10 @@ function NavLink({
   return (
     <Link
       href={href}
-      className={`rounded-xl px-3 py-1.5 text-xs font-medium transition-all ${
+      className={`rounded-full px-3 py-1 text-xs font-medium transition-all duration-200 ${
         active
           ? "bg-secondary text-foreground font-semibold shadow-2xs"
-          : "text-muted-foreground hover:bg-secondary/60 hover:text-foreground"
+          : "text-muted-foreground hover:bg-secondary/60 hover:text-foreground active:scale-95"
       }`}
     >
       {children}
@@ -391,6 +377,7 @@ function MobileNavLink({
       >
         {icon}
       </span>
+
       <span className="truncate">{label}</span>
     </Link>
   )

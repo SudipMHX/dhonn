@@ -4,7 +4,6 @@ import {
   listPublicSounds,
   getPublicCategories,
   getHomeInitialData,
-  type PublicSoundItem,
   type PublicCategoryItem,
   type PublicSoundsResult,
   type HomeInitialData,

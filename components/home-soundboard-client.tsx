@@ -82,9 +82,6 @@ export function HomeSoundboardClient({
   const [featured, setFeatured] = useState<SoundCardData[]>(
     initialData?.featured ?? []
   )
-  const [recent, setRecent] = useState<SoundCardData[]>(
-    initialData?.recent ?? []
-  )
   const [hasMore, setHasMore] = useState(initialData?.hasMore ?? false)
   const [categories, setCategories] = useState<Category[]>(
     initialData?.categories ?? []
@@ -125,7 +122,7 @@ export function HomeSoundboardClient({
         try {
           const trimmed = query.trim()
           const discovery = page === 1 && !trimmed && !category
-          const [soundsRes, featuredRes, recentRes] = await Promise.all([
+          const [soundsRes, featuredRes] = await Promise.all([
             fetchSoundsAction({
               q: trimmed || undefined,
               category: category || undefined,
@@ -141,13 +138,6 @@ export function HomeSoundboardClient({
                   page: 1,
                 })
               : Promise.resolve(null),
-            discovery
-              ? fetchSoundsAction({
-                  sort: "newest",
-                  limit: 6,
-                  page: 1,
-                })
-              : Promise.resolve(null),
           ])
 
           if (!active) return
@@ -159,9 +149,6 @@ export function HomeSoundboardClient({
 
           if (featuredRes) {
             setFeatured(featuredRes.sounds)
-          }
-          if (recentRes) {
-            setRecent(recentRes.sounds)
           }
         } catch (cause) {
           if (!active) return
@@ -338,51 +325,6 @@ export function HomeSoundboardClient({
             )}
           </section>
         )}
-
-        {/* Recently Added Section */}
-        {/* {!query && !category && (recent.length > 0 || loading) && (
-          <section className="mt-12">
-            <div className="mb-5 flex items-end justify-between">
-              <div>
-                <div className="flex items-center gap-1.5 text-xs font-semibold tracking-wider text-emerald-600 uppercase dark:text-emerald-400">
-                  <Flame className="size-3.5" />
-                  <span>Fresh Community Drops</span>
-                </div>
-                <h2 className="mt-1 text-2xl font-bold tracking-tight text-foreground sm:text-3xl">
-                  Recently Added
-                </h2>
-              </div>
-              <Link
-                href="/search?sort=newest"
-                className="inline-flex items-center gap-1 text-xs font-semibold text-indigo-600 transition-colors hover:text-indigo-500 dark:text-indigo-400"
-              >
-                <span>See latest</span>
-                <ArrowRight className="size-3.5" />
-              </Link>
-            </div>
-
-            {recent.length > 0 ? (
-              <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6">
-                {recent.map((sound, index) => (
-                  <SoundTile
-                    key={sound._id}
-                    sound={sound}
-                    index={index + 1}
-                  />
-                ))}
-              </div>
-            ) : (
-              <div
-                aria-busy="true"
-                className="grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6"
-              >
-                {Array.from({ length: 6 }, (_, index) => (
-                  <SoundTileSkeleton key={index} />
-                ))}
-              </div>
-            )}
-          </section>
-        )} */}
 
         {/* Main Soundboard Library Section */}
         <section id="library" className="mt-14 scroll-mt-24">

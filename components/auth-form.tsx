@@ -11,12 +11,18 @@ import { Button } from "@/components/ui/button"
 import { cn } from "cn"
 import { getCaptchaAction } from "@/lib/actions/captcha"
 
-export function AuthForm({ mode }: { mode: "login" | "register" }) {
+export function AuthForm({
+  mode,
+  initialCaptcha,
+}: {
+  mode: "login" | "register"
+  initialCaptcha?: { token: string; svg: string }
+}) {
   const router = useRouter()
   const [error, setError] = useState("")
   const [busy, setBusy] = useState(false)
   const [captcha, setCaptcha] = useState<{ token: string; svg: string } | null>(
-    null
+    initialCaptcha ?? null
   )
   const [captchaLoading, setCaptchaLoading] = useState(false)
   const [captchaAnswer, setCaptchaAnswer] = useState("")
@@ -36,8 +42,21 @@ export function AuthForm({ mode }: { mode: "login" | "register" }) {
   }, [])
 
   useEffect(() => {
-    refreshCaptcha()
-  }, [refreshCaptcha])
+    if (initialCaptcha) return
+    let active = true
+    void getCaptchaAction()
+      .then((data) => {
+        if (active) {
+          setCaptcha(data)
+        }
+      })
+      .catch((cause) => {
+        console.error("Failed to load captcha", cause)
+      })
+    return () => {
+      active = false
+    }
+  }, [initialCaptcha])
 
   async function submit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
@@ -192,6 +211,7 @@ export function AuthForm({ mode }: { mode: "login" | "register" }) {
 
         <div className="flex items-center gap-2">
           {captcha ? (
+            // eslint-disable-next-line @next/next/no-img-element
             <img
               src={captcha.svg}
               alt="Security Captcha"

@@ -4,6 +4,7 @@ import { Volume2 } from "lucide-react"
 
 import { AuthForm } from "@/components/auth-form"
 import { auth } from "@/lib/auth"
+import { generateCaptcha } from "@/lib/captcha"
 
 export const metadata = {
   title: "Sign in",
@@ -13,6 +14,8 @@ export const metadata = {
 export default async function LoginPage() {
   const session = await auth()
   if (session?.user) redirect("/dashboard")
+
+  const captcha = generateCaptcha()
 
   return (
     <main className="relative grid min-h-[85vh] place-items-center px-4 py-12">
@@ -40,7 +43,10 @@ export default async function LoginPage() {
           </p>
         </div>
 
-        <AuthForm mode="login" />
+        <AuthForm
+          mode="login"
+          initialCaptcha={{ token: captcha.token, svg: captcha.svg }}
+        />
       </div>
     </main>
   )

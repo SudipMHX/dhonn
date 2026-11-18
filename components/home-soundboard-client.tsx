@@ -306,7 +306,7 @@ export function HomeSoundboardClient({
         )}
 
         {/* Recently Added Section */}
-        {/* {!query && !category && (recent.length > 0 || loading) && (
+        {!query && !category && (recent.length > 0 || loading) && (
           <section className="mt-12">
             <div className="mb-5 flex items-end justify-between">
               <div>
@@ -348,7 +348,7 @@ export function HomeSoundboardClient({
               </div>
             )}
           </section>
-        )} */}
+        )}
 
         {/* Main Soundboard Library Section */}
         <section id="library" className="mt-14 scroll-mt-24">

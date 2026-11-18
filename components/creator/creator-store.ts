@@ -212,7 +212,7 @@ export const useCreatorStore = create<CreatorStore>((set, get) => ({
         items: state.items.flatMap((item) => {
           if (item._id !== uploadId) return [item]
           if (method === "DELETE") return []
-          if (state.status !== "all" && state.status !== "pending") return []
+          if (state.status !== "all" && state.status !== "published") return []
 
           const categorySlug =
             typeof body?.category === "string"
@@ -235,9 +235,9 @@ export const useCreatorStore = create<CreatorStore>((set, get) => ({
               category: { slug: categorySlug },
               categoryName,
               tags,
-              status: "pending",
+              status: "published",
               moderationNote: "",
-              publishedAt: null,
+              publishedAt: item.publishedAt ?? new Date().toISOString(),
             },
           ]
         }),
@@ -281,7 +281,7 @@ export const useCreatorStore = create<CreatorStore>((set, get) => ({
           state.loadedRequestKey === getRequestKey(state) &&
           state.cursors.length === 1 &&
           !state.debouncedSearch &&
-          (state.status === "all" || state.status === "pending")
+          (state.status === "all" || state.status === "published")
         if (!shouldInsert) return { rightsConfirmed: false }
 
         const newUpload: CreatorUpload = {
@@ -296,10 +296,10 @@ export const useCreatorStore = create<CreatorStore>((set, get) => ({
           tags: Array.isArray(input.tags)
             ? input.tags.filter((tag): tag is string => typeof tag === "string")
             : [],
-          status: "pending",
+          status: "published",
           moderationNote: "",
           createdAt: new Date().toISOString(),
-          publishedAt: null,
+          publishedAt: new Date().toISOString(),
         }
         const items = [newUpload, ...state.items].slice(0, state.limit)
         const overflowed = state.items.length >= state.limit
@@ -316,7 +316,7 @@ export const useCreatorStore = create<CreatorStore>((set, get) => ({
         }
       })
       toast.success(
-        "Your sound is uploaded and waiting for moderator approval."
+        "Your sound is verified and published live on the soundboard!"
       )
       return true
     } catch (cause) {

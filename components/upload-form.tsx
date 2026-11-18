@@ -227,17 +227,18 @@ export function UploadForm() {
         </CardContent>
 
         <CardFooter className="flex flex-col items-stretch gap-3 border-t border-border/60 sm:flex-row sm:items-center sm:justify-between pt-5">
-          <p className="text-xs text-muted-foreground">
-            Your sound remains private until verified by a moderator.
+          <p className="flex items-center gap-1.5 text-xs text-muted-foreground">
+            <span className="inline-block size-2 rounded-full bg-emerald-500 animate-pulse" />
+            Verified audio is published live immediately.
           </p>
           <Button
             type="submit"
             disabled={busy || !categories.length}
             variant="primary"
             size="md"
-            className="w-full sm:w-auto"
+            className="w-full sm:w-auto font-medium"
           >
-            {busy ? "Uploading and verifying…" : "Submit For Review"}
+            {busy ? "Uploading and verifying…" : "Publish Sound"}
           </Button>
         </CardFooter>
       </Card>

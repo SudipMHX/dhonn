@@ -175,7 +175,8 @@ export async function POST(
     sound.audio.sha256 = sha256
     sound.audio.durationSeconds = durationSeconds
     sound.audio.storageKey = permanentKey
-    sound.status = "pending"
+    sound.status = "published"
+    sound.publishedAt = new Date()
     try {
       await sound.save()
     } catch (error) {
@@ -208,7 +209,11 @@ export async function POST(
     } catch (error) {
       logError("verified_upload_staging_cleanup_failed", error)
     }
-    return Response.json({ status: "pending", durationSeconds })
+    return Response.json({
+      status: "published",
+      durationSeconds,
+      slug: sound.slug,
+    })
   } catch (error) {
     if (error instanceof RateLimitError) return jsonError(error.message, 429)
     logError("upload_verification_failed", error)

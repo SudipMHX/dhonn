@@ -242,7 +242,8 @@ export async function verifySoundUpload(soundId: string, userId: string) {
   sound.audio.sha256 = sha256
   sound.audio.durationSeconds = durationSeconds
   sound.audio.storageKey = permanentKey
-  sound.status = "pending"
+  sound.status = "published"
+  sound.publishedAt = new Date()
   try {
     await sound.save()
   } catch (error) {
@@ -272,5 +273,9 @@ export async function verifySoundUpload(soundId: string, userId: string) {
   } catch (error) {
     logError("verified_upload_staging_cleanup_failed", error)
   }
-  return { status: "pending" as const, durationSeconds }
+  return {
+    status: "published" as const,
+    durationSeconds,
+    slug: sound.slug,
+  }
 }

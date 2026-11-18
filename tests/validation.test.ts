@@ -11,6 +11,7 @@ import {
   adminSoundUpdateSchema,
   registerSchema,
   reportSchema,
+  soundInputSchema,
   soundQuerySchema,
   uploadRequestSchema,
 } from "../lib/validation/schemas.js"
@@ -184,11 +185,32 @@ test("reports require enough detail and a valid target sound", () => {
     false
   )
   assert.equal(
-    reportSchema.safeParse({
+    reportSchema.parse({
       soundId: "507f1f77bcf86cd799439011",
       type: "copyright",
       details: "I own the rights to the audio used in this upload.",
+    }).type,
+    "copyright"
+  )
+})
+
+test("sound input schema validates auto-published upload metadata", () => {
+  assert.equal(
+    soundInputSchema.safeParse({
+      title: "Clean Synth Pluck",
+      description: "Punchy synth pluck for transitions",
+      category: "effects",
+      tags: ["synth", "pluck", "transition"],
     }).success,
     true
+  )
+  assert.equal(
+    soundInputSchema.safeParse({
+      title: "A",
+      description: "",
+      category: "effects",
+      tags: [],
+    }).success,
+    false
   )
 })

@@ -19,14 +19,6 @@ export type SoundCardData = {
   favorites: number
 }
 
-function formatDuration(seconds: number) {
-  if (!seconds || seconds <= 0) return "0s"
-  if (seconds < 60) return `${Math.round(seconds)}s`
-  const mins = Math.floor(seconds / 60)
-  const rem = Math.round(seconds % 60)
-  return `${mins}:${String(rem).padStart(2, "0")}`
-}
-
 export function SoundTile({ sound }: { sound: SoundCardData; index?: number }) {
   const audioRef = useRef<HTMLAudioElement>(null)
   const [playing, setPlaying] = useState(false)

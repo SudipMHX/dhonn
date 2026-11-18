@@ -4,7 +4,7 @@ import {
   AudioLines,
   Check,
   FileAudio,
-  ShieldCheck,
+  Sparkles,
 } from "lucide-react"
 
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
@@ -39,9 +39,9 @@ export default function UploadPage() {
             Publish your audio recording or sound bite to the dhonn community library.
           </p>
         </div>
-        <Badge variant="outline" className="w-fit gap-1.5 py-1 text-xs">
-          <ShieldCheck className="size-3.5 text-indigo-600 dark:text-indigo-400" />
-          <span>Moderated for quality</span>
+        <Badge variant="outline" className="w-fit gap-1.5 py-1 text-xs border-emerald-500/30 bg-emerald-500/10 text-emerald-600 dark:text-emerald-400">
+          <Sparkles className="size-3.5" />
+          <span>Instant Publishing</span>
         </Badge>
       </div>
 
@@ -53,10 +53,10 @@ export default function UploadPage() {
             <CardHeader>
               <CardTitle className="flex items-center gap-2 text-base">
                 <FileAudio className="size-4 text-indigo-600 dark:text-indigo-400" />
-                <span>Upload &amp; Review Process</span>
+                <span>Upload &amp; Publish Pipeline</span>
               </CardTitle>
               <CardDescription>
-                How your submission makes its way to the public soundboard.
+                How your audio recording goes live on the public soundboard.
               </CardDescription>
             </CardHeader>
             <CardContent>
@@ -73,24 +73,24 @@ export default function UploadPage() {
                   </div>
                 </li>
                 <li className="flex gap-3">
-                  <span className="grid size-6 shrink-0 place-items-center rounded-full border border-border bg-secondary text-xs font-bold text-muted-foreground">
+                  <span className="grid size-6 shrink-0 place-items-center rounded-full bg-indigo-600/10 text-indigo-600 dark:bg-indigo-400/10 dark:text-indigo-400 text-xs font-bold">
                     2
                   </span>
                   <div>
-                    <p className="text-xs font-semibold text-foreground">Moderation Review</p>
+                    <p className="text-xs font-semibold text-foreground">Instant Verification</p>
                     <p className="mt-0.5 text-xs text-muted-foreground leading-relaxed">
-                      Audio is verified for duration, volume consistency, and copyright.
+                      Audio format, duration (≤ 30s), waveform integrity, and sha256 deduplication verify in seconds.
                     </p>
                   </div>
                 </li>
                 <li className="flex gap-3">
-                  <span className="grid size-6 shrink-0 place-items-center rounded-full border border-border bg-secondary text-xs font-bold text-muted-foreground">
+                  <span className="grid size-6 shrink-0 place-items-center rounded-full bg-emerald-600/15 text-emerald-600 dark:bg-emerald-400/15 dark:text-emerald-400 text-xs font-bold">
                     3
                   </span>
                   <div>
-                    <p className="text-xs font-semibold text-foreground">Public Release</p>
+                    <p className="text-xs font-semibold text-foreground">Live Instant Release</p>
                     <p className="mt-0.5 text-xs text-muted-foreground leading-relaxed">
-                      Approved sounds appear in search, category filters, and featured shelves.
+                      Your sound is published live immediately to search, category feeds, and soundboards.
                     </p>
                   </div>
                 </li>
@@ -102,7 +102,7 @@ export default function UploadPage() {
             <AlertCircle className="size-4" />
             <AlertTitle>Copyright Notice</AlertTitle>
             <AlertDescription>
-              Only submit audio you personally created or hold explicit authorization to share. Submissions remain private until verified.
+              Only submit audio you personally created or hold explicit authorization to share. Sounds are verified and published live immediately upon upload.
             </AlertDescription>
           </Alert>
 
@@ -121,7 +121,7 @@ export default function UploadPage() {
               </div>
               <div className="flex items-center gap-2 text-xs text-muted-foreground">
                 <Check className="size-3.5 text-emerald-600 dark:text-emerald-400" />
-                <span>Clear sound, no excessive clipping</span>
+                <span>Auto-published immediately upon verification</span>
               </div>
             </CardContent>
           </Card>

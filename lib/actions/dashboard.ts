@@ -498,9 +498,11 @@ export async function mutateCreatorUpload(
     sound.category = category._id
     sound.categoryName = category.name
     sound.tags = parsed.data.tags
-    sound.status = "pending"
+    sound.status = "published"
     sound.moderationNote = ""
-    sound.publishedAt = null
+    if (!sound.publishedAt) {
+      sound.publishedAt = new Date()
+    }
     await sound.save()
     return { ok: true }
   } catch (error) {

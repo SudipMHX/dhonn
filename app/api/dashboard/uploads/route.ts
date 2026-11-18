@@ -44,7 +44,7 @@ export async function GET(request: Request) {
     )
     const documents = await Sound.find(filter)
       .select(
-        "title description category categoryName tags status moderationNote createdAt publishedAt"
+        "title slug description category categoryName tags status moderationNote createdAt publishedAt"
       )
       .populate("category", "slug")
       .sort({ createdAt: -1, _id: -1 })

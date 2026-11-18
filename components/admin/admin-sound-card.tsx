@@ -1,5 +1,20 @@
 "use client"
 
+import Link from "next/link"
+import { useEffect, useRef, useState } from "react"
+import {
+  Check,
+  Edit3,
+  Flame,
+  Heart,
+  Pause,
+  Play,
+  Sparkles,
+  Trash2,
+  Volume2,
+  X,
+} from "lucide-react"
+
 import {
   Dialog,
   DialogContent,
@@ -20,7 +35,6 @@ import {
 import { SoundEditForm } from "./sound-edit-form"
 import type { SoundRemovalTarget } from "./sound-removal-dialog"
 import { useAdminStore } from "./admin-store"
-import { Sparkles, TrendingUp } from "lucide-react"
 
 export function AdminSoundCard({
   row,
@@ -34,6 +48,7 @@ export function AdminSoundCard({
   onRemove: (target: SoundRemovalTarget) => void
 }) {
   const id = adminText(row._id)
+  const slug = adminText(row.slug)
   const owner = adminChildRecord(row.owner)
   const audio = adminChildRecord(row.audio)
   const editOpen = useAdminStore((state) => state.editingSoundId === id)
@@ -41,6 +56,40 @@ export function AdminSoundCard({
   const initializeSoundDraft = useAdminStore(
     (state) => state.initializeSoundDraft
   )
+
+  const audioRef = useRef<HTMLAudioElement>(null)
+  const [playing, setPlaying] = useState(false)
+
+  useEffect(() => {
+    function stopOtherAudio(event: Event) {
+      if (event.target !== audioRef.current) {
+        audioRef.current?.pause()
+        if (audioRef.current) audioRef.current.currentTime = 0
+        setPlaying(false)
+      }
+    }
+    window.addEventListener("dhonn.:audio-started", stopOtherAudio)
+    return () =>
+      window.removeEventListener("dhonn.:audio-started", stopOtherAudio)
+  }, [])
+
+  async function togglePlay() {
+    const audioEl = audioRef.current
+    if (!audioEl) return
+    if (playing) {
+      audioEl.pause()
+      audioEl.currentTime = 0
+      setPlaying(false)
+      return
+    }
+    window.dispatchEvent(new Event("dhonn.:audio-started"))
+    try {
+      await audioEl.play()
+    } catch {
+      setPlaying(false)
+    }
+  }
+
   const status = adminText(row.status)
   const statusVariant =
     status === "published"
@@ -49,48 +98,126 @@ export function AdminSoundCard({
         ? "destructive"
         : "warning"
 
+  const durationSec = Number(audio.durationSeconds) || 0
+  const ownerName = adminText(owner.name) || "Anonymous"
+  const ownerEmail = adminText(owner.email)
+  const title = adminText(row.title)
+
   return (
-    <TableRow>
-      <TableCell className="min-w-48 font-medium whitespace-normal">
-        <p className="font-semibold text-foreground">{adminText(row.title)}</p>
-        <div className="mt-1 flex items-center gap-1.5 text-[11px] text-muted-foreground">
-          {Boolean(row.featured) && (
-            <span className="inline-flex items-center gap-0.5 font-medium text-amber-600 dark:text-amber-400">
-              <Sparkles className="size-3" /> Featured
-            </span>
+    <TableRow className="group/row">
+      {/* Sound title & audio preview trigger */}
+      <TableCell className="min-w-64 max-w-xs whitespace-normal">
+        <div className="flex items-start gap-3">
+          {slug && (
+            <button
+              type="button"
+              onClick={() => void togglePlay()}
+              aria-label={`${playing ? "Pause" : "Play"} ${title}`}
+              className={`mt-0.5 flex size-8 shrink-0 items-center justify-center rounded-lg border transition-all ${
+                playing
+                  ? "border-indigo-600 bg-indigo-600 text-white shadow-xs"
+                  : "border-border/80 bg-secondary/60 text-muted-foreground hover:border-indigo-500/40 hover:bg-indigo-50 hover:text-indigo-600 dark:hover:bg-indigo-950/40 dark:hover:text-indigo-400"
+              }`}
+            >
+              {playing ? (
+                <Pause className="size-3.5 fill-current" />
+              ) : (
+                <Play className="size-3.5 fill-current pl-0.5" />
+              )}
+            </button>
           )}
-          {Boolean(row.trending) && (
-            <span className="inline-flex items-center gap-0.5 font-medium text-indigo-600 dark:text-indigo-400">
-              <TrendingUp className="size-3" /> Trending
-            </span>
-          )}
+
+          <div className="min-w-0 flex-1">
+            <Link
+              href={slug ? `/sound/${slug}` : "#"}
+              className="line-clamp-1 font-semibold text-foreground transition-colors hover:text-indigo-600 dark:hover:text-indigo-400"
+              title={title}
+            >
+              {title}
+            </Link>
+
+            <div className="mt-1 flex flex-wrap items-center gap-1.5 text-[11px] text-muted-foreground">
+              {Boolean(row.featured) && (
+                <span className="inline-flex items-center gap-0.5 rounded px-1 py-0.2 font-medium text-amber-700 bg-amber-50 dark:bg-amber-950/50 dark:text-amber-300 border border-amber-200/50 dark:border-amber-900/50">
+                  <Sparkles className="size-2.5" /> Featured
+                </span>
+              )}
+              {Boolean(row.trending) && (
+                <span className="inline-flex items-center gap-0.5 rounded px-1 py-0.2 font-medium text-indigo-700 bg-indigo-50 dark:bg-indigo-950/50 dark:text-indigo-300 border border-indigo-200/50 dark:border-indigo-900/50">
+                  <Flame className="size-2.5" /> Trending
+                </span>
+              )}
+              {Boolean(row.categoryName) && (
+                <span className="truncate rounded bg-secondary px-1.5 py-0.2 text-[10px] font-medium text-muted-foreground">
+                  {adminText(row.categoryName)}
+                </span>
+              )}
+            </div>
+          </div>
         </div>
       </TableCell>
+
+      {/* Creator */}
       <TableCell className="whitespace-normal">
-        <p className="font-medium text-foreground">{adminText(row.categoryName)}</p>
-        <p className="text-xs text-muted-foreground">{adminText(owner.name)}</p>
+        <div className="flex items-center gap-2">
+          <div className="flex size-6 shrink-0 items-center justify-center rounded-full bg-indigo-50 text-[10px] font-bold text-indigo-700 dark:bg-indigo-950/60 dark:text-indigo-300">
+            {ownerName.charAt(0).toUpperCase()}
+          </div>
+          <div className="min-w-0">
+            <p className="line-clamp-1 font-medium text-foreground text-xs">{ownerName}</p>
+            {ownerEmail && (
+              <p className="line-clamp-1 font-mono text-[10px] text-muted-foreground">
+                {ownerEmail}
+              </p>
+            )}
+          </div>
+        </div>
       </TableCell>
+
+      {/* Status */}
       <TableCell>
-        <Badge variant={statusVariant}>
+        <Badge variant={statusVariant} className="gap-1.5 text-[11px] capitalize">
+          <span
+            className={`size-1.5 rounded-full ${
+              status === "published"
+                ? "bg-emerald-500"
+                : status === "rejected" || status === "removed"
+                  ? "bg-rose-500"
+                  : "bg-amber-500"
+            }`}
+          />
           {status === "published"
             ? "Published"
             : status === "rejected"
               ? "Rejected"
               : status === "pending"
-                ? "Pending"
+                ? "Pending Review"
                 : status || "Unknown"}
         </Badge>
       </TableCell>
-      <TableCell className="whitespace-nowrap text-xs text-muted-foreground font-mono">
-        <span>{Number(audio.durationSeconds).toFixed(1)}s</span>
-        <br />
-        <span className="font-sans text-[11px]">
-          {Number(row.plays).toLocaleString()} plays ·{" "}
-          {Number(row.favorites).toLocaleString()} favs
-        </span>
+
+      {/* Activity / Stats */}
+      <TableCell className="font-mono text-xs text-muted-foreground">
+        <div className="space-y-0.5">
+          <div className="font-semibold text-foreground">
+            {durationSec > 0 ? `${durationSec.toFixed(1)}s` : "0.0s"}
+          </div>
+          <div className="flex items-center gap-2 text-[11px]">
+            <span className="inline-flex items-center gap-0.5" title="Total plays">
+              <Volume2 className="size-3 text-muted-foreground/70" />
+              <span>{Number(row.plays ?? 0).toLocaleString()}</span>
+            </span>
+            <span className="inline-flex items-center gap-0.5" title="Favorites">
+              <Heart className="size-3 text-rose-500/70" />
+              <span>{Number(row.favorites ?? 0).toLocaleString()}</span>
+            </span>
+          </div>
+        </div>
       </TableCell>
-      <TableCell className="min-w-72 whitespace-normal">
-        <div className="flex flex-wrap items-center gap-1.5">
+
+      {/* Actions */}
+      <TableCell className="min-w-64 whitespace-normal">
+        <div className="flex flex-wrap items-center gap-1">
           {(allowPublish || row.status !== "published") &&
             row.status !== "rejected" &&
             row.status !== "removed" && (
@@ -103,10 +230,13 @@ export function AdminSoundCard({
                 }
                 variant="primary"
                 size="xs"
+                className="gap-1 rounded-lg"
               >
-                Publish
+                <Check className="size-3" />
+                <span>Publish</span>
               </Button>
             )}
+
           {row.status === "published" && (
             <Button
               type="button"
@@ -118,10 +248,12 @@ export function AdminSoundCard({
               }
               variant="outline"
               size="xs"
+              className="rounded-lg"
             >
               Unpublish
             </Button>
           )}
+
           {row.status !== "published" &&
             row.status !== "rejected" &&
             row.status !== "removed" && (
@@ -135,10 +267,13 @@ export function AdminSoundCard({
                 }
                 variant="destructive"
                 size="xs"
+                className="gap-1 rounded-lg"
               >
-                Reject
+                <X className="size-3" />
+                <span>Reject</span>
               </Button>
             )}
+
           <Button
             type="button"
             onClick={() =>
@@ -148,9 +283,12 @@ export function AdminSoundCard({
             }
             variant="outline"
             size="xs"
+            className={`rounded-lg ${row.featured ? "border-amber-300 text-amber-700 bg-amber-50/50 dark:border-amber-800 dark:bg-amber-950/40 dark:text-amber-300" : ""}`}
           >
-            {row.featured ? "Unfeature" : "Feature"}
+            <Sparkles className="size-3" />
+            <span>{row.featured ? "Featured" : "Feature"}</span>
           </Button>
+
           <Button
             type="button"
             onClick={() =>
@@ -160,9 +298,12 @@ export function AdminSoundCard({
             }
             variant="outline"
             size="xs"
+            className={`rounded-lg ${row.trending ? "border-indigo-300 text-indigo-700 bg-indigo-50/50 dark:border-indigo-800 dark:bg-indigo-950/40 dark:text-indigo-300" : ""}`}
           >
-            {row.trending ? "Untrend" : "Trend"}
+            <Flame className="size-3" />
+            <span>{row.trending ? "Trending" : "Trend"}</span>
           </Button>
+
           <Dialog
             open={editOpen}
             onOpenChange={(open) => {
@@ -178,8 +319,9 @@ export function AdminSoundCard({
           >
             <DialogTrigger
               render={
-                <Button type="button" variant="outline" size="xs">
-                  Edit
+                <Button type="button" variant="outline" size="xs" className="rounded-lg">
+                  <Edit3 className="size-3" />
+                  <span>Edit</span>
                 </Button>
               }
             />
@@ -204,6 +346,7 @@ export function AdminSoundCard({
               />
             </DialogContent>
           </Dialog>
+
           <Button
             type="button"
             onClick={() =>
@@ -212,13 +355,27 @@ export function AdminSoundCard({
                 title: adminText(row.title) || "this sound",
               })
             }
-            variant="destructive"
+            variant="ghost"
             size="xs"
+            className="rounded-lg text-rose-600 hover:bg-rose-50 hover:text-rose-700 dark:text-rose-400 dark:hover:bg-rose-950/50"
+            title="Delete permanently"
           >
-            Remove
+            <Trash2 className="size-3" />
           </Button>
         </div>
       </TableCell>
+
+      {slug && (
+        <audio
+          ref={audioRef}
+          src={`/api/sounds/${encodeURIComponent(slug)}/audio`}
+          preload="none"
+          onEnded={() => setPlaying(false)}
+          onPause={() => setPlaying(false)}
+          onPlay={() => setPlaying(true)}
+          onError={() => setPlaying(false)}
+        />
+      )}
     </TableRow>
   )
 }

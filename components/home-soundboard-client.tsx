@@ -14,22 +14,23 @@ type Sort = "trending" | "popular" | "newest" | "favorites"
 
 function SoundTileSkeleton() {
   return (
-    <div className="flex flex-col justify-between rounded-2xl border border-border/60 bg-card p-4 space-y-4">
-      <div className="flex justify-between">
-        <Skeleton className="h-4 w-16 rounded-md" />
-        <Skeleton className="h-4 w-8 rounded-md" />
+    <div className="flex flex-col justify-between rounded-xl border border-border/60 bg-card p-3 space-y-3">
+      <div className="flex items-center justify-between">
+        <Skeleton className="h-3.5 w-14 rounded-md" />
+        <Skeleton className="h-3 w-7 rounded-md" />
       </div>
-      <div className="flex justify-center py-4">
-        <Skeleton className="size-18 rounded-2xl" />
+      <div className="flex justify-center py-2">
+        <Skeleton className="size-12 rounded-xl" />
       </div>
-      <div className="space-y-1.5">
-        <Skeleton className="h-4 w-3/4 mx-auto" />
+      <div className="flex h-8 items-center justify-center">
+        <Skeleton className="h-3.5 w-4/5 mx-auto rounded-md" />
       </div>
-      <div className="flex justify-between items-center pt-2 border-t border-border/40">
-        <Skeleton className="h-3 w-10" />
+      <div className="flex items-center justify-between border-t border-border/40 pt-2">
+        <Skeleton className="h-3 w-8 rounded-md" />
         <div className="flex gap-1">
-          <Skeleton className="size-8 rounded-lg" />
-          <Skeleton className="size-8 rounded-lg" />
+          <Skeleton className="size-7 rounded-md" />
+          <Skeleton className="size-7 rounded-md" />
+          <Skeleton className="size-7 rounded-md" />
         </div>
       </div>
     </div>
@@ -38,7 +39,7 @@ function SoundTileSkeleton() {
 
 function SoundTileSkeletonGrid({ count }: { count: number }) {
   return (
-    <div aria-busy="true" className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
+    <div aria-busy="true" className="grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6">
       {Array.from({ length: count }, (_, index) => (
         <SoundTileSkeleton key={index} />
       ))}
@@ -95,7 +96,7 @@ export function HomeSoundboardClient({
           q: query,
           sort,
           page: String(page),
-          limit: "16",
+          limit: "18",
         })
         if (category) params.set("category", category)
         try {
@@ -106,12 +107,12 @@ export function HomeSoundboardClient({
                 signal: controller.signal,
               }),
               discovery
-                ? fetch("/api/sounds?featured=true&sort=popular&limit=5", {
+                ? fetch("/api/sounds?featured=true&sort=popular&limit=6", {
                     signal: controller.signal,
                   })
                 : Promise.resolve(null),
               discovery
-                ? fetch("/api/sounds?sort=newest&limit=5", {
+                ? fetch("/api/sounds?sort=newest&limit=6", {
                     signal: controller.signal,
                   })
                 : Promise.resolve(null),
@@ -168,7 +169,7 @@ export function HomeSoundboardClient({
     <div className="min-h-screen bg-background text-foreground">
       <main className="mx-auto max-w-7xl px-4 py-6 sm:px-6 sm:py-8 lg:px-8">
         {/* Hero Section */}
-        <section className="relative overflow-hidden rounded-3xl border border-border/80 bg-card p-6 shadow-xs sm:p-10 lg:p-12">
+        <section className="hidden lg:block relative overflow-hidden rounded-3xl border border-border/80 bg-card p-6 shadow-xs sm:p-10 lg:p-12">
           {/* Subtle Ambient Light Gradients */}
           <div
             aria-hidden="true"
@@ -286,7 +287,7 @@ export function HomeSoundboardClient({
             </div>
 
             {featured.length > 0 ? (
-              <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-5">
+              <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6">
                 {featured.map((sound, index) => (
                   <SoundTile key={sound._id} sound={sound} index={index} />
                 ))}
@@ -294,9 +295,9 @@ export function HomeSoundboardClient({
             ) : (
               <div
                 aria-busy="true"
-                className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-5"
+                className="grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6"
               >
-                {Array.from({ length: 5 }, (_, index) => (
+                {Array.from({ length: 6 }, (_, index) => (
                   <SoundTileSkeleton key={index} />
                 ))}
               </div>
@@ -305,7 +306,7 @@ export function HomeSoundboardClient({
         )}
 
         {/* Recently Added Section */}
-        {!query && !category && (recent.length > 0 || loading) && (
+        {/* {!query && !category && (recent.length > 0 || loading) && (
           <section className="mt-12">
             <div className="mb-5 flex items-end justify-between">
               <div>
@@ -327,7 +328,7 @@ export function HomeSoundboardClient({
             </div>
 
             {recent.length > 0 ? (
-              <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-5">
+              <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6">
                 {recent.map((sound, index) => (
                   <SoundTile
                     key={sound._id}
@@ -339,15 +340,15 @@ export function HomeSoundboardClient({
             ) : (
               <div
                 aria-busy="true"
-                className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-5"
+                className="grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6"
               >
-                {Array.from({ length: 5 }, (_, index) => (
+                {Array.from({ length: 6 }, (_, index) => (
                   <SoundTileSkeleton key={index} />
                 ))}
               </div>
             )}
           </section>
-        )}
+        )} */}
 
         {/* Main Soundboard Library Section */}
         <section id="library" className="mt-14 scroll-mt-24">
@@ -378,7 +379,7 @@ export function HomeSoundboardClient({
           {/* Category Chip Carousel */}
           <div
             aria-busy={loading && categories.length === 0}
-            className="mb-5 flex flex-wrap gap-2"
+            className="mb-5 flex flex-wrap gap-2 text-xs"
           >
             {categories.length === 0 && loading ? (
               Array.from({ length: 6 }, (_, index) => (
@@ -469,12 +470,12 @@ export function HomeSoundboardClient({
             </div>
           ) : sounds.length ? (
             <>
-              <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
+              <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6">
                 {sounds.map((sound, index) => (
                   <SoundTile key={sound._id} sound={sound} index={index} />
                 ))}
                 {loading &&
-                  Array.from({ length: 4 }, (_, index) => (
+                  Array.from({ length: 6 }, (_, index) => (
                     <SoundTileSkeleton key={`skeleton-${index}`} />
                   ))}
               </div>
@@ -494,7 +495,7 @@ export function HomeSoundboardClient({
               )}
             </>
           ) : loading ? (
-            <SoundTileSkeletonGrid count={8} />
+            <SoundTileSkeletonGrid count={12} />
           ) : (
             <div className="flex flex-col items-center justify-center rounded-2xl border border-dashed border-border/80 bg-card/40 p-12 text-center">
               <div className="flex size-12 items-center justify-center rounded-2xl bg-secondary text-muted-foreground mb-3">

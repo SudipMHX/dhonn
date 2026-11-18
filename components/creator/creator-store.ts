@@ -15,6 +15,7 @@ import {
 export type CreatorUpload = {
   _id: string
   title: string
+  slug?: string
   description: string
   category: { slug: string } | null
   categoryName: string

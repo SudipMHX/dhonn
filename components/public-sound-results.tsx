@@ -44,12 +44,12 @@ export function PublicSoundResults({
   if (sounds.length > 0) {
     return (
       <>
-        <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
+        <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6">
           {sounds.map((sound, index) => (
             <SoundTile key={sound._id} sound={sound} index={index} />
           ))}
           {loading &&
-            Array.from({ length: 4 }, (_, index) => (
+            Array.from({ length: 6 }, (_, index) => (
               <SoundTileSkeleton key={`skeleton-${index}`} />
             ))}
         </div>
@@ -75,9 +75,9 @@ export function PublicSoundResults({
     return (
       <div
         aria-busy="true"
-        className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4"
+        className="grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6"
       >
-        {Array.from({ length: 8 }, (_, index) => (
+        {Array.from({ length: 12 }, (_, index) => (
           <SoundTileSkeleton key={index} />
         ))}
       </div>
@@ -99,22 +99,23 @@ export function PublicSoundResults({
 
 function SoundTileSkeleton() {
   return (
-    <div className="flex flex-col justify-between rounded-2xl border border-border/60 bg-card p-4 space-y-4">
-      <div className="flex justify-between">
-        <Skeleton className="h-4 w-16 rounded-md" />
-        <Skeleton className="h-4 w-8 rounded-md" />
+    <div className="flex flex-col justify-between rounded-xl border border-border/60 bg-card p-3 space-y-3">
+      <div className="flex items-center justify-between">
+        <Skeleton className="h-3.5 w-14 rounded-md" />
+        <Skeleton className="h-3 w-7 rounded-md" />
       </div>
-      <div className="flex justify-center py-4">
-        <Skeleton className="size-18 rounded-2xl" />
+      <div className="flex justify-center py-2">
+        <Skeleton className="size-12 rounded-xl" />
       </div>
-      <div className="space-y-1.5">
-        <Skeleton className="h-4 w-3/4 mx-auto" />
+      <div className="flex h-8 items-center justify-center">
+        <Skeleton className="h-3.5 w-4/5 mx-auto rounded-md" />
       </div>
-      <div className="flex justify-between items-center pt-2 border-t border-border/40">
-        <Skeleton className="h-3 w-10" />
+      <div className="flex items-center justify-between border-t border-border/40 pt-2">
+        <Skeleton className="h-3 w-8 rounded-md" />
         <div className="flex gap-1">
-          <Skeleton className="size-8 rounded-lg" />
-          <Skeleton className="size-8 rounded-lg" />
+          <Skeleton className="size-7 rounded-md" />
+          <Skeleton className="size-7 rounded-md" />
+          <Skeleton className="size-7 rounded-md" />
         </div>
       </div>
     </div>

@@ -85,80 +85,78 @@ export function SoundTile({ sound }: { sound: SoundCardData; index?: number }) {
   }
 
   return (
-    <article className="group relative flex flex-col justify-between overflow-hidden rounded-2xl border border-border/80 bg-card p-4 transition-all duration-300 hover:-translate-y-1 hover:border-indigo-500/40 hover:shadow-lg hover:shadow-indigo-500/5">
+    <article className="group relative flex flex-col justify-between overflow-hidden rounded-xl border border-border/80 bg-card p-3 shadow-xs transition-all duration-200 hover:-translate-y-0.5 hover:border-indigo-500/40 hover:shadow-md hover:shadow-indigo-500/5">
       {/* Top Meta Bar */}
-      <div className="flex items-center justify-between gap-2 text-xs">
+      <div className="flex items-center justify-between gap-1.5 text-[9px]">
         {sound.categoryName ? (
-          <span className="truncate rounded-md bg-secondary px-2 py-0.5 font-medium text-muted-foreground transition-colors group-hover:text-foreground">
+          <span className="truncate max-w-[70%] rounded-md bg-secondary/80 px-1.5 py-0.5 text-[10px] font-medium text-muted-foreground transition-colors group-hover:text-foreground">
             {sound.categoryName}
           </span>
         ) : (
           <span />
         )}
-        <span className="shrink-0 font-mono text-[11px] text-muted-foreground/80">
-          {formatDuration(sound.audio?.durationSeconds)}
+        <span className="flex items-center gap-1 font-medium text-muted-foreground">
+          <Volume2 className="size-2.5 text-muted-foreground/70" />
+          <span className="tabular-nums text-[9px]">{Number(sound.plays ?? 0).toLocaleString()}</span>
         </span>
+
       </div>
 
       {/* Central Play Trigger & Visualizer */}
-      <div className="my-5 flex flex-col items-center justify-center">
+      <div className="md:my-3 flex items-center justify-center">
         <button
           type="button"
           onClick={() => void togglePlayback()}
           aria-label={`${playing ? "Stop" : "Play"} ${sound.title}`}
           aria-pressed={playing}
-          className={`relative flex size-18 items-center justify-center rounded-2xl transition-all duration-300 active:scale-95 ${
+          className={`relative flex size-12 items-center justify-center rounded-xl transition-all duration-200 active:scale-95 ${
             playing
-              ? "bg-indigo-600 text-white shadow-md shadow-indigo-600/30 ring-4 ring-indigo-500/20"
-              : "border border-border/80 bg-secondary/60 text-foreground hover:border-indigo-500/30 hover:bg-indigo-50/50 hover:text-indigo-600 hover:shadow-sm dark:hover:bg-indigo-950/30 dark:hover:text-indigo-400"
+              ? "bg-indigo-600 text-white shadow-md shadow-indigo-600/30 ring-3 ring-indigo-500/20"
+              : "border border-border/80 bg-secondary/60 text-foreground hover:border-indigo-500/30 hover:bg-indigo-50/60 hover:text-indigo-600 hover:shadow-xs dark:hover:bg-indigo-950/40 dark:hover:text-indigo-400"
           }`}
         >
           {playing ? (
-            <div className="flex items-end gap-1 h-5" aria-hidden="true">
-              <span className="w-1 rounded-full bg-white animate-soundwave-1" />
-              <span className="w-1 rounded-full bg-white animate-soundwave-2" />
-              <span className="w-1 rounded-full bg-white animate-soundwave-3" />
-              <span className="w-1 rounded-full bg-white animate-soundwave-4" />
-              <span className="w-1 rounded-full bg-white animate-soundwave-5" />
+            <div className="flex items-end gap-0.5 h-3.5" aria-hidden="true">
+              <span className="w-0.5 rounded-full bg-white animate-soundwave-1" />
+              <span className="w-0.5 rounded-full bg-white animate-soundwave-2" />
+              <span className="w-0.5 rounded-full bg-white animate-soundwave-3" />
+              <span className="w-0.5 rounded-full bg-white animate-soundwave-4" />
+              <span className="w-0.5 rounded-full bg-white animate-soundwave-5" />
             </div>
           ) : (
-            <Play className="size-7 fill-current pl-0.5 transition-transform duration-200 group-hover:scale-110" />
+            <Play className="size-5 fill-current pl-0.5 transition-transform duration-200 group-hover:scale-105" />
           )}
         </button>
       </div>
 
-      {/* Title & Details */}
-      <div className="mb-3 text-center">
+      {/* Title & Details (Fixed height for clean alignment across rows) */}
+      <div className="flex h-8 items-center justify-center text-center">
         <Link
           href={`/sound/${sound.slug}`}
           title={sound.title}
-          className="line-clamp-2 text-sm font-semibold tracking-tight text-foreground transition-colors hover:text-indigo-600 dark:hover:text-indigo-400"
+          className="line-clamp-2 text-xs font-semibold tracking-tight text-foreground transition-colors hover:text-indigo-600 dark:hover:text-indigo-400"
         >
           {sound.title}
         </Link>
       </div>
 
       {/* Bottom Actions Bar */}
-      <div className="flex items-center justify-between border-t border-border/50 pt-3">
-        <span className="flex items-center gap-1 text-[11px] font-medium text-muted-foreground">
-          <Volume2 className="size-3 text-muted-foreground/70" />
-          <span>{Number(sound.plays ?? 0).toLocaleString()}</span>
-        </span>
+      <div className="flex items-center justify-between border-t border-border/50 pt-2 text-[10px]">
 
-        <div className="flex items-center gap-1">
+        <div className="flex justify-center items-center gap-1 w-full">
           <button
             type="button"
             onClick={() => void toggleFavorite(sound._id)}
             aria-label={`${isFavorite ? "Remove from" : "Add to"} favorites`}
             aria-pressed={isFavorite}
-            className={`flex size-8 items-center justify-center rounded-lg border transition-all ${
+            className={`flex size-7 items-center justify-center rounded-md border transition-all ${
               isFavorite
                 ? "border-rose-200 bg-rose-50 text-rose-500 dark:border-rose-900/60 dark:bg-rose-950/40"
                 : "border-border/60 bg-transparent text-muted-foreground hover:border-rose-200 hover:bg-rose-50/50 hover:text-rose-500 dark:hover:border-rose-900/50 dark:hover:bg-rose-950/30"
             }`}
           >
             <Heart
-              className={`size-3.5 transition-transform active:scale-125 ${
+              className={`size-3 transition-transform active:scale-125 ${
                 isFavorite ? "fill-current" : ""
               }`}
             />
@@ -168,12 +166,12 @@ export function SoundTile({ sound }: { sound: SoundCardData; index?: number }) {
             type="button"
             onClick={() => void copyLink()}
             aria-label="Copy sound link"
-            className="flex size-8 items-center justify-center rounded-lg border border-border/60 bg-transparent text-muted-foreground transition-all hover:border-border hover:bg-secondary hover:text-foreground"
+            className="flex size-7 items-center justify-center rounded-md border border-border/60 bg-transparent text-muted-foreground transition-all hover:border-border hover:bg-secondary hover:text-foreground"
           >
             {copied ? (
-              <Check className="size-3.5 text-emerald-600 dark:text-emerald-400" />
+              <Check className="size-3 text-emerald-600 dark:text-emerald-400" />
             ) : (
-              <Copy className="size-3.5" />
+              <Copy className="size-3" />
             )}
           </button>
 
@@ -181,7 +179,7 @@ export function SoundTile({ sound }: { sound: SoundCardData; index?: number }) {
             slug={sound.slug}
             title={sound.title}
             shareText={false}
-            className="size-8 rounded-lg border border-border/60 bg-transparent p-0 text-muted-foreground hover:border-border hover:bg-secondary hover:text-foreground"
+            className="size-7 rounded-md border border-border/60 bg-transparent p-0 text-muted-foreground hover:border-border hover:bg-secondary hover:text-foreground"
           />
         </div>
       </div>
@@ -189,7 +187,7 @@ export function SoundTile({ sound }: { sound: SoundCardData; index?: number }) {
       {(playError || favoriteError) && (
         <p
           role="status"
-          className="mt-2 text-center text-xs text-rose-600 dark:text-rose-400"
+          className="mt-1.5 text-center text-[10px] text-rose-600 dark:text-rose-400"
         >
           {playError || favoriteError}
         </p>

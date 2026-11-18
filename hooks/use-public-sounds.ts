@@ -35,7 +35,7 @@ export function usePublicSounds({
           q: query.trim(),
           sort,
           page: String(page),
-          limit: "16",
+          limit: "18",
         })
         if (category) params.set("category", category)
         if (featured) params.set("featured", "true")

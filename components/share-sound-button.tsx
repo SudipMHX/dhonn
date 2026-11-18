@@ -76,13 +76,16 @@ export function ShareSoundButton({
     <Button
       type="button"
       variant="outline"
-      size="sm"
+      size={shareText ? "sm" : "icon-xs"}
       onClick={() => void shareSound()}
-      className={className ?? "rounded-xl border-border bg-card hover:bg-secondary text-muted-foreground hover:text-foreground"}
+      className={
+        className ??
+        "rounded-xl border-border bg-card hover:bg-secondary text-muted-foreground hover:text-foreground"
+      }
       aria-label={`Share ${title}`}
       title={`Share ${title}`}
     >
-      <Share2 className="size-3.5" aria-hidden="true" />
+      <Share2 className={shareText ? "size-3.5" : "size-3"} aria-hidden="true" />
       {shareText && <span>Share</span>}
     </Button>
   )

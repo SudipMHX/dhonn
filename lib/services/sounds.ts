@@ -135,7 +135,7 @@ export async function toggleFavorite(userId: string, soundId: string) {
 
 export async function getUserDashboardData(userId: string) {
   await connectToDatabase()
-  const [favorites, uploads, recent] = await Promise.all([
+  const [favorites, uploads, recent, allUserSounds] = await Promise.all([
     Favorite.find({ user: userId })
       .sort({ createdAt: -1 })
       .limit(6)
@@ -146,19 +146,36 @@ export async function getUserDashboardData(userId: string) {
       })
       .lean(),
     Sound.find({ owner: userId })
-      .select("title slug status moderationNote createdAt categoryName")
+      .select(
+        "title slug status moderationNote createdAt categoryName audio.durationSeconds"
+      )
       .sort({ createdAt: -1 })
       .limit(5)
       .lean(),
     PlayEvent.find({ user: userId })
       .sort({ createdAt: -1 })
-      .limit(3)
+      .limit(6)
       .populate({
         path: "sound",
         select: soundCardFields,
         match: { status: "published" },
       })
       .lean(),
+    Sound.find({ owner: userId }).select("plays favorites").lean(),
   ])
-  return { favorites, uploads, recent }
+
+  const totalPlays = allUserSounds.reduce((sum, s) => sum + (s.plays || 0), 0)
+  const totalSoundFavorites = allUserSounds.reduce(
+    (sum, s) => sum + (s.favorites || 0),
+    0
+  )
+
+  return {
+    favorites,
+    uploads,
+    recent,
+    totalPlays,
+    totalSoundFavorites,
+    totalUploads: allUserSounds.length,
+  }
 }

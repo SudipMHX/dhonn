@@ -66,7 +66,7 @@ export default async function SoundDetailPage({ params }: PageProps) {
   if (!sound) notFound()
 
   const related = serialize(
-    await getRelatedSounds(sound._id, sound.category._id)
+    await getRelatedSounds(sound._id, sound.category._id, 6)
   )
 
   const structuredData = {
@@ -352,7 +352,7 @@ export default async function SoundDetailPage({ params }: PageProps) {
               </Link>
             </div>
 
-            <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
+            <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6">
               {related.map((item, index) => (
                 <SoundTile
                   key={item._id}

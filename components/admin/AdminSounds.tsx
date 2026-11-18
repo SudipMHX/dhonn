@@ -74,7 +74,7 @@ export function AdminSounds() {
           <TableHeader>
             <TableRow>
               <TableHead>Sound</TableHead>
-              <TableHead>Category / creator</TableHead>
+              <TableHead>Creator</TableHead>
               <TableHead>Status</TableHead>
               <TableHead>Activity</TableHead>
               <TableHead>Actions</TableHead>

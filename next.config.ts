@@ -1,6 +1,9 @@
 import type { NextConfig } from "next"
 
 const nextConfig: NextConfig = {
+  experimental: {
+    agentUpgrade: "security",
+  },
   allowedDevOrigins: ["192.168.0.101"],
   async headers() {
     return [

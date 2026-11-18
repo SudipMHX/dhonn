@@ -1,5 +1,9 @@
 "use client"
 
+import Link from "next/link"
+import { useEffect, useRef, useState } from "react"
+import { Edit3, Pause, Play, Trash2 } from "lucide-react"
+
 import { useCreatorStore } from "@/components/creator/creator-store"
 import {
   AlertDialog,
@@ -37,6 +41,9 @@ export function CreatorUploadRow({
   onSave: (body: Record<string, unknown>) => Promise<boolean>
   onRemove: () => Promise<boolean>
 }) {
+  const audioRef = useRef<HTMLAudioElement>(null)
+  const [playing, setPlaying] = useState(false)
+
   const editOpen = useCreatorStore(
     (state) => state.editingUploadId === upload._id
   )
@@ -59,6 +66,36 @@ export function CreatorUploadRow({
     (state) => state.initializeUploadDraft
   )
 
+  useEffect(() => {
+    function stopOtherAudio(event: Event) {
+      if (event.target !== audioRef.current) {
+        audioRef.current?.pause()
+        if (audioRef.current) audioRef.current.currentTime = 0
+        setPlaying(false)
+      }
+    }
+    window.addEventListener("dhonn.:audio-started", stopOtherAudio)
+    return () =>
+      window.removeEventListener("dhonn.:audio-started", stopOtherAudio)
+  }, [])
+
+  async function togglePlay() {
+    const audioEl = audioRef.current
+    if (!audioEl) return
+    if (playing) {
+      audioEl.pause()
+      audioEl.currentTime = 0
+      setPlaying(false)
+      return
+    }
+    window.dispatchEvent(new Event("dhonn.:audio-started"))
+    try {
+      await audioEl.play()
+    } catch {
+      setPlaying(false)
+    }
+  }
+
   async function remove() {
     setRemovingUploadId(upload._id)
     const removed = await onRemove()
@@ -68,36 +105,93 @@ export function CreatorUploadRow({
 
   const canEdit = upload.status !== "uploading" && upload.status !== "removed"
 
+  const statusVariant =
+    upload.status === "published"
+      ? "success"
+      : upload.status === "rejected"
+        ? "destructive"
+        : "warning"
+
   return (
-    <TableRow>
-      <TableCell className="min-w-44 font-medium whitespace-normal">
-        {upload.title}
+    <TableRow className="group/row">
+      {/* Sound title & inline audio auditioning */}
+      <TableCell className="min-w-56 whitespace-normal">
+        <div className="flex items-center gap-2.5">
+          {upload.slug && (
+            <button
+              type="button"
+              onClick={() => void togglePlay()}
+              aria-label={`${playing ? "Pause" : "Play"} ${upload.title}`}
+              className={`flex size-7 shrink-0 items-center justify-center rounded-lg border transition-all ${
+                playing
+                  ? "border-indigo-600 bg-indigo-600 text-white shadow-xs"
+                  : "border-border/80 bg-secondary/60 text-muted-foreground hover:border-indigo-500/40 hover:bg-indigo-50 hover:text-indigo-600 dark:hover:bg-indigo-950/40 dark:hover:text-indigo-400"
+              }`}
+            >
+              {playing ? (
+                <Pause className="size-3 fill-current" />
+              ) : (
+                <Play className="size-3 fill-current pl-0.5" />
+              )}
+            </button>
+          )}
+
+          <div className="min-w-0">
+            {upload.slug ? (
+              <Link
+                href={`/sound/${upload.slug}`}
+                className="line-clamp-1 font-semibold text-foreground transition-colors hover:text-indigo-600 dark:hover:text-indigo-400"
+              >
+                {upload.title}
+              </Link>
+            ) : (
+              <p className="line-clamp-1 font-semibold text-foreground">{upload.title}</p>
+            )}
+          </div>
+        </div>
       </TableCell>
-      <TableCell>{upload.categoryName}</TableCell>
+
+      {/* Category */}
       <TableCell>
-        <Badge
-          variant={
-            upload.status === "published"
-              ? "success"
-              : upload.status === "rejected"
-                ? "destructive"
-                : "warning"
-          }
-        >
+        <span className="rounded-md bg-secondary/80 px-2 py-0.5 text-xs font-medium text-muted-foreground">
+          {upload.categoryName || "General"}
+        </span>
+      </TableCell>
+
+      {/* Status */}
+      <TableCell>
+        <Badge variant={statusVariant} className="gap-1.5 text-[11px] capitalize">
+          <span
+            className={`size-1.5 rounded-full ${
+              upload.status === "published"
+                ? "bg-emerald-500"
+                : upload.status === "rejected"
+                  ? "bg-rose-500"
+                  : "bg-amber-500"
+            }`}
+          />
           {upload.status === "published"
             ? "Published"
             : upload.status === "rejected"
               ? "Rejected"
               : upload.status === "pending"
-                ? "Pending"
+                ? "Pending Review"
                 : upload.status}
         </Badge>
       </TableCell>
-      <TableCell className="min-w-48 whitespace-normal text-muted-foreground">
-        {upload.moderationNote || "—"}
+
+      {/* Moderation Note */}
+      <TableCell className="max-w-xs whitespace-normal text-xs text-muted-foreground">
+        {upload.moderationNote ? (
+          <p className="line-clamp-2 leading-relaxed">{upload.moderationNote}</p>
+        ) : (
+          "—"
+        )}
       </TableCell>
-      <TableCell className="min-w-40 text-right">
-        <div className="flex justify-end gap-2">
+
+      {/* Actions */}
+      <TableCell className="min-w-36 text-right">
+        <div className="flex justify-end items-center gap-1.5">
           {canEdit && (
             <Dialog
               open={editOpen}
@@ -117,14 +211,15 @@ export function CreatorUploadRow({
             >
               <DialogTrigger
                 render={
-                  <Button type="button" variant="outline" size="sm">
-                    Edit
+                  <Button type="button" variant="outline" size="xs" className="rounded-lg gap-1">
+                    <Edit3 className="size-3" />
+                    <span>Edit</span>
                   </Button>
                 }
               />
               <DialogContent className="max-h-[90vh] overflow-y-auto sm:max-w-xl">
                 <DialogHeader>
-                  <DialogTitle>Edit upload</DialogTitle>
+                  <DialogTitle>Edit upload details</DialogTitle>
                   <DialogDescription>
                     Update the details for this sound.
                     {upload.status === "published" ||
@@ -146,6 +241,7 @@ export function CreatorUploadRow({
               </DialogContent>
             </Dialog>
           )}
+
           {upload.status !== "removed" && (
             <AlertDialog
               open={removeOpen}
@@ -155,11 +251,13 @@ export function CreatorUploadRow({
             >
               <Button
                 type="button"
-                variant="destructive"
-                size="sm"
+                variant="ghost"
+                size="xs"
+                className="rounded-lg text-rose-600 hover:bg-rose-50 hover:text-rose-700 dark:text-rose-400 dark:hover:bg-rose-950/40"
                 onClick={() => setConfirmRemoveUploadId(upload._id)}
+                title="Remove upload"
               >
-                Remove
+                <Trash2 className="size-3.5" />
               </Button>
               <AlertDialogContent>
                 <AlertDialogHeader>
@@ -187,6 +285,18 @@ export function CreatorUploadRow({
           )}
         </div>
       </TableCell>
+
+      {upload.slug && (
+        <audio
+          ref={audioRef}
+          src={`/api/sounds/${encodeURIComponent(upload.slug)}/audio`}
+          preload="none"
+          onEnded={() => setPlaying(false)}
+          onPause={() => setPlaying(false)}
+          onPlay={() => setPlaying(true)}
+          onError={() => setPlaying(false)}
+        />
+      )}
     </TableRow>
   )
 }

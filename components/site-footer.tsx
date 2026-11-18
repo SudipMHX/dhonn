@@ -3,7 +3,7 @@ import { Volume2 } from "lucide-react"
 
 export function SiteFooter() {
   return (
-    <footer className="mt-20 border-t border-border/80 bg-card/40 backdrop-blur-sm">
+    <footer className="hidden md:block mt-20 border-t border-border/80 bg-card/40 backdrop-blur-sm">
       <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
         <div className="flex flex-col gap-8 md:flex-row md:items-center md:justify-between">
           <div className="space-y-2">

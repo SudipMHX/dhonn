@@ -247,10 +247,10 @@ export function SiteHeader({ user }: { user: HeaderUser | null }) {
                 )}
               </div>
             ) : (
-              <div className="flex items-center gap-1.5 sm:gap-2">
+              <div className="hidden md:flex items-center gap-1.5 sm:gap-2">
                 <Link
                   href="/login"
-                  className="rounded-full px-3 py-1 text-xs font-semibold text-foreground transition-colors hover:bg-secondary/80"
+                  className="hidden lg:block rounded-full px-3 py-1 text-xs font-semibold text-foreground transition-colors hover:bg-secondary/80"
                 >
                   Sign in
                 </Link>

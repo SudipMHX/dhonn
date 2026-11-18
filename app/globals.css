@@ -297,7 +297,7 @@ img {
 }
 
 /* Mobile devices */
-@media (max-width: 700px) {
+@media (max-width: 768px) {
   @keyframes dynamic-island-morph {
     0% {
       max-width: 80rem;

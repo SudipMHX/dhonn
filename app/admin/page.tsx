@@ -132,9 +132,9 @@ export default async function AdminPage() {
   ]
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-6 sm:space-y-8">
       {/* Top Header Banner */}
-      <div className="flex flex-wrap items-end justify-between gap-4 border-b border-border/80 pb-6">
+      <div className="flex flex-col gap-4 border-b border-border/80 pb-6 sm:flex-row sm:items-end sm:justify-between">
         <div>
           <div className="inline-flex items-center gap-1.5 rounded-full border border-indigo-200/60 bg-indigo-50/70 px-2.5 py-0.5 text-[11px] font-semibold text-indigo-700 dark:border-indigo-900/60 dark:bg-indigo-950/40 dark:text-indigo-300">
             <span className="size-1.5 animate-pulse rounded-full bg-emerald-500" />
@@ -143,23 +143,23 @@ export default async function AdminPage() {
           <h1 className="mt-2 text-2xl font-bold tracking-tight text-foreground sm:text-3xl">
             Operations &amp; Governance
           </h1>
-          <p className="mt-1 text-xs text-muted-foreground">
+          <p className="mt-1 text-xs text-muted-foreground sm:text-sm">
             Real-time platform telemetry, sound catalog curation, and moderation
             workbench.
           </p>
         </div>
 
-        <div className="flex items-center gap-2">
+        <div className="flex flex-wrap items-center gap-2">
           <Button
             nativeButton={false}
             variant="outline"
             size="xs"
-            className="rounded-lg text-xs"
+            className="min-h-[38px] flex-1 rounded-lg text-xs sm:flex-none"
             render={<Link href="/admin/uploads" />}
           >
             <span>Review Queue</span>
             {stats.pendingUploads > 0 && (
-              <span className="py-0.2 ml-1 rounded-full bg-amber-500 px-1.5 text-[10px] font-bold text-white">
+              <span className="ml-1 rounded-full bg-amber-500 px-1.5 py-0.5 text-[10px] font-bold text-white">
                 {stats.pendingUploads}
               </span>
             )}
@@ -169,7 +169,7 @@ export default async function AdminPage() {
             nativeButton={false}
             variant="primary"
             size="xs"
-            className="rounded-lg text-xs"
+            className="min-h-[38px] flex-1 rounded-lg text-xs sm:flex-none"
             render={<Link href="/admin/sounds" />}
           >
             <span>Manage Catalog</span>
@@ -214,7 +214,7 @@ export default async function AdminPage() {
       />
 
       {/* Executive KPI Grid */}
-      <div className="grid gap-3.5 sm:grid-cols-2 lg:grid-cols-3">
+      <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
         {kpis.map(
           ({ label, description, value, href, icon: Icon, alert, badge }) => (
             <Link
@@ -230,19 +230,19 @@ export default async function AdminPage() {
                     : "border-border/80 hover:border-indigo-500/40"
                 }`}
               >
-                <CardContent className="p-4 sm:p-5">
-                  <div className="flex items-center justify-between">
+                <CardContent className="px-3 py-1.5">
+                  <div className="relative flex items-center justify-between">
                     <span className="text-xs font-medium text-muted-foreground">
                       {label}
                     </span>
                     <div
-                      className={`flex size-8 items-center justify-center rounded-lg transition-colors ${
+                      className={`absolute top-0 -right-2 flex size-8 items-center justify-center rounded-lg transition-colors md:-top-2 ${
                         alert
-                          ? "bg-amber-100 text-amber-700 dark:bg-amber-950 dark:text-amber-300"
-                          : "bg-secondary text-muted-foreground group-hover:bg-indigo-50 group-hover:text-indigo-600 dark:group-hover:bg-indigo-950/50 dark:group-hover:text-indigo-300"
+                          ? "text-amber-700 dark:text-amber-300"
+                          : "text-muted-foreground group-hover:text-indigo-600 dark:group-hover:text-indigo-300"
                       }`}
                     >
-                      <Icon className="size-4" />
+                      <Icon className="size-8" />
                     </div>
                   </div>
 
@@ -256,7 +256,7 @@ export default async function AdminPage() {
                   <div className="mt-2 flex items-center justify-between text-[11px] text-muted-foreground">
                     <span className="truncate">{description}</span>
                     {badge && (
-                      <span className="py-0.2 rounded-full bg-amber-100 px-2 font-semibold text-amber-800 dark:bg-amber-950 dark:text-amber-200">
+                      <span className="rounded-full bg-amber-100 px-2 py-0.5 font-semibold text-amber-800 dark:bg-amber-950 dark:text-amber-200">
                         {badge}
                       </span>
                     )}
@@ -273,10 +273,10 @@ export default async function AdminPage() {
         {/* Left Column (2/3): Pending Review Queue & Quick Shortcuts */}
         <div className="space-y-6 lg:col-span-2">
           {/* Pending Queue Card */}
-          <div className="rounded-xl border border-border/80 bg-card p-5 shadow-xs">
-            <div className="flex items-center justify-between border-b border-border/60 pb-3">
+          <div className="rounded-xl border border-border/80 bg-card p-4 shadow-xs sm:p-5">
+            <div className="flex flex-wrap items-center justify-between gap-2 border-b border-border/60 pb-3">
               <div className="flex items-center gap-2">
-                <div className="flex size-7 items-center justify-center rounded-lg bg-amber-50 text-amber-700 dark:bg-amber-950/60 dark:text-amber-300">
+                <div className="flex size-7 shrink-0 items-center justify-center rounded-lg bg-amber-50 text-amber-700 dark:bg-amber-950/60 dark:text-amber-300">
                   <UploadCloud className="size-4" />
                 </div>
                 <div>
@@ -302,16 +302,16 @@ export default async function AdminPage() {
                 {recentPending.map((sound) => (
                   <div
                     key={sound._id}
-                    className="flex items-center justify-between py-2.5 text-xs"
+                    className="flex flex-col gap-2 py-3 text-xs sm:flex-row sm:items-center sm:justify-between"
                   >
-                    <div className="min-w-0 pr-3">
+                    <div className="min-w-0 pr-2">
                       <p className="truncate font-semibold text-foreground">
                         {sound.title}
                       </p>
-                      <div className="mt-0.5 flex items-center gap-2 text-[11px] text-muted-foreground">
+                      <div className="mt-0.5 flex flex-wrap items-center gap-2 text-[11px] text-muted-foreground">
                         <span>{sound.owner?.name || "Creator"}</span>
                         <span>·</span>
-                        <span className="py-0.2 rounded bg-secondary px-1.5 font-medium">
+                        <span className="rounded bg-secondary px-1.5 py-0.5 font-medium">
                           {sound.categoryName || "General"}
                         </span>
                         {sound.audio?.durationSeconds && (
@@ -324,7 +324,7 @@ export default async function AdminPage() {
 
                     <Link
                       href="/admin/uploads"
-                      className="shrink-0 rounded-lg border border-border/80 bg-secondary/60 px-2.5 py-1 text-xs font-medium text-foreground hover:bg-secondary"
+                      className="flex min-h-[36px] shrink-0 items-center justify-center rounded-lg border border-border/80 bg-secondary/60 px-3 py-1.5 text-xs font-semibold text-foreground hover:bg-secondary active:scale-95"
                     >
                       Audit
                     </Link>
@@ -345,12 +345,12 @@ export default async function AdminPage() {
           </div>
 
           {/* Quick Management Shortcuts */}
-          <div className="rounded-xl border border-border/80 bg-card p-5 shadow-xs">
+          <div className="rounded-xl border border-border/80 bg-card p-4 shadow-xs sm:p-5">
             <h3 className="mb-3 text-xs font-bold tracking-wider text-muted-foreground uppercase">
               Management Workbench
             </h3>
 
-            <div className="grid gap-3 sm:grid-cols-2">
+            <div className="grid gap-2.5 sm:grid-cols-2">
               {quickActions.map((action) => {
                 const Icon = action.icon
                 return (
@@ -358,7 +358,7 @@ export default async function AdminPage() {
                     key={action.title}
                     href={action.href}
                     prefetch={false}
-                    className="group flex items-center justify-between rounded-xl border border-border/70 bg-secondary/30 p-3.5 transition-all duration-150 hover:border-indigo-500/40 hover:bg-secondary/70"
+                    className="group flex min-h-[52px] items-center justify-between rounded-xl border border-border/70 bg-secondary/30 p-3.5 transition-all duration-150 hover:border-indigo-500/40 hover:bg-secondary/70 active:scale-98"
                   >
                     <div className="flex min-w-0 items-center gap-3">
                       <div className="flex size-8 shrink-0 items-center justify-center rounded-lg bg-card text-muted-foreground transition-colors group-hover:text-indigo-600 dark:group-hover:text-indigo-400">
@@ -387,10 +387,10 @@ export default async function AdminPage() {
         {/* Right Column (1/3): Disputes & Platform Security Health */}
         <div className="space-y-6">
           {/* Dispute Center Card */}
-          <div className="rounded-xl border border-border/80 bg-card p-5 shadow-xs">
+          <div className="rounded-xl border border-border/80 bg-card p-4 shadow-xs sm:p-5">
             <div className="flex items-center justify-between border-b border-border/60 pb-3">
               <div className="flex items-center gap-2">
-                <div className="flex size-7 items-center justify-center rounded-lg bg-rose-50 text-rose-700 dark:bg-rose-950/60 dark:text-rose-300">
+                <div className="flex size-7 shrink-0 items-center justify-center rounded-lg bg-rose-50 text-rose-700 dark:bg-rose-950/60 dark:text-rose-300">
                   <AlertTriangle className="size-4" />
                 </div>
                 <h3 className="text-sm font-bold text-foreground">
@@ -413,7 +413,7 @@ export default async function AdminPage() {
                       <span className="truncate font-semibold text-foreground">
                         {report.sound?.title || "Audio item"}
                       </span>
-                      <span className="py-0.2 rounded bg-rose-50 px-1.5 text-[10px] font-semibold text-rose-700 uppercase dark:bg-rose-950/60 dark:text-rose-300">
+                      <span className="rounded bg-rose-50 px-1.5 py-0.5 text-[10px] font-semibold text-rose-700 uppercase dark:bg-rose-950/60 dark:text-rose-300">
                         {report.type}
                       </span>
                     </div>
@@ -437,9 +437,9 @@ export default async function AdminPage() {
           </div>
 
           {/* System Security & Integrity Ledger */}
-          <div className="rounded-xl border border-border/80 bg-card p-5 shadow-xs">
+          <div className="rounded-xl border border-border/80 bg-card p-4 shadow-xs sm:p-5">
             <div className="flex items-center gap-2 border-b border-border/60 pb-3">
-              <div className="flex size-7 items-center justify-center rounded-lg bg-indigo-50 text-indigo-700 dark:bg-indigo-950/60 dark:text-indigo-300">
+              <div className="flex size-7 shrink-0 items-center justify-center rounded-lg bg-indigo-50 text-indigo-700 dark:bg-indigo-950/60 dark:text-indigo-300">
                 <Shield className="size-4" />
               </div>
               <h3 className="text-sm font-bold text-foreground">

@@ -21,9 +21,19 @@ export function parseListQuery(url: URL) {
 }
 
 export function cursorFilter(after?: string) {
-  if (!after) return {}
-  const [timestamp, id] = after.split(".")
-  const createdAt = new Date(parseInt(timestamp, 36))
+  if (!after || typeof after !== "string") return {}
+  const parts = after.split(".")
+  if (
+    parts.length !== 2 ||
+    !/^[0-9a-z]{1,10}$/i.test(parts[0]) ||
+    !/^[a-f\d]{24}$/i.test(parts[1])
+  ) {
+    return {}
+  }
+  const [timestamp, id] = parts
+  const timeMs = parseInt(timestamp, 36)
+  if (Number.isNaN(timeMs)) return {}
+  const createdAt = new Date(timeMs)
   const objectId = new Types.ObjectId(id)
   return {
     $or: [
@@ -34,11 +44,16 @@ export function cursorFilter(after?: string) {
 }
 
 export function textSearch(q: string) {
-  return q ? { $text: { $search: q } } : {}
+  if (typeof q !== "string") return {}
+  const trimmed = q.trim()
+  return trimmed ? { $text: { $search: trimmed } } : {}
 }
 
 export function combineFilters(...filters: Array<Record<string, unknown>>) {
-  const clauses = filters.filter((filter) => Object.keys(filter).length > 0)
+  const clauses = filters.filter(
+    (filter) =>
+      filter && typeof filter === "object" && Object.keys(filter).length > 0
+  )
   return clauses.length ? { $and: clauses } : {}
 }
 

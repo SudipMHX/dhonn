@@ -12,7 +12,7 @@ function Card({
       data-size={size}
       className={cn(
         "group/card flex flex-col overflow-hidden rounded-2xl border border-border/70 bg-card text-card-foreground shadow-xs transition-all duration-200",
-        size === "sm" ? "gap-3 p-4 text-xs" : "gap-5 p-6 text-sm",
+        size === "sm" ? "gap-3 p-4 text-xs" : "gap-5 p-2 text-sm",
         className
       )}
       {...props}

@@ -45,8 +45,14 @@ export async function enforceRateLimit(
 }
 
 export async function getRequestSubject() {
-  const requestHeaders = await headers()
+  let requestHeaders
+  try {
+    requestHeaders = await headers()
+  } catch {
+    return createHash("sha256").update("unknown:unknown").digest("hex")
+  }
   const address =
+    requestHeaders.get("cf-connecting-ip") ??
     requestHeaders.get("x-real-ip") ??
     requestHeaders.get("x-forwarded-for")?.split(",")[0]?.trim() ??
     "unknown"

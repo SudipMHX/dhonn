@@ -63,12 +63,13 @@ export async function listPublicSounds(
 
   const filter: Record<string, unknown> = { status: "published" }
   if (query.featured !== undefined) filter.featured = query.featured
-  if (query.category) {
-    if (Types.ObjectId.isValid(query.category)) {
-      filter.category = new Types.ObjectId(query.category)
+  if (query.category && typeof query.category === "string") {
+    const cleanCat = query.category.trim()
+    if (Types.ObjectId.isValid(cleanCat)) {
+      filter.category = new Types.ObjectId(cleanCat)
     } else {
       const category = await Category.findOne({
-        slug: query.category.toLowerCase(),
+        slug: cleanCat.toLowerCase(),
       })
         .select("_id")
         .lean()
@@ -77,7 +78,7 @@ export async function listPublicSounds(
     }
   }
 
-  const trimmedQ = query.q?.trim()
+  const trimmedQ = typeof query.q === "string" ? query.q.trim() : ""
   if (trimmedQ) filter.$text = { $search: trimmedQ }
 
   const sort: Record<string, 1 | -1 | { $meta: "textScore" }> = trimmedQ

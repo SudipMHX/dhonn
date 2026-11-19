@@ -18,13 +18,13 @@ import { Card, CardContent } from "@/components/ui/card"
 import {
   Table,
   TableBody,
-  TableCell,
   TableHead,
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
 import { TelemetryChart } from "@/components/telemetry-chart"
 import {
+  DashboardUploadCard,
   DashboardUploadRow,
   type DashboardUploadItem,
 } from "@/components/creator/dashboard-upload-row"
@@ -80,9 +80,9 @@ export default async function DashboardPage() {
   ]
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-6 sm:space-y-8">
       {/* Top Header Banner */}
-      <div className="flex flex-wrap items-end justify-between gap-4 border-b border-border/80 pb-6">
+      <div className="flex flex-col gap-4 border-b border-border/80 pb-6 sm:flex-row sm:items-end sm:justify-between">
         <div>
           <div className="inline-flex items-center gap-1.5 rounded-full border border-indigo-200/60 bg-indigo-50/70 px-2.5 py-0.5 text-[11px] font-semibold text-indigo-700 dark:border-indigo-900/60 dark:bg-indigo-950/40 dark:text-indigo-300">
             <Sparkles className="size-3" />
@@ -91,18 +91,18 @@ export default async function DashboardPage() {
           <h1 className="mt-2 text-2xl font-bold tracking-tight text-foreground sm:text-3xl">
             Welcome back, {user.name.split(" ")[0]}.
           </h1>
-          <p className="mt-1 text-xs text-muted-foreground">
+          <p className="mt-1 text-xs text-muted-foreground sm:text-sm">
             Audience listening telemetry, catalog management, and your
             personalized soundboard.
           </p>
         </div>
 
-        <div className="flex items-center gap-2">
+        <div className="flex flex-wrap items-center gap-2">
           <Button
             nativeButton={false}
             variant="outline"
             size="xs"
-            className="rounded-lg text-xs"
+            className="min-h-[38px] flex-1 rounded-lg text-xs sm:flex-none"
             render={<Link href="/" />}
           >
             <Compass className="size-3.5 text-muted-foreground" />
@@ -113,7 +113,7 @@ export default async function DashboardPage() {
             nativeButton={false}
             variant="primary"
             size="xs"
-            className="rounded-lg text-xs shadow-xs"
+            className="min-h-[38px] flex-1 rounded-lg text-xs shadow-xs sm:flex-none"
             render={<Link href="/dashboard/upload" />}
           >
             <Plus className="size-3.5" />
@@ -158,7 +158,7 @@ export default async function DashboardPage() {
       />
 
       {/* Executive KPI Grid */}
-      <div className="grid grid-cols-1 gap-3.5 sm:grid-cols-3">
+      <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
         {kpis.map(({ label, description, value, icon: Icon, href }) => (
           <Link
             key={label}
@@ -166,13 +166,13 @@ export default async function DashboardPage() {
             className="group rounded-xl focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none"
           >
             <Card className="h-full border border-border/80 transition-all duration-200 hover:-translate-y-0.5 hover:border-indigo-500/40 hover:shadow-md">
-              <CardContent className="p-4 sm:p-5">
-                <div className="flex items-center justify-between">
+              <CardContent className="px-3 py-1.5 sm:p-5">
+                <div className="relative flex items-center justify-between">
                   <span className="text-xs font-medium text-muted-foreground">
                     {label}
                   </span>
-                  <div className="flex size-8 items-center justify-center rounded-lg bg-secondary text-muted-foreground transition-colors group-hover:bg-indigo-50 group-hover:text-indigo-600 dark:group-hover:bg-indigo-950/50 dark:group-hover:text-indigo-300">
-                    <Icon className="size-4" />
+                  <div className="absolute -top-4 -right-4 flex items-center justify-center rounded-lg p-3 text-muted-foreground transition-colors dark:group-hover:text-indigo-300">
+                    <Icon className="size-8" />
                   </div>
                 </div>
 
@@ -210,7 +210,7 @@ export default async function DashboardPage() {
               nativeButton={false}
               variant="outline"
               size="xs"
-              className="rounded-lg text-xs"
+              className="min-h-[34px] rounded-lg text-xs"
               render={<Link href="/dashboard/uploads" />}
             >
               <span>Manage all</span>
@@ -218,62 +218,69 @@ export default async function DashboardPage() {
             </Button>
           </div>
 
-          <Table>
-            <TableHeader>
-              <TableRow>
-                <TableHead>Sound Title</TableHead>
-                <TableHead>Category</TableHead>
-                <TableHead>Moderation Status</TableHead>
-                <TableHead className="text-right">Action</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {data.uploads.length ? (
-                data.uploads.map((upload) => (
-                  <DashboardUploadRow
-                    key={upload._id.toString()}
+          {data.uploads.length ? (
+            <>
+              {/* Mobile View: Cards */}
+              <div className="space-y-2.5 sm:hidden">
+                {data.uploads.map((upload) => (
+                  <DashboardUploadCard
+                    key={`card-${upload._id.toString()}`}
                     upload={upload as unknown as DashboardUploadItem}
                   />
-                ))
-              ) : (
-                <TableRow>
-                  <TableCell
-                    colSpan={4}
-                    className="py-12 text-center text-xs text-muted-foreground"
-                  >
-                    <div className="flex flex-col items-center justify-center gap-2">
-                      <div className="flex size-10 items-center justify-center rounded-xl bg-secondary text-muted-foreground">
-                        <Music2 className="size-5" />
-                      </div>
-                      <p className="font-semibold text-foreground">
-                        No uploads yet
-                      </p>
-                      <p className="text-xs text-muted-foreground">
-                        Share your first soundboard reaction with the creator
-                        community.
-                      </p>
-                      <Button
-                        nativeButton={false}
-                        variant="primary"
-                        size="xs"
-                        className="mt-2 rounded-lg"
-                        render={<Link href="/dashboard/upload" />}
-                      >
-                        <Plus className="size-3" />
-                        <span>Upload sound</span>
-                      </Button>
-                    </div>
-                  </TableCell>
-                </TableRow>
-              )}
-            </TableBody>
-          </Table>
+                ))}
+              </div>
+
+              {/* Desktop View: Table */}
+              <div className="hidden sm:block">
+                <Table>
+                  <TableHeader>
+                    <TableRow>
+                      <TableHead>Sound Title</TableHead>
+                      <TableHead>Category</TableHead>
+                      <TableHead>Moderation Status</TableHead>
+                      <TableHead className="text-right">Action</TableHead>
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody>
+                    {data.uploads.map((upload) => (
+                      <DashboardUploadRow
+                        key={upload._id.toString()}
+                        upload={upload as unknown as DashboardUploadItem}
+                      />
+                    ))}
+                  </TableBody>
+                </Table>
+              </div>
+            </>
+          ) : (
+            <div className="flex flex-col items-center justify-center rounded-2xl border border-dashed border-border/80 bg-card/40 p-8 text-center sm:p-12">
+              <div className="mb-3 flex size-11 items-center justify-center rounded-xl bg-secondary text-muted-foreground">
+                <Music2 className="size-5" />
+              </div>
+              <p className="text-sm font-semibold text-foreground">
+                No uploads yet
+              </p>
+              <p className="mt-1 max-w-sm text-xs text-muted-foreground">
+                Share your first soundboard reaction with the creator community.
+              </p>
+              <Button
+                nativeButton={false}
+                variant="primary"
+                size="xs"
+                className="mt-4 min-h-[38px] rounded-lg"
+                render={<Link href="/dashboard/upload" />}
+              >
+                <Plus className="size-3.5" />
+                <span>Upload sound</span>
+              </Button>
+            </div>
+          )}
         </section>
 
         {/* Right Column (1/3): Studio Performance & Audio Specifications */}
         <div className="space-y-6">
           {/* Studio Specifications Card */}
-          <div className="rounded-xl border border-border/80 bg-card p-5 shadow-xs">
+          <div className="rounded-xl border border-border/80 bg-card p-4 shadow-xs sm:p-5">
             <div className="flex items-center gap-2 border-b border-border/60 pb-3">
               <div className="flex size-7 items-center justify-center rounded-lg bg-indigo-50 text-indigo-700 dark:bg-indigo-950/60 dark:text-indigo-300">
                 <ShieldCheck className="size-4" />
@@ -320,7 +327,7 @@ export default async function DashboardPage() {
             <div className="mt-4 border-t border-border/60 pt-3">
               <Link
                 href="/dashboard/upload"
-                className="flex items-center justify-center gap-1.5 rounded-lg border border-indigo-500/30 bg-indigo-50/50 py-2 text-xs font-semibold text-indigo-700 hover:bg-indigo-100/60 dark:bg-indigo-950/40 dark:text-indigo-300"
+                className="flex min-h-[44px] items-center justify-center gap-1.5 rounded-lg border border-indigo-500/30 bg-indigo-50/50 py-2.5 text-xs font-semibold text-indigo-700 hover:bg-indigo-100/60 active:scale-98 dark:bg-indigo-950/40 dark:text-indigo-300"
               >
                 <Plus className="size-3.5" />
                 <span>Upload New Sound Clip</span>
@@ -332,7 +339,7 @@ export default async function DashboardPage() {
 
       {/* Favorites Section */}
       <section id="favorites" className="scroll-mt-24 space-y-3">
-        <div className="flex items-center justify-between">
+        <div className="flex flex-wrap items-center justify-between gap-2">
           <div>
             <div className="flex items-center gap-1.5 text-xs font-semibold tracking-wider text-rose-600 uppercase dark:text-rose-400">
               <Heart className="size-3.5 fill-current" />
@@ -355,13 +362,13 @@ export default async function DashboardPage() {
         </div>
 
         {favorites.length ? (
-          <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6">
+          <div className="grid grid-cols-2 gap-2.5 sm:grid-cols-3 sm:gap-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6">
             {favorites.slice(0, 6).map((sound, index) => (
               <SoundTile key={sound._id} sound={sound} index={index} />
             ))}
           </div>
         ) : (
-          <div className="flex flex-col items-center justify-center rounded-2xl border border-dashed border-border/80 bg-card/40 p-10 text-center">
+          <div className="flex flex-col items-center justify-center rounded-2xl border border-dashed border-border/80 bg-card/40 p-8 text-center sm:p-10">
             <Heart className="mb-2 size-8 text-muted-foreground/40" />
             <p className="text-xs font-medium text-muted-foreground">
               Save sounds you love from the public library to see them pinned
@@ -388,7 +395,7 @@ export default async function DashboardPage() {
         </div>
 
         {recent.length ? (
-          <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6">
+          <div className="grid grid-cols-2 gap-2.5 sm:grid-cols-3 sm:gap-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6">
             {recent.slice(0, 6).map((sound, index) => (
               <SoundTile
                 key={`${sound._id}-${index}`}
@@ -398,7 +405,7 @@ export default async function DashboardPage() {
             ))}
           </div>
         ) : (
-          <div className="flex flex-col items-center justify-center rounded-2xl border border-dashed border-border/80 bg-card/40 p-10 text-center">
+          <div className="flex flex-col items-center justify-center rounded-2xl border border-dashed border-border/80 bg-card/40 p-8 text-center sm:p-10">
             <History className="mb-2 size-8 text-muted-foreground/40" />
             <p className="text-xs font-medium text-muted-foreground">
               Sounds you play while signed in will appear here for fast

@@ -1,4 +1,4 @@
-import type { Metadata } from "next"
+import type { Metadata, Viewport } from "next"
 import { Geist, Geist_Mono } from "next/font/google"
 
 import "./globals.css"
@@ -10,6 +10,7 @@ import { Toaster } from "@/components/ui/sonner"
 import { auth } from "@/lib/auth"
 import { PwaInstallButton } from "@/components/pwa-install-button"
 import { ServiceWorkerRegistration } from "@/components/service-worker-registration"
+import { PwaSplashScreen } from "@/components/pwa-splash-screen"
 
 const fontSans = Geist({
   subsets: ["latin"],
@@ -20,6 +21,17 @@ const fontMono = Geist_Mono({
   subsets: ["latin"],
   variable: "--font-mono",
 })
+
+export const viewport: Viewport = {
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#ffffff" },
+    { media: "(prefers-color-scheme: dark)", color: "#09090b" },
+  ],
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 5,
+  viewportFit: "cover",
+}
 
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.APP_URL ?? "http://localhost:3000"),
@@ -54,6 +66,7 @@ export default async function RootLayout({
     >
       <body className="min-h-screen pb-[calc(4.5rem+env(safe-area-inset-bottom))] antialiased md:pb-0">
         <ThemeProvider>
+          <PwaSplashScreen />
           <SiteHeader user={session?.user ?? null} />
           <FavoriteProvider>{children}</FavoriteProvider>
           <SiteFooter />

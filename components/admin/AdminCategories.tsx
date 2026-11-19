@@ -79,7 +79,7 @@ export function AdminCategories() {
       />
 
       {/* Create Category Form Card */}
-      <div className="my-6 rounded-xl border border-border/80 bg-card p-5 shadow-xs">
+      <div className="my-6 rounded-xl border border-border/80 bg-card p-4 shadow-xs sm:p-5">
         <div className="mb-4 flex items-center gap-2 text-xs font-semibold tracking-wider text-indigo-600 uppercase dark:text-indigo-400">
           <FolderPlus className="size-4" />
           <span>Create New Category</span>
@@ -89,7 +89,7 @@ export function AdminCategories() {
           onSubmit={createCategory}
           className="flex flex-col gap-4 sm:flex-row sm:items-end"
         >
-          <FieldGroup className="grid flex-1 gap-4 sm:grid-cols-2">
+          <FieldGroup className="grid flex-1 gap-3 sm:grid-cols-2 sm:gap-4">
             <Field>
               <FieldLabel htmlFor="category-name">Category Name</FieldLabel>
               <Input
@@ -100,7 +100,7 @@ export function AdminCategories() {
                 value={name}
                 onChange={(event) => setName(event.target.value)}
                 placeholder="e.g. Memes, Gaming, Reactions"
-                className="h-10 text-xs sm:text-sm"
+                className="h-10 text-base sm:text-sm"
               />
             </Field>
             <Field>
@@ -114,7 +114,7 @@ export function AdminCategories() {
                 value={description}
                 onChange={(event) => setDescription(event.target.value)}
                 placeholder="Short description for SEO and discovery"
-                className="min-h-10 resize-none text-xs sm:text-sm"
+                className="min-h-10 resize-none text-base sm:text-sm"
               />
             </Field>
           </FieldGroup>
@@ -122,7 +122,7 @@ export function AdminCategories() {
             type="submit"
             variant="primary"
             size="md"
-            className="shrink-0 gap-1.5 rounded-xl"
+            className="min-h-[44px] w-full shrink-0 gap-1.5 rounded-xl sm:w-auto"
           >
             <FolderPlus className="size-4" />
             <span>Add Category</span>
@@ -136,54 +136,103 @@ export function AdminCategories() {
         count={rows.length}
         emptyMessage="No categories created yet."
       >
-        <Table>
-          <TableHeader>
-            <TableRow>
-              <TableHead>Category</TableHead>
-              <TableHead>Description</TableHead>
-              <TableHead>URL Slug</TableHead>
-              <TableHead className="text-right">Actions</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {rows.map((row: AdminRecord) => {
-              const id = adminText(row._id)
-              return (
-                <TableRow key={id}>
-                  <TableCell className="font-semibold text-foreground">
-                    <div className="flex items-center gap-2">
-                      <div className="flex size-7 items-center justify-center rounded-lg bg-secondary text-muted-foreground">
-                        <Folder className="size-3.5" />
-                      </div>
-                      <span>{adminText(row.name)}</span>
+        {/* Mobile View: Stacked Cards */}
+        <div className="space-y-3 sm:hidden">
+          {rows.map((row: AdminRecord) => {
+            const id = adminText(row._id)
+            return (
+              <div
+                key={`card-${id}`}
+                className="rounded-xl border border-border/70 bg-card p-4 shadow-xs"
+              >
+                <div className="flex items-start justify-between gap-2">
+                  <div className="flex items-center gap-2.5">
+                    <div className="flex size-8 shrink-0 items-center justify-center rounded-lg bg-indigo-50 text-indigo-600 dark:bg-indigo-950/60 dark:text-indigo-400">
+                      <Folder className="size-4" />
                     </div>
-                  </TableCell>
-                  <TableCell className="max-w-md text-xs leading-relaxed whitespace-normal text-muted-foreground">
-                    {adminText(row.description) || "No description provided"}
-                  </TableCell>
-                  <TableCell>
-                    <span className="rounded-md border border-border/60 bg-secondary/60 px-2 py-0.5 font-mono text-[11px] text-muted-foreground">
-                      /{adminText(row.slug)}
-                    </span>
-                  </TableCell>
-                  <TableCell className="text-right">
-                    <Button
-                      type="button"
-                      onClick={() => void mutate("category.delete", id)}
-                      variant="ghost"
-                      size="xs"
-                      className="rounded-lg text-rose-600 hover:bg-rose-50 hover:text-rose-700 dark:text-rose-400 dark:hover:bg-rose-950/40"
-                      title="Delete category"
-                    >
-                      <Trash2 className="size-3.5" />
-                      <span className="ml-1 hidden sm:inline">Delete</span>
-                    </Button>
-                  </TableCell>
-                </TableRow>
-              )
-            })}
-          </TableBody>
-        </Table>
+                    <div>
+                      <p className="font-semibold text-foreground">
+                        {adminText(row.name)}
+                      </p>
+                      <span className="font-mono text-[11px] text-muted-foreground">
+                        /{adminText(row.slug)}
+                      </span>
+                    </div>
+                  </div>
+
+                  <Button
+                    type="button"
+                    onClick={() => void mutate("category.delete", id)}
+                    variant="ghost"
+                    size="xs"
+                    className="min-h-[40px] px-2.5 text-rose-600 hover:bg-rose-50 hover:text-rose-700 active:scale-95 dark:text-rose-400 dark:hover:bg-rose-950/40"
+                    title="Delete category"
+                    aria-label={`Delete category ${adminText(row.name)}`}
+                  >
+                    <Trash2 className="size-4" />
+                    <span className="ml-1 text-xs">Delete</span>
+                  </Button>
+                </div>
+
+                <p className="mt-2 text-xs leading-relaxed text-muted-foreground">
+                  {adminText(row.description) || "No description provided"}
+                </p>
+              </div>
+            )
+          })}
+        </div>
+
+        {/* Desktop View: Table */}
+        <div className="hidden sm:block">
+          <Table>
+            <TableHeader>
+              <TableRow>
+                <TableHead>Category</TableHead>
+                <TableHead>Description</TableHead>
+                <TableHead>URL Slug</TableHead>
+                <TableHead className="text-right">Actions</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {rows.map((row: AdminRecord) => {
+                const id = adminText(row._id)
+                return (
+                  <TableRow key={id}>
+                    <TableCell className="font-semibold text-foreground">
+                      <div className="flex items-center gap-2">
+                        <div className="flex size-7 items-center justify-center rounded-lg bg-secondary text-muted-foreground">
+                          <Folder className="size-3.5" />
+                        </div>
+                        <span>{adminText(row.name)}</span>
+                      </div>
+                    </TableCell>
+                    <TableCell className="max-w-md text-xs leading-relaxed whitespace-normal text-muted-foreground">
+                      {adminText(row.description) || "No description provided"}
+                    </TableCell>
+                    <TableCell>
+                      <span className="rounded-md border border-border/60 bg-secondary/60 px-2 py-0.5 font-mono text-[11px] text-muted-foreground">
+                        /{adminText(row.slug)}
+                      </span>
+                    </TableCell>
+                    <TableCell className="text-right">
+                      <Button
+                        type="button"
+                        onClick={() => void mutate("category.delete", id)}
+                        variant="ghost"
+                        size="xs"
+                        className="min-h-[36px] rounded-lg px-2.5 text-rose-600 hover:bg-rose-50 hover:text-rose-700 active:scale-95 dark:text-rose-400 dark:hover:bg-rose-950/40"
+                        title="Delete category"
+                      >
+                        <Trash2 className="size-3.5" />
+                        <span className="ml-1 hidden sm:inline">Delete</span>
+                      </Button>
+                    </TableCell>
+                  </TableRow>
+                )
+              })}
+            </TableBody>
+          </Table>
+        </div>
       </AdminList>
     </AdminPage>
   )

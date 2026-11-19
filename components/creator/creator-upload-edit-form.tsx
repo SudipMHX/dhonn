@@ -51,8 +51,8 @@ export function CreatorUploadEditForm({
   }
 
   return (
-    <form className="space-y-4" onSubmit={submit}>
-      <FieldGroup>
+    <form className="mt-4 space-y-4" onSubmit={submit}>
+      <FieldGroup className="space-y-4">
         <Field>
           <FieldLabel htmlFor={`upload-title-${upload._id}`}>Title</FieldLabel>
           <Input
@@ -66,6 +66,7 @@ export function CreatorUploadEditForm({
             required
             minLength={2}
             maxLength={100}
+            className="h-10 text-base sm:text-sm"
           />
         </Field>
         <Field>
@@ -85,6 +86,8 @@ export function CreatorUploadEditForm({
                 )
             }
             maxLength={1000}
+            rows={3}
+            className="min-h-20 text-base sm:text-sm"
           />
         </Field>
         <Field>
@@ -101,6 +104,7 @@ export function CreatorUploadEditForm({
             }
             required
             disabled={Boolean(categoryError) || categories.length === 0}
+            className="h-10 text-base sm:text-sm"
           >
             <NativeSelectOption value="" disabled>
               Select a category
@@ -127,19 +131,23 @@ export function CreatorUploadEditForm({
                 .getState()
                 .updateUploadDraft(upload._id, "tags", event.target.value)
             }
-            aria-description="Separate tags with commas"
+            placeholder="anime, meme, laugh"
+            className="h-10 text-base sm:text-sm"
           />
           <FieldDescription>Separate tags with commas.</FieldDescription>
         </Field>
       </FieldGroup>
-      <Button
-        type="submit"
-        variant="primary"
-        size="md"
-        disabled={saving || !categories.length}
-      >
-        {saving ? "Saving…" : "Save changes"}
-      </Button>
+      <div className="flex flex-col-reverse gap-2 pt-2 sm:flex-row sm:justify-end">
+        <Button
+          type="submit"
+          variant="primary"
+          size="md"
+          className="min-h-[44px] w-full sm:w-auto"
+          disabled={saving || !categories.length}
+        >
+          {saving ? "Saving…" : "Save changes"}
+        </Button>
+      </div>
     </form>
   )
 }

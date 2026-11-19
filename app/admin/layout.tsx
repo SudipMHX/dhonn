@@ -3,6 +3,7 @@ import { ArrowRight, Globe, Shield } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
 import { AdminMenu } from "@/components/admin/admin-menu"
+import { AdminMobileNav } from "@/components/admin/admin-mobile-nav"
 import { AdminNav } from "@/components/admin/admin-nav"
 import { requireAdmin } from "@/lib/authz"
 
@@ -14,27 +15,27 @@ export default async function AdminLayout({
   const admin = await requireAdmin()
 
   return (
-    <div className="min-h-screen bg-background text-foreground">
+    <div className="min-h-screen bg-background pb-[calc(5rem+env(safe-area-inset-bottom))] text-foreground lg:pb-12">
       {/* Admin Top Header */}
-      <header className="sticky top-0 z-30 border-b border-border/80 bg-card/75 backdrop-blur-md">
-        <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-3 sm:px-6 lg:px-8">
-          <div className="flex min-w-0 items-center gap-3">
+      <header className="sticky top-0 z-30 border-b border-border/80 bg-card/85 backdrop-blur-md">
+        <div className="mx-auto flex max-w-7xl items-center justify-between gap-3 px-3 py-2.5 sm:px-6 lg:px-8">
+          <div className="flex min-w-0 items-center gap-2.5 sm:gap-3">
             <Link
               href="/admin"
               prefetch={false}
-              className="flex items-center gap-2.5 font-heading text-sm font-bold tracking-tight text-foreground transition-opacity hover:opacity-90"
+              className="flex items-center gap-2 font-heading text-sm font-bold tracking-tight text-foreground transition-opacity hover:opacity-90 active:scale-95 sm:gap-2.5"
             >
-              <div className="flex size-7 items-center justify-center rounded-lg bg-indigo-600 text-white shadow-xs shadow-indigo-600/30">
+              <div className="flex size-7 shrink-0 items-center justify-center rounded-lg bg-indigo-600 text-white shadow-xs shadow-indigo-600/30">
                 <Shield className="size-4" />
               </div>
-              <span className="font-extrabold tracking-tight">
+              <span className="truncate font-extrabold tracking-tight">
                 Admin Console
               </span>
             </Link>
 
             <span className="hidden items-center gap-1.5 rounded-full border border-indigo-200/50 bg-indigo-50/60 px-2.5 py-0.5 font-mono text-[11px] text-indigo-700 sm:inline-flex dark:border-indigo-900/50 dark:bg-indigo-950/40 dark:text-indigo-300">
               <span className="size-1.5 rounded-full bg-emerald-500" />
-              <span>{admin.email}</span>
+              <span className="max-w-40 truncate">{admin.email}</span>
             </span>
           </div>
 
@@ -67,16 +68,19 @@ export default async function AdminLayout({
       </header>
 
       {/* Main Grid: Sidebar + Content */}
-      <div className="mx-auto grid max-w-7xl gap-8 px-4 py-8 sm:px-6 lg:grid-cols-[240px_minmax(0,1fr)] lg:px-8">
-        {/* Admin Navigation Sidebar */}
+      <div className="mx-auto max-w-7xl px-3 pt-3 sm:px-6 lg:grid lg:grid-cols-[240px_minmax(0,1fr)] lg:gap-8 lg:px-8 lg:pt-8">
+        {/* Admin Navigation Sidebar (Desktop) */}
         <aside className="hidden flex-col lg:flex">
           <div className="sticky top-20 rounded-2xl border border-border/70 bg-card/60 p-4 shadow-xs backdrop-blur-xs">
             <AdminNav />
           </div>
         </aside>
 
-        {/* Admin Content Area */}
-        <main className="min-w-0">{children}</main>
+        {/* Admin Content Area + Mobile Tab Navigation */}
+        <main className="min-w-0">
+          <AdminMobileNav />
+          {children}
+        </main>
       </div>
     </div>
   )

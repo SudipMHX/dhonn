@@ -49,7 +49,12 @@ export async function readJson(
   }
 
   try {
-    return JSON.parse(new TextDecoder().decode(content)) as unknown
+    return JSON.parse(new TextDecoder().decode(content), (key, value) => {
+      if (key === "__proto__" || key === "constructor" || key === "prototype") {
+        return undefined
+      }
+      return value
+    }) as unknown
   } catch {
     throw new InvalidJsonError()
   }

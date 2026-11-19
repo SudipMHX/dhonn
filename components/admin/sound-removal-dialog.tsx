@@ -48,7 +48,7 @@ export function SoundRemovalDialog({
         if (!open && !removing) onClose()
       }}
     >
-      <AlertDialogContent>
+      <AlertDialogContent className="max-h-[90vh] overflow-y-auto">
         <AlertDialogHeader>
           <AlertDialogTitle>Remove sound?</AlertDialogTitle>
           <AlertDialogDescription>
@@ -57,13 +57,19 @@ export function SoundRemovalDialog({
               : ""}
           </AlertDialogDescription>
         </AlertDialogHeader>
-        <AlertDialogFooter>
-          <AlertDialogCancel disabled={removing}>Cancel</AlertDialogCancel>
+        <AlertDialogFooter className="flex-col-reverse gap-2 sm:flex-row">
+          <AlertDialogCancel
+            disabled={removing}
+            className="min-h-[44px] w-full sm:w-auto"
+          >
+            Cancel
+          </AlertDialogCancel>
           <Button
             type="button"
             variant="destructive"
             onClick={() => void removeSound()}
             disabled={removing}
+            className="min-h-[44px] w-full sm:w-auto"
           >
             {removing ? "Removing…" : "Remove sound"}
           </Button>

@@ -34,11 +34,11 @@ export function SearchPageClient({
   })
 
   return (
-    <main className="mx-auto min-h-[75vh] max-w-7xl px-4 py-8 sm:px-6 sm:py-10 lg:px-8">
+    <main className="mx-auto min-h-[75vh] max-w-7xl px-3 py-6 sm:px-6 sm:py-10 lg:px-8">
       {/* Breadcrumb */}
       <nav
         aria-label="Breadcrumb"
-        className="mb-6 flex items-center gap-2 text-xs font-medium text-muted-foreground"
+        className="mb-5 flex scrollbar-none items-center gap-2 overflow-x-auto text-xs font-medium whitespace-nowrap text-muted-foreground sm:mb-6"
       >
         <Link href="/" className="transition-colors hover:text-foreground">
           Home
@@ -48,15 +48,15 @@ export function SearchPageClient({
       </nav>
 
       {/* Header */}
-      <header className="mb-10 max-w-2xl">
+      <header className="mb-8 max-w-2xl sm:mb-10">
         <div className="inline-flex items-center gap-1.5 rounded-full border border-indigo-200/60 bg-indigo-50 px-3 py-1 text-xs font-semibold text-indigo-700 dark:border-indigo-900/60 dark:bg-indigo-950/40 dark:text-indigo-300">
           <Compass className="size-3.5" />
           <span>Library Discovery</span>
         </div>
-        <h1 className="mt-4 text-3xl font-extrabold tracking-tight text-foreground sm:text-4xl">
+        <h1 className="mt-3 text-2xl font-extrabold tracking-tight text-foreground sm:mt-4 sm:text-4xl">
           Explore Sounds
         </h1>
-        <p className="mt-3 text-sm leading-relaxed text-muted-foreground sm:text-base">
+        <p className="mt-2 text-xs leading-relaxed text-muted-foreground sm:mt-3 sm:text-base">
           Find creator-made sounds by keyword, topic, reaction, or descriptive
           tag.
         </p>
@@ -64,7 +64,7 @@ export function SearchPageClient({
 
       {/* Search Toolbar */}
       <section aria-label="Search results">
-        <div className="mb-8 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+        <div className="mb-6 flex flex-col gap-3 sm:mb-8 sm:flex-row sm:items-center sm:justify-between sm:gap-4">
           <div className="relative w-full sm:max-w-xl">
             <Search className="pointer-events-none absolute top-1/2 left-3.5 size-4 -translate-y-1/2 text-muted-foreground" />
             <input
@@ -85,7 +85,7 @@ export function SearchPageClient({
                   results.reset()
                   setQuery("")
                 }}
-                className="absolute top-1/2 right-3 -translate-y-1/2 rounded-md p-1 text-muted-foreground hover:text-foreground"
+                className="absolute top-1/2 right-2 flex size-8 -translate-y-1/2 touch-manipulation items-center justify-center rounded-lg text-muted-foreground hover:bg-secondary hover:text-foreground active:scale-90"
               >
                 <X className="size-3.5" />
                 <span className="sr-only">Clear search</span>

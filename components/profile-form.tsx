@@ -69,7 +69,7 @@ export function ProfileForm({ name }: { name: string }) {
                   maxLength={80}
                   value={displayName}
                   onChange={(event) => setDisplayName(event.target.value)}
-                  className="h-10"
+                  className="h-10 text-base sm:text-sm"
                 />
                 <FieldDescription>
                   This name is displayed as the creator on your published audio
@@ -91,7 +91,7 @@ export function ProfileForm({ name }: { name: string }) {
             <p className="mt-1 text-xs text-muted-foreground">
               Leave both password fields blank to retain your existing password.
             </p>
-            <FieldGroup className="mt-4">
+            <FieldGroup className="mt-4 space-y-4">
               <Field>
                 <FieldLabel htmlFor="profile-current-password">
                   Current Password
@@ -104,7 +104,7 @@ export function ProfileForm({ name }: { name: string }) {
                   value={currentPassword}
                   onChange={(event) => setCurrentPassword(event.target.value)}
                   placeholder="••••••••••••"
-                  className="h-10"
+                  className="h-10 text-base sm:text-sm"
                 />
               </Field>
               <Field>
@@ -121,7 +121,7 @@ export function ProfileForm({ name }: { name: string }) {
                   value={newPassword}
                   onChange={(event) => setNewPassword(event.target.value)}
                   placeholder="••••••••••••"
-                  className="h-10"
+                  className="h-10 text-base sm:text-sm"
                 />
                 <FieldDescription>
                   Requires at least 10 characters.
@@ -131,7 +131,13 @@ export function ProfileForm({ name }: { name: string }) {
           </section>
         </CardContent>
         <CardFooter className="justify-end border-t border-border/60 pt-5">
-          <Button type="submit" disabled={saving} variant="primary" size="md">
+          <Button
+            type="submit"
+            disabled={saving}
+            variant="primary"
+            size="md"
+            className="min-h-[44px] w-full font-medium sm:w-auto"
+          >
             {saving ? "Saving changes…" : "Save Changes"}
           </Button>
         </CardFooter>

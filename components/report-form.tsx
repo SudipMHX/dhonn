@@ -55,7 +55,7 @@ export function ReportForm({ soundId = "" }: { soundId?: string }) {
   ) : (
     <form
       onSubmit={submit}
-      className="space-y-5 rounded-2xl border border-border/80 bg-card p-6 shadow-xs sm:p-8"
+      className="space-y-4 rounded-2xl border border-border/80 bg-card p-5 shadow-xs sm:space-y-5 sm:p-8"
     >
       <div className="space-y-1.5">
         <label
@@ -71,7 +71,7 @@ export function ReportForm({ soundId = "" }: { soundId?: string }) {
           defaultValue={soundId}
           pattern="[a-fA-F0-9]{24}"
           placeholder="24-character hexadecimal Sound ID"
-          className="h-10 w-full rounded-xl border border-input bg-card px-3.5 font-mono text-sm text-foreground transition-all placeholder:text-muted-foreground/60 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 focus:outline-none"
+          className="h-11 w-full rounded-xl border border-input bg-card px-3.5 font-mono text-sm text-foreground transition-all placeholder:text-muted-foreground/60 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 focus:outline-none"
         />
       </div>
 
@@ -85,7 +85,7 @@ export function ReportForm({ soundId = "" }: { soundId?: string }) {
         <select
           id="report-type"
           name="type"
-          className="h-10 w-full rounded-xl border border-input bg-card px-3 text-sm text-foreground transition-all outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20"
+          className="h-11 w-full rounded-xl border border-input bg-card px-3 text-sm text-foreground transition-all outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20"
         >
           <option value="copyright">Copyright or Intellectual Property</option>
           <option value="inappropriate">
@@ -128,7 +128,7 @@ export function ReportForm({ soundId = "" }: { soundId?: string }) {
           type="email"
           maxLength={254}
           placeholder="you@domain.com"
-          className="h-10 w-full rounded-xl border border-input bg-card px-3.5 text-sm text-foreground transition-all placeholder:text-muted-foreground/60 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 focus:outline-none"
+          className="h-11 w-full rounded-xl border border-input bg-card px-3.5 text-sm text-foreground transition-all placeholder:text-muted-foreground/60 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 focus:outline-none"
         />
       </div>
 
@@ -145,7 +145,7 @@ export function ReportForm({ soundId = "" }: { soundId?: string }) {
         type="submit"
         variant="destructive"
         size="md"
-        className="w-full sm:w-auto"
+        className="min-h-[44px] w-full touch-manipulation active:scale-95 sm:w-auto"
       >
         Submit Report
       </Button>

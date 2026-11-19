@@ -34,11 +34,11 @@ export function CategoryPageClient({
   })
 
   return (
-    <main className="mx-auto min-h-[75vh] max-w-7xl px-4 py-8 sm:px-6 sm:py-10 lg:px-8">
+    <main className="mx-auto min-h-[75vh] max-w-7xl px-3 py-6 sm:px-6 sm:py-10 lg:px-8">
       {/* Breadcrumb */}
       <nav
         aria-label="Breadcrumb"
-        className="mb-6 flex items-center gap-2 text-xs font-medium text-muted-foreground"
+        className="mb-5 flex scrollbar-none items-center gap-2 overflow-x-auto text-xs font-medium whitespace-nowrap text-muted-foreground sm:mb-6"
       >
         <Link href="/" className="transition-colors hover:text-foreground">
           Home
@@ -55,22 +55,22 @@ export function CategoryPageClient({
       </nav>
 
       {/* Category Header */}
-      <header className="mb-10">
+      <header className="mb-8 sm:mb-10">
         <div className="inline-flex items-center gap-1.5 rounded-full border border-indigo-200/60 bg-indigo-50 px-3 py-1 text-xs font-semibold text-indigo-700 dark:border-indigo-900/60 dark:bg-indigo-950/40 dark:text-indigo-300">
           <Disc3 className="size-3.5" />
           <span>Category Soundboard</span>
         </div>
-        <h1 className="mt-4 text-3xl font-extrabold tracking-tight text-foreground sm:text-4xl">
+        <h1 className="mt-3 text-2xl font-extrabold tracking-tight text-foreground sm:mt-4 sm:text-4xl">
           {name}
         </h1>
-        <p className="mt-2.5 max-w-2xl text-sm leading-relaxed text-muted-foreground">
+        <p className="mt-2 max-w-2xl text-xs leading-relaxed text-muted-foreground sm:mt-2.5 sm:text-sm">
           {description}
         </p>
       </header>
 
       {/* Filter and Search Bar */}
       <section aria-label={`${name} sound library`}>
-        <div className="mb-8 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+        <div className="mb-6 flex flex-col gap-3 sm:mb-8 sm:flex-row sm:items-center sm:justify-between sm:gap-4">
           <div className="relative w-full sm:max-w-md">
             <Search className="pointer-events-none absolute top-1/2 left-3.5 size-4 -translate-y-1/2 text-muted-foreground" />
             <input
@@ -94,7 +94,7 @@ export function CategoryPageClient({
                 results.reset()
                 setSort(event.target.value as Sort)
               }}
-              className="h-9 rounded-lg border border-border/80 bg-card px-3 text-xs font-medium text-foreground transition-colors outline-none hover:bg-secondary focus:border-indigo-500"
+              className="h-10 rounded-xl border border-border/80 bg-card px-3 text-xs font-medium text-foreground transition-colors outline-none hover:bg-secondary focus:border-indigo-500"
             >
               <option value="trending">Trending</option>
               <option value="popular">Most played</option>

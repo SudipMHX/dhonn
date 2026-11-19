@@ -15,7 +15,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
-import { CreatorUploadRow } from "./creator-upload-row"
+import { CreatorUploadCard, CreatorUploadRow } from "./creator-upload-row"
 import { useCreatorUploads } from "./creator-upload-data"
 import { useCreatorStore } from "@/components/creator/creator-store"
 
@@ -53,16 +53,16 @@ export function CreatorUploads() {
             placeholder="Search your uploads by title..."
             aria-label="Search your uploads"
             maxLength={100}
-            className="h-9 pr-8 pl-9 text-xs"
+            className="h-10 pr-9 pl-9 text-base sm:h-9 sm:text-xs"
           />
           {uploads.search && (
             <button
               type="button"
               onClick={() => uploads.setSearch("")}
               aria-label="Clear search"
-              className="absolute top-1/2 right-2.5 -translate-y-1/2 text-muted-foreground hover:text-foreground"
+              className="absolute top-1/2 right-1.5 flex size-8 -translate-y-1/2 items-center justify-center rounded-lg text-muted-foreground hover:bg-secondary hover:text-foreground active:scale-95"
             >
-              <X className="size-3.5" />
+              <X className="size-4" />
             </button>
           )}
         </div>
@@ -72,7 +72,7 @@ export function CreatorUploads() {
           value={uploads.status}
           onChange={(event) => uploads.setStatus(event.target.value)}
           aria-label="Filter uploads by status"
-          className="h-9 w-full text-xs sm:w-44"
+          className="h-10 w-full text-base sm:h-9 sm:w-44 sm:text-xs"
         >
           <NativeSelectOption value="all">All statuses</NativeSelectOption>
           <NativeSelectOption value="uploading">Uploading</NativeSelectOption>
@@ -89,7 +89,7 @@ export function CreatorUploads() {
           value={String(uploads.limit)}
           onChange={(event) => uploads.setLimit(Number(event.target.value))}
           aria-label="Uploads per page"
-          className="h-9 w-full text-xs sm:ml-auto sm:w-36"
+          className="h-10 w-full text-base sm:ml-auto sm:h-9 sm:w-36 sm:text-xs"
         >
           {[10, 25, 50].map((value) => (
             <NativeSelectOption key={value} value={value}>
@@ -100,21 +100,21 @@ export function CreatorUploads() {
       </div>
 
       {/* Pagination Bar */}
-      <div className="flex items-center justify-between gap-3 border-t border-border/60 pt-3">
+      <div className="flex flex-wrap items-center justify-between gap-3 border-t border-border/60 pt-3">
         <p className="text-xs text-muted-foreground" aria-live="polite">
           Page{" "}
           <span className="font-semibold text-foreground">{uploads.page}</span>{" "}
           · <span className="font-mono">{uploads.limit}</span> records per page
         </p>
 
-        <div className="flex items-center gap-1.5">
+        <div className="flex items-center gap-2">
           <Button
             type="button"
             variant="outline"
             size="xs"
             disabled={uploads.loading || uploads.page === 1}
             onClick={uploads.goToPreviousPage}
-            className="h-7 rounded-lg px-2.5 text-xs"
+            className="min-h-[36px] rounded-lg px-3 text-xs sm:h-7 sm:min-h-0 sm:px-2.5"
           >
             <ChevronLeft className="size-3.5" />
             <span>Previous</span>
@@ -126,7 +126,7 @@ export function CreatorUploads() {
             size="xs"
             disabled={uploads.loading || !uploads.hasMore}
             onClick={uploads.goToNextPage}
-            className="h-7 rounded-lg px-2.5 text-xs"
+            className="min-h-[36px] rounded-lg px-3 text-xs sm:h-7 sm:min-h-0 sm:px-2.5"
           >
             <span>Next</span>
             <ChevronRight className="size-3.5" />
@@ -163,7 +163,7 @@ export function CreatorUploads() {
           </div>
         </div>
       ) : uploads.error ? null : !uploads.items.length ? (
-        <div className="flex flex-col items-center justify-center rounded-2xl border border-dashed border-border/80 bg-card/40 p-12 text-center">
+        <div className="flex flex-col items-center justify-center rounded-2xl border border-dashed border-border/80 bg-card/40 p-8 text-center sm:p-12">
           <div className="mb-3 flex size-11 items-center justify-center rounded-xl bg-secondary text-muted-foreground">
             <Inbox className="size-5" />
           </div>
@@ -177,20 +177,12 @@ export function CreatorUploads() {
           </p>
         </div>
       ) : (
-        <Table>
-          <TableHeader>
-            <TableRow>
-              <TableHead>Sound</TableHead>
-              <TableHead>Category</TableHead>
-              <TableHead>Status</TableHead>
-              <TableHead>Moderation Note</TableHead>
-              <TableHead className="text-right">Actions</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
+        <>
+          {/* Mobile View: Cards */}
+          <div className="space-y-3.5 md:hidden">
             {uploads.items.map((upload) => (
-              <CreatorUploadRow
-                key={upload._id}
+              <CreatorUploadCard
+                key={`m-${upload._id}`}
                 upload={upload}
                 categories={categories}
                 categoryError={categoryError}
@@ -198,8 +190,35 @@ export function CreatorUploads() {
                 onRemove={() => uploads.mutate(upload._id, "DELETE")}
               />
             ))}
-          </TableBody>
-        </Table>
+          </div>
+
+          {/* Desktop View: Table */}
+          <div className="hidden md:block">
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead>Sound</TableHead>
+                  <TableHead>Category</TableHead>
+                  <TableHead>Status</TableHead>
+                  <TableHead>Moderation Note</TableHead>
+                  <TableHead className="text-right">Actions</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {uploads.items.map((upload) => (
+                  <CreatorUploadRow
+                    key={upload._id}
+                    upload={upload}
+                    categories={categories}
+                    categoryError={categoryError}
+                    onSave={(body) => uploads.mutate(upload._id, "PATCH", body)}
+                    onRemove={() => uploads.mutate(upload._id, "DELETE")}
+                  />
+                ))}
+              </TableBody>
+            </Table>
+          </div>
+        </>
       )}
     </div>
   )

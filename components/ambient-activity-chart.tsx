@@ -30,7 +30,7 @@ export function AmbientActivityChart({
   icon?: ComponentType<{ className?: string }>
 }) {
   return (
-    <div className="relative overflow-hidden rounded-2xl border border-border/80 bg-zinc-950 p-6 text-white shadow-xl dark:border-border/60">
+    <div className="relative overflow-hidden rounded-2xl border border-border/80 bg-zinc-950 p-4 text-white shadow-xl sm:p-6 dark:border-border/60">
       {/* Background ambient lighting glows */}
       <div
         aria-hidden="true"
@@ -42,7 +42,7 @@ export function AmbientActivityChart({
       />
 
       {/* Header Row */}
-      <div className="flex flex-wrap items-center justify-between gap-3 font-mono text-xs text-zinc-400">
+      <div className="flex flex-wrap items-center justify-between gap-2.5 font-mono text-xs text-zinc-400">
         <span className="flex items-center gap-1.5 font-semibold tracking-wider text-indigo-400 uppercase">
           <Icon className="size-3.5" />
           <span>{title}</span>
@@ -60,7 +60,7 @@ export function AmbientActivityChart({
 
       {/* Animated Waveform Visualizer Bars */}
       <div
-        className="my-6 flex h-24 items-end gap-1 overflow-hidden sm:h-28 sm:gap-1.5"
+        className="my-4 flex h-20 items-end gap-1 overflow-hidden sm:my-6 sm:h-28 sm:gap-1.5"
         aria-hidden="true"
       >
         {bars.map((height, index) => (
@@ -74,15 +74,19 @@ export function AmbientActivityChart({
 
       {/* Telemetry Strip */}
       {telemetry.length > 0 && (
-        <div className="mb-4 grid grid-cols-2 gap-3 border-t border-white/10 pt-4 sm:grid-cols-4">
+        <div className="mb-4 grid grid-cols-2 gap-2.5 border-t border-white/10 pt-4 sm:grid-cols-4 sm:gap-3">
           {telemetry.map((stat) => (
-            <div key={stat.label} className="space-y-0.5">
-              <p className="font-mono text-xs text-zinc-400">{stat.label}</p>
-              <p className="font-mono text-lg font-bold tracking-tight text-white tabular-nums">
+            <div key={stat.label} className="min-w-0 space-y-0.5">
+              <p className="truncate font-mono text-[10px] text-zinc-400 sm:text-xs">
+                {stat.label}
+              </p>
+              <p className="font-mono text-base font-bold tracking-tight text-white tabular-nums sm:text-lg">
                 {stat.value}
               </p>
               {stat.sublabel && (
-                <p className="text-[10px] text-zinc-500">{stat.sublabel}</p>
+                <p className="truncate text-[9px] text-zinc-500 sm:text-[10px]">
+                  {stat.sublabel}
+                </p>
               )}
             </div>
           ))}
@@ -90,7 +94,7 @@ export function AmbientActivityChart({
       )}
 
       {/* Footer Info */}
-      <div className="flex items-center justify-between border-t border-white/10 pt-3 text-xs">
+      <div className="flex flex-wrap items-center justify-between gap-2 border-t border-white/10 pt-3 text-xs">
         <p className="truncate pr-2 text-[11px] text-zinc-400">{footerText}</p>
         <div className="flex shrink-0 items-center gap-1 font-mono text-indigo-400">
           <AudioLines className="size-4" />

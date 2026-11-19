@@ -5,7 +5,10 @@ import {
   AdminListToolbar,
   AdminPage,
 } from "@/components/admin/admin-page"
-import { AdminSoundCard } from "@/components/admin/admin-sound-card"
+import {
+  AdminSoundCard,
+  AdminSoundMobileCard,
+} from "@/components/admin/admin-sound-card"
 import { useAdminData, type AdminRecord } from "@/components/admin/admin-data"
 import {
   Table,
@@ -70,28 +73,44 @@ export function AdminSounds() {
         count={rows.length}
         emptyMessage="Nothing to show yet."
       >
-        <Table>
-          <TableHeader>
-            <TableRow>
-              <TableHead>Sound</TableHead>
-              <TableHead>Creator</TableHead>
-              <TableHead>Status</TableHead>
-              <TableHead>Activity</TableHead>
-              <TableHead>Actions</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {rows.map((row: AdminRecord) => (
-              <AdminSoundCard
-                key={String(row._id)}
-                row={row}
-                allowPublish={false}
-                mutate={mutate}
-                onRemove={setPendingRemoval}
-              />
-            ))}
-          </TableBody>
-        </Table>
+        {/* Mobile View: Cards */}
+        <div className="space-y-3.5 md:hidden">
+          {rows.map((row: AdminRecord) => (
+            <AdminSoundMobileCard
+              key={`m-${String(row._id)}`}
+              row={row}
+              allowPublish={false}
+              mutate={mutate}
+              onRemove={setPendingRemoval}
+            />
+          ))}
+        </div>
+
+        {/* Desktop View: Table */}
+        <div className="hidden md:block">
+          <Table>
+            <TableHeader>
+              <TableRow>
+                <TableHead>Sound</TableHead>
+                <TableHead>Creator</TableHead>
+                <TableHead>Status</TableHead>
+                <TableHead>Activity</TableHead>
+                <TableHead>Actions</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {rows.map((row: AdminRecord) => (
+                <AdminSoundCard
+                  key={String(row._id)}
+                  row={row}
+                  allowPublish={false}
+                  mutate={mutate}
+                  onRemove={setPendingRemoval}
+                />
+              ))}
+            </TableBody>
+          </Table>
+        </div>
       </AdminList>
     </AdminPage>
   )

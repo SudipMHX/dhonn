@@ -24,7 +24,7 @@ export function PublicSoundResults({
     return (
       <div
         role="alert"
-        className="rounded-2xl border border-rose-200/80 bg-rose-50/50 p-8 text-center text-rose-800 dark:border-rose-900/60 dark:bg-rose-950/20 dark:text-rose-200"
+        className="rounded-2xl border border-rose-200/80 bg-rose-50/50 p-6 text-center text-rose-800 sm:p-8 dark:border-rose-900/60 dark:bg-rose-950/20 dark:text-rose-200"
       >
         <p className="font-semibold">Unable to load sound library</p>
         <p className="mt-1.5 text-xs text-rose-600 dark:text-rose-300">
@@ -35,7 +35,7 @@ export function PublicSoundResults({
           onClick={onRetry}
           variant="destructive"
           size="sm"
-          className="mt-4"
+          className="mt-4 touch-manipulation active:scale-95"
         >
           Try Again
         </Button>
@@ -46,7 +46,7 @@ export function PublicSoundResults({
   if (sounds.length > 0) {
     return (
       <>
-        <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6">
+        <div className="grid grid-cols-2 gap-2.5 sm:grid-cols-3 sm:gap-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6">
           {sounds.map((sound, index) => (
             <SoundTile key={sound._id} sound={sound} index={index} />
           ))}
@@ -63,7 +63,7 @@ export function PublicSoundResults({
               disabled={loading}
               variant="outline"
               size="lg"
-              className="rounded-xl px-6"
+              className="w-full touch-manipulation rounded-xl px-6 active:scale-95 sm:w-auto"
             >
               {loading ? "Loading..." : "Load More Sounds"}
             </Button>
@@ -77,7 +77,7 @@ export function PublicSoundResults({
     return (
       <div
         aria-busy="true"
-        className="grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6"
+        className="grid grid-cols-2 gap-2.5 sm:grid-cols-3 sm:gap-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6"
       >
         {Array.from({ length: 12 }, (_, index) => (
           <SoundTileSkeleton key={index} />
@@ -87,7 +87,7 @@ export function PublicSoundResults({
   }
 
   return (
-    <div className="flex flex-col items-center justify-center rounded-2xl border border-dashed border-border/80 bg-card/40 p-12 text-center">
+    <div className="flex flex-col items-center justify-center rounded-2xl border border-dashed border-border/80 bg-card/40 p-8 text-center sm:p-12">
       <div className="mb-3 flex size-12 items-center justify-center rounded-2xl bg-secondary text-muted-foreground">
         <Music2 className="size-6" />
       </div>

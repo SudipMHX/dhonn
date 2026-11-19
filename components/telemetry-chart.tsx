@@ -77,7 +77,7 @@ export function TelemetryChart({
   const areaPath = `${linePath} L ${coords[coords.length - 1].x} ${height} L ${coords[0].x} ${height} Z`
 
   return (
-    <div className="relative overflow-hidden rounded-2xl border border-border/80 bg-zinc-950 p-6 text-white shadow-xl dark:border-border/60">
+    <div className="relative overflow-hidden rounded-2xl border border-border/80 bg-zinc-950 p-4 text-white shadow-xl sm:p-6 dark:border-border/60">
       {/* Background ambient radial gradients */}
       <div
         aria-hidden="true"
@@ -90,8 +90,8 @@ export function TelemetryChart({
 
       {/* Top Bar: Title, Badge, and View Switcher */}
       <div className="flex flex-wrap items-center justify-between gap-3">
-        <div className="flex items-center gap-2">
-          <span className="relative flex size-2.5">
+        <div className="flex min-w-0 items-center gap-2">
+          <span className="relative flex size-2.5 shrink-0">
             <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75" />
             <span className="relative inline-flex size-2.5 rounded-full bg-emerald-500" />
           </span>
@@ -99,17 +99,17 @@ export function TelemetryChart({
             {badge}
           </span>
           <span className="text-zinc-600">/</span>
-          <h2 className="text-sm font-bold tracking-tight text-white">
+          <h2 className="truncate text-sm font-bold tracking-tight text-white">
             {title}
           </h2>
         </div>
 
         {/* View toggle */}
-        <div className="flex items-center rounded-lg border border-white/10 bg-white/5 p-0.5 text-xs">
+        <div className="flex items-center rounded-xl border border-white/10 bg-white/5 p-1 text-xs">
           <button
             type="button"
             onClick={() => setActiveTab("traffic")}
-            className={`rounded-md px-2.5 py-1 text-[11px] font-medium transition-all ${
+            className={`min-h-[36px] rounded-lg px-3 py-1.5 text-xs font-medium transition-all active:scale-95 sm:min-h-0 sm:py-1 sm:text-[11px] ${
               activeTab === "traffic"
                 ? "bg-indigo-600 text-white shadow-xs"
                 : "text-zinc-400 hover:text-white"
@@ -120,7 +120,7 @@ export function TelemetryChart({
           <button
             type="button"
             onClick={() => setActiveTab("waveform")}
-            className={`rounded-md px-2.5 py-1 text-[11px] font-medium transition-all ${
+            className={`min-h-[36px] rounded-lg px-3 py-1.5 text-xs font-medium transition-all active:scale-95 sm:min-h-0 sm:py-1 sm:text-[11px] ${
               activeTab === "waveform"
                 ? "bg-indigo-600 text-white shadow-xs"
                 : "text-zinc-400 hover:text-white"
@@ -132,7 +132,7 @@ export function TelemetryChart({
       </div>
 
       {subtitle && (
-        <p className="mt-1 max-w-2xl text-xs leading-relaxed text-zinc-400">
+        <p className="mt-1.5 max-w-2xl text-xs leading-relaxed text-zinc-400">
           {subtitle}
         </p>
       )}
@@ -143,8 +143,8 @@ export function TelemetryChart({
           <p className="text-xs font-medium text-zinc-400">
             {primaryMetric.label}
           </p>
-          <div className="mt-1 flex items-baseline gap-3">
-            <span className="font-mono text-3xl font-extrabold tracking-tight text-white tabular-nums sm:text-4xl">
+          <div className="mt-1 flex items-baseline gap-2.5 sm:gap-3">
+            <span className="font-mono text-2xl font-extrabold tracking-tight text-white tabular-nums sm:text-4xl">
               {primaryMetric.value}
             </span>
             {primaryMetric.change && (
@@ -156,7 +156,7 @@ export function TelemetryChart({
           </div>
         </div>
 
-        <div className="flex items-center gap-4 font-mono text-xs text-zinc-400">
+        <div className="flex items-center gap-3 font-mono text-xs text-zinc-400 sm:gap-4">
           <div className="flex items-center gap-1.5">
             <Radio className="size-3.5 animate-pulse text-indigo-400" />
             <span>48kHz Studio</span>
@@ -171,7 +171,7 @@ export function TelemetryChart({
       {/* Graph Area */}
       <div className="relative mt-4">
         {activeTab === "traffic" ? (
-          <div className="relative h-44 w-full overflow-hidden">
+          <div className="relative h-36 w-full overflow-hidden sm:h-44">
             <svg
               viewBox={`0 0 ${width} ${height}`}
               className="h-full w-full overflow-visible"
@@ -265,7 +265,7 @@ export function TelemetryChart({
         ) : (
           /* Soundwave Bars View */
           <div
-            className="flex h-44 items-end gap-1 overflow-hidden py-3 sm:gap-1.5"
+            className="flex h-36 items-end gap-1 overflow-hidden py-3 sm:h-44 sm:gap-1.5"
             aria-hidden="true"
           >
             {bars.map((height, index) => (
@@ -279,26 +279,33 @@ export function TelemetryChart({
         )}
 
         {/* Time Axis Labels */}
-        <div className="mt-2 flex items-center justify-between border-t border-white/5 pt-2 font-mono text-[10px] text-zinc-500">
+        <div className="mt-2 flex items-center justify-between border-t border-white/5 pt-2 font-mono text-[9px] text-zinc-500 sm:text-[10px]">
           {timeLabels.map((lbl, idx) => (
-            <span key={idx}>{lbl}</span>
+            <span
+              key={idx}
+              className={
+                idx % 2 === 1 ? "xs:inline hidden sm:inline" : undefined
+              }
+            >
+              {lbl}
+            </span>
           ))}
         </div>
       </div>
 
       {/* Telemetry Metrics Strip */}
       {metrics.length > 0 && (
-        <div className="mt-5 grid grid-cols-2 gap-3 border-t border-white/10 pt-4 sm:grid-cols-4">
+        <div className="mt-5 grid grid-cols-2 gap-2.5 border-t border-white/10 pt-4 sm:grid-cols-4 sm:gap-3">
           {metrics.map((metric) => (
-            <div key={metric.label} className="space-y-0.5">
-              <p className="font-mono text-[11px] text-zinc-400">
+            <div key={metric.label} className="min-w-0 space-y-0.5">
+              <p className="truncate font-mono text-[10px] text-zinc-400 sm:text-[11px]">
                 {metric.label}
               </p>
-              <p className="font-mono text-lg font-bold tracking-tight text-white tabular-nums sm:text-xl">
+              <p className="font-mono text-base font-bold tracking-tight text-white tabular-nums sm:text-xl">
                 {metric.value}
               </p>
               {metric.note && (
-                <p className="truncate text-[10px] text-zinc-500">
+                <p className="truncate text-[9px] text-zinc-500 sm:text-[10px]">
                   {metric.note}
                 </p>
               )}
@@ -308,19 +315,19 @@ export function TelemetryChart({
       )}
 
       {/* Bottom Telemetry Footer */}
-      <div className="mt-4 flex items-center justify-between border-t border-white/10 pt-3 text-xs">
-        <div className="flex items-center gap-2 text-[11px] text-zinc-400">
-          <span className="flex items-center gap-1 font-mono text-emerald-400">
+      <div className="mt-4 flex flex-wrap items-center justify-between gap-2 border-t border-white/10 pt-3 text-xs">
+        <div className="flex min-w-0 items-center gap-2 text-[11px] text-zinc-400">
+          <span className="flex shrink-0 items-center gap-1 font-mono text-emerald-400">
             <span className="size-1.5 rounded-full bg-emerald-500" />
             <span>Operational</span>
           </span>
-          <span className="text-zinc-600">·</span>
-          <span className="truncate">
+          <span className="hidden text-zinc-600 sm:inline">·</span>
+          <span className="hidden truncate sm:inline">
             Global edge CDN cached audio streaming
           </span>
         </div>
 
-        <div className="flex items-center gap-1 font-mono text-[11px] text-indigo-400">
+        <div className="flex shrink-0 items-center gap-1 font-mono text-[11px] text-indigo-400">
           <AudioLines className="size-3.5" />
           <span>dhonn.:telemetry</span>
         </div>

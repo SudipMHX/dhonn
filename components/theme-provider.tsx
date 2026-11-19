@@ -16,9 +16,42 @@ function ThemeProvider({
       {...props}
     >
       <ThemeHotkey />
+      <ThemeColorSync />
       {children}
     </NextThemesProvider>
   )
+}
+
+function ThemeColorSync() {
+  const { resolvedTheme } = useTheme()
+
+  React.useEffect(() => {
+    if (!resolvedTheme) return
+
+    const isDark = resolvedTheme === "dark"
+    const color = isDark ? "#09090b" : "#ffffff"
+    const themeName = isDark ? "dark" : "light"
+
+    // Synchronize meta[name="theme-color"] dynamically for browser chrome/mobile view
+    const metas = document.querySelectorAll<HTMLMetaElement>(
+      'meta[name="theme-color"]'
+    )
+    if (metas.length > 0) {
+      metas.forEach((meta) => {
+        meta.setAttribute("content", color)
+      })
+    } else {
+      const meta = document.createElement("meta")
+      meta.name = "theme-color"
+      meta.content = color
+      document.head.appendChild(meta)
+    }
+
+    // Set cookie so that app/manifest.ts receives the user's explicit theme choice
+    document.cookie = `theme=${themeName}; path=/; max-age=31536000; SameSite=Lax`
+  }, [resolvedTheme])
+
+  return null
 }
 
 function isTypingTarget(target: EventTarget | null) {

@@ -201,7 +201,7 @@ export default async function SoundDetailPage({ params }: PageProps) {
           </div>
 
           {/* Sound information */}
-          <div className="grid gap-8 p-5 sm:p-8 lg:grid-cols-[minmax(0,1fr)_320px] lg:gap-10">
+          <div className="grid gap-6 p-4 sm:gap-8 sm:p-8 lg:grid-cols-[minmax(0,1fr)_320px] lg:gap-10">
             <section className="min-w-0">
               <div className="mb-3 flex flex-wrap items-center gap-2">
                 <span className="inline-flex items-center gap-1.5 rounded-full border border-indigo-200/60 bg-indigo-50 px-2.5 py-1 text-xs font-semibold text-indigo-700 dark:border-indigo-900/60 dark:bg-indigo-950/40 dark:text-indigo-300">
@@ -233,16 +233,16 @@ export default async function SoundDetailPage({ params }: PageProps) {
 
               {/* Tags */}
               {sound.tags.length > 0 && (
-                <div className="mt-8 border-t border-border/60 pt-6">
+                <div className="mt-6 border-t border-border/60 pt-5 sm:mt-8 sm:pt-6">
                   <h2 className="mb-3 text-xs font-semibold tracking-wider text-muted-foreground uppercase">
                     Related Tags
                   </h2>
 
-                  <div className="flex flex-wrap gap-2">
+                  <div className="flex flex-wrap gap-1.5 sm:gap-2">
                     {sound.tags.map((tag: string) => (
                       <span
                         key={tag}
-                        className="rounded-lg border border-border/70 bg-secondary/60 px-3 py-1 text-xs font-medium text-muted-foreground transition-colors hover:border-indigo-300 hover:text-indigo-600 dark:hover:border-indigo-800 dark:hover:text-indigo-400"
+                        className="rounded-lg border border-border/70 bg-secondary/60 px-2.5 py-1 text-xs font-medium text-muted-foreground transition-colors hover:border-indigo-300 hover:text-indigo-600 sm:px-3 dark:hover:border-indigo-800 dark:hover:text-indigo-400"
                       >
                         #{tag}
                       </span>
@@ -252,17 +252,17 @@ export default async function SoundDetailPage({ params }: PageProps) {
               )}
 
               {/* Quick stats */}
-              <div className="mt-8 grid grid-cols-3 gap-3">
+              <div className="mt-6 grid grid-cols-3 gap-2 sm:mt-8 sm:gap-3">
                 {stats.map(({ label, value, icon: Icon }) => (
                   <div
                     key={label}
-                    className="min-w-0 rounded-xl border border-border/70 bg-secondary/40 p-4"
+                    className="min-w-0 rounded-xl border border-border/70 bg-secondary/40 p-2.5 sm:p-4"
                   >
-                    <Icon className="mb-2.5 size-4 text-indigo-600 dark:text-indigo-400" />
-                    <p className="truncate text-lg font-bold tracking-tight text-foreground tabular-nums sm:text-xl">
+                    <Icon className="mb-2 size-3.5 text-indigo-600 sm:mb-2.5 sm:size-4 dark:text-indigo-400" />
+                    <p className="truncate text-base font-bold tracking-tight text-foreground tabular-nums sm:text-xl">
                       {value}
                     </p>
-                    <p className="mt-0.5 text-xs text-muted-foreground">
+                    <p className="mt-0.5 truncate text-[10px] text-muted-foreground sm:text-xs">
                       {label}
                     </p>
                   </div>
@@ -271,7 +271,7 @@ export default async function SoundDetailPage({ params }: PageProps) {
             </section>
 
             {/* Details sidebar */}
-            <aside className="h-fit rounded-xl border border-border/80 bg-secondary/30 p-5 sm:p-6">
+            <aside className="h-fit rounded-xl border border-border/80 bg-secondary/30 p-4 sm:p-6">
               <div className="flex items-center gap-3">
                 <div className="flex size-10 items-center justify-center rounded-xl bg-indigo-50 text-indigo-700 dark:bg-indigo-950/50 dark:text-indigo-300">
                   <Headphones className="size-5" />
@@ -352,7 +352,7 @@ export default async function SoundDetailPage({ params }: PageProps) {
               </Link>
             </div>
 
-            <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6">
+            <div className="grid grid-cols-2 gap-2.5 sm:grid-cols-3 sm:gap-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6">
               {related.map((item, index) => (
                 <SoundTile
                   key={item._id}

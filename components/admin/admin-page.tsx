@@ -23,7 +23,7 @@ export function AdminPage({
 }) {
   return (
     <section className="space-y-6">
-      <div className="flex flex-wrap items-end justify-between gap-4 border-b border-border/80 pb-6">
+      <div className="flex flex-col gap-4 border-b border-border/80 pb-5 sm:flex-row sm:items-end sm:justify-between sm:pb-6">
         <div>
           <div className="inline-flex items-center gap-1.5 rounded-full border border-indigo-200/60 bg-indigo-50/70 px-2.5 py-0.5 text-[11px] font-semibold text-indigo-700 dark:border-indigo-900/60 dark:bg-indigo-950/40 dark:text-indigo-300">
             <span>Console Moderation</span>
@@ -32,7 +32,7 @@ export function AdminPage({
             {title}
           </h1>
         </div>
-        {action}
+        {action && <div className="flex shrink-0 items-center">{action}</div>}
       </div>
 
       {(error || message) && (
@@ -103,7 +103,7 @@ export function AdminList({
 
   if (!count) {
     return (
-      <div className="mt-6 flex flex-col items-center justify-center rounded-2xl border border-dashed border-border/80 bg-card/40 p-12 text-center">
+      <div className="mt-6 flex flex-col items-center justify-center rounded-2xl border border-dashed border-border/80 bg-card/40 p-8 text-center sm:p-12">
         <div className="mb-3 flex size-11 items-center justify-center rounded-xl bg-secondary text-muted-foreground">
           <Inbox className="size-5" />
         </div>
@@ -160,16 +160,16 @@ export function AdminListToolbar({
             placeholder="Search records by title, user, tag..."
             aria-label="Search records"
             maxLength={100}
-            className="h-9 pr-8 pl-9 text-xs"
+            className="h-10 pr-9 pl-9 text-base sm:h-9 sm:text-xs"
           />
           {search && (
             <button
               type="button"
               onClick={() => onSearchChange("")}
               aria-label="Clear search"
-              className="absolute top-1/2 right-2.5 -translate-y-1/2 text-muted-foreground hover:text-foreground"
+              className="absolute top-1/2 right-1.5 flex size-8 -translate-y-1/2 items-center justify-center rounded-lg text-muted-foreground hover:bg-secondary hover:text-foreground active:scale-95"
             >
-              <X className="size-3.5" />
+              <X className="size-4" />
             </button>
           )}
         </div>
@@ -180,7 +180,7 @@ export function AdminListToolbar({
             value={status}
             onChange={(event) => onStatusChange(event.target.value)}
             aria-label="Filter by status"
-            className="h-9 w-full text-xs sm:w-40"
+            className="h-10 w-full text-base sm:h-9 sm:w-40 sm:text-xs"
           >
             {statusOptions.map((option) => (
               <NativeSelectOption key={option.value} value={option.value}>
@@ -195,7 +195,7 @@ export function AdminListToolbar({
           value={String(limit)}
           onChange={(event) => onLimitChange(Number(event.target.value))}
           aria-label="Rows per page"
-          className="h-9 w-full text-xs sm:ml-auto sm:w-36"
+          className="h-10 w-full text-base sm:ml-auto sm:h-9 sm:w-36 sm:text-xs"
         >
           {[10, 25, 50].map((value) => (
             <NativeSelectOption key={value} value={value}>
@@ -206,20 +206,20 @@ export function AdminListToolbar({
       </div>
 
       {/* Pagination Bar */}
-      <div className="flex items-center justify-between gap-3 border-t border-border/60 pt-3">
+      <div className="flex flex-wrap items-center justify-between gap-3 border-t border-border/60 pt-3">
         <p className="text-xs text-muted-foreground" aria-live="polite">
           Page <span className="font-semibold text-foreground">{page}</span> ·{" "}
           <span className="font-mono">{limit}</span> records per page
         </p>
 
-        <div className="flex items-center gap-1.5">
+        <div className="flex items-center gap-2">
           <Button
             type="button"
             variant="outline"
             size="xs"
             disabled={loading || page === 1}
             onClick={onPreviousPage}
-            className="h-7 rounded-lg px-2.5 text-xs"
+            className="min-h-[36px] rounded-lg px-3 text-xs sm:h-7 sm:min-h-0 sm:px-2.5"
           >
             <ChevronLeft className="size-3.5" />
             <span>Previous</span>
@@ -231,7 +231,7 @@ export function AdminListToolbar({
             size="xs"
             disabled={loading || !hasMore}
             onClick={onNextPage}
-            className="h-7 rounded-lg px-2.5 text-xs"
+            className="min-h-[36px] rounded-lg px-3 text-xs sm:h-7 sm:min-h-0 sm:px-2.5"
           >
             <span>Next</span>
             <ChevronRight className="size-3.5" />

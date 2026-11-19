@@ -329,7 +329,10 @@ export function verifyCaptcha(
     return { success: false, error: "Captcha token has already been used" }
   }
 
-  // 5. Constant-time equality comparison between user answer and signed code
+  // 5. Record nonce immediately to prevent replay attacks and brute-force guessing
+  nonceStore.add(payload.nonce, payload.exp)
+
+  // 6. Constant-time equality comparison between user answer and signed code
   const normalizedAnswer = answer.trim().toLowerCase()
   const normalizedExpected = payload.text.trim().toLowerCase()
 
@@ -339,9 +342,6 @@ export function verifyCaptcha(
   if (!timingSafeEqual(answerHash, expectedHash)) {
     return { success: false, error: "Incorrect captcha answer" }
   }
-
-  // 6. Record nonce to prevent reuse
-  nonceStore.add(payload.nonce, payload.exp)
 
   return { success: true }
 }

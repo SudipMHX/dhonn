@@ -19,10 +19,18 @@ export async function POST(
   context: RouteContext<"/api/sounds/[slug]/play">
 ) {
   try {
-    const [user, subject, { slug }] = await Promise.all([
+    const { slug } = await context.params
+    if (
+      !slug ||
+      typeof slug !== "string" ||
+      !/^[a-z0-9]+(?:-[a-z0-9]+)*$/i.test(slug) ||
+      slug.length > 120
+    ) {
+      return jsonError("Sound not found.", 404)
+    }
+    const [user, subject] = await Promise.all([
       getApiUser(),
       getRequestSubject(),
-      context.params,
     ])
     await enforceRateLimit("play-event", subject, 60, 60)
     await connectToDatabase()

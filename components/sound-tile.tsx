@@ -77,32 +77,32 @@ export function SoundTile({ sound }: { sound: SoundCardData; index?: number }) {
   }
 
   return (
-    <article className="group relative flex flex-col justify-between overflow-hidden rounded-xl border border-border/80 bg-card p-3 shadow-xs transition-all duration-200 hover:-translate-y-0.5 hover:border-indigo-500/40 hover:shadow-md hover:shadow-indigo-500/5">
+    <article className="group relative flex flex-col justify-between overflow-hidden rounded-xl border border-border/80 bg-card p-2.5 shadow-xs transition-all duration-200 hover:-translate-y-0.5 hover:border-indigo-500/40 hover:shadow-md hover:shadow-indigo-500/5 sm:p-3">
       {/* Top Meta Bar */}
-      <div className="flex items-center justify-between gap-1.5 text-[9px]">
+      <div className="flex items-center justify-between gap-1 text-[9px] sm:text-[10px]">
         {sound.categoryName ? (
-          <span className="max-w-[70%] truncate rounded-md bg-secondary/80 px-1.5 py-0.5 text-[10px] font-medium text-muted-foreground transition-colors group-hover:text-foreground">
+          <span className="max-w-[62%] truncate rounded-md bg-secondary/80 px-1.5 py-0.5 font-medium text-muted-foreground transition-colors group-hover:text-foreground">
             {sound.categoryName}
           </span>
         ) : (
           <span />
         )}
-        <span className="flex items-center gap-1 font-medium text-muted-foreground">
+        <span className="flex shrink-0 items-center gap-1 font-medium text-muted-foreground">
           <Volume2 className="size-2.5 text-muted-foreground/70" />
-          <span className="text-[9px] tabular-nums">
+          <span className="tabular-nums">
             {Number(sound.plays ?? 0).toLocaleString()}
           </span>
         </span>
       </div>
 
       {/* Central Play Trigger & Visualizer */}
-      <div className="flex items-center justify-center md:my-3">
+      <div className="flex items-center justify-center py-1 sm:py-2 md:my-3">
         <button
           type="button"
           onClick={() => void togglePlayback()}
           aria-label={`${playing ? "Stop" : "Play"} ${sound.title}`}
           aria-pressed={playing}
-          className={`relative flex size-12 items-center justify-center rounded-xl transition-all duration-200 active:scale-95 ${
+          className={`relative flex size-12 touch-manipulation items-center justify-center rounded-xl transition-all duration-200 active:scale-95 ${
             playing
               ? "bg-indigo-600 text-white shadow-md ring-3 shadow-indigo-600/30 ring-indigo-500/20"
               : "border border-border/80 bg-secondary/60 text-foreground hover:border-indigo-500/30 hover:bg-indigo-50/60 hover:text-indigo-600 hover:shadow-xs dark:hover:bg-indigo-950/40 dark:hover:text-indigo-400"
@@ -135,13 +135,13 @@ export function SoundTile({ sound }: { sound: SoundCardData; index?: number }) {
 
       {/* Bottom Actions Bar */}
       <div className="flex items-center justify-between border-t border-border/50 pt-2 text-[10px]">
-        <div className="flex w-full items-center justify-center gap-1">
+        <div className="flex w-full items-center justify-center gap-1.5 sm:gap-2">
           <button
             type="button"
             onClick={() => void toggleFavorite(sound._id)}
             aria-label={`${isFavorite ? "Remove from" : "Add to"} favorites`}
             aria-pressed={isFavorite}
-            className={`flex size-7 items-center justify-center rounded-md border transition-all ${
+            className={`flex size-7 touch-manipulation items-center justify-center rounded-lg border transition-all active:scale-90 sm:size-7.5 ${
               isFavorite
                 ? "border-rose-200 bg-rose-50 text-rose-500 dark:border-rose-900/60 dark:bg-rose-950/40"
                 : "border-border/60 bg-transparent text-muted-foreground hover:border-rose-200 hover:bg-rose-50/50 hover:text-rose-500 dark:hover:border-rose-900/50 dark:hover:bg-rose-950/30"
@@ -158,7 +158,7 @@ export function SoundTile({ sound }: { sound: SoundCardData; index?: number }) {
             type="button"
             onClick={() => void copyLink()}
             aria-label="Copy sound link"
-            className="flex size-7 items-center justify-center rounded-md border border-border/60 bg-transparent text-muted-foreground transition-all hover:border-border hover:bg-secondary hover:text-foreground"
+            className="flex size-7 touch-manipulation items-center justify-center rounded-lg border border-border/60 bg-transparent text-muted-foreground transition-all hover:border-border hover:bg-secondary hover:text-foreground active:scale-90 sm:size-7.5"
           >
             {copied ? (
               <Check className="size-3 text-emerald-600 dark:text-emerald-400" />
@@ -171,7 +171,7 @@ export function SoundTile({ sound }: { sound: SoundCardData; index?: number }) {
             slug={sound.slug}
             title={sound.title}
             shareText={false}
-            className="size-7 rounded-md border border-border/60 bg-transparent p-0 text-muted-foreground hover:border-border hover:bg-secondary hover:text-foreground"
+            className="size-7 touch-manipulation rounded-lg border border-border/60 bg-transparent p-0 text-muted-foreground hover:border-border hover:bg-secondary hover:text-foreground active:scale-90 sm:size-7.5"
           />
         </div>
       </div>

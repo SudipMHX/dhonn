@@ -113,7 +113,7 @@ export function AdminSoundCard({
               type="button"
               onClick={() => void togglePlay()}
               aria-label={`${playing ? "Pause" : "Play"} ${title}`}
-              className={`mt-0.5 flex size-8 shrink-0 items-center justify-center rounded-lg border transition-all ${
+              className={`mt-0.5 flex size-9 shrink-0 items-center justify-center rounded-xl border transition-all active:scale-95 sm:size-8 ${
                 playing
                   ? "border-indigo-600 bg-indigo-600 text-white shadow-xs"
                   : "border-border/80 bg-secondary/60 text-muted-foreground hover:border-indigo-500/40 hover:bg-indigo-50 hover:text-indigo-600 dark:hover:bg-indigo-950/40 dark:hover:text-indigo-400"
@@ -138,17 +138,17 @@ export function AdminSoundCard({
 
             <div className="mt-1 flex flex-wrap items-center gap-1.5 text-[11px] text-muted-foreground">
               {Boolean(row.featured) && (
-                <span className="py-0.2 inline-flex items-center gap-0.5 rounded border border-amber-200/50 bg-amber-50 px-1 font-medium text-amber-700 dark:border-amber-900/50 dark:bg-amber-950/50 dark:text-amber-300">
+                <span className="inline-flex items-center gap-0.5 rounded border border-amber-200/50 bg-amber-50 px-1 py-0.5 font-medium text-amber-700 dark:border-amber-900/50 dark:bg-amber-950/50 dark:text-amber-300">
                   <Sparkles className="size-2.5" /> Featured
                 </span>
               )}
               {Boolean(row.trending) && (
-                <span className="py-0.2 inline-flex items-center gap-0.5 rounded border border-indigo-200/50 bg-indigo-50 px-1 font-medium text-indigo-700 dark:border-indigo-900/50 dark:bg-indigo-950/50 dark:text-indigo-300">
+                <span className="inline-flex items-center gap-0.5 rounded border border-indigo-200/50 bg-indigo-50 px-1 py-0.5 font-medium text-indigo-700 dark:border-indigo-900/50 dark:bg-indigo-950/50 dark:text-indigo-300">
                   <Flame className="size-2.5" /> Trending
                 </span>
               )}
               {Boolean(row.categoryName) && (
-                <span className="py-0.2 truncate rounded bg-secondary px-1.5 text-[10px] font-medium text-muted-foreground">
+                <span className="truncate rounded bg-secondary px-1.5 py-0.5 text-[10px] font-medium text-muted-foreground">
                   {adminText(row.categoryName)}
                 </span>
               )}
@@ -228,7 +228,7 @@ export function AdminSoundCard({
 
       {/* Actions */}
       <TableCell className="min-w-64 whitespace-normal">
-        <div className="flex flex-wrap items-center gap-1">
+        <div className="flex flex-wrap items-center gap-1.5">
           {(allowPublish || row.status !== "published") &&
             row.status !== "rejected" &&
             row.status !== "removed" && (
@@ -241,7 +241,7 @@ export function AdminSoundCard({
                 }
                 variant="primary"
                 size="xs"
-                className="gap-1 rounded-lg"
+                className="min-h-[34px] gap-1 rounded-lg px-2.5 active:scale-95"
               >
                 <Check className="size-3" />
                 <span>Publish</span>
@@ -259,7 +259,7 @@ export function AdminSoundCard({
               }
               variant="outline"
               size="xs"
-              className="rounded-lg"
+              className="min-h-[34px] rounded-lg px-2.5 active:scale-95"
             >
               Unpublish
             </Button>
@@ -278,7 +278,7 @@ export function AdminSoundCard({
                 }
                 variant="destructive"
                 size="xs"
-                className="gap-1 rounded-lg"
+                className="min-h-[34px] gap-1 rounded-lg px-2.5 active:scale-95"
               >
                 <X className="size-3" />
                 <span>Reject</span>
@@ -294,7 +294,7 @@ export function AdminSoundCard({
             }
             variant="outline"
             size="xs"
-            className={`rounded-lg ${row.featured ? "border-amber-300 bg-amber-50/50 text-amber-700 dark:border-amber-800 dark:bg-amber-950/40 dark:text-amber-300" : ""}`}
+            className={`min-h-[34px] rounded-lg px-2.5 active:scale-95 ${row.featured ? "border-amber-300 bg-amber-50/50 text-amber-700 dark:border-amber-800 dark:bg-amber-950/40 dark:text-amber-300" : ""}`}
           >
             <Sparkles className="size-3" />
             <span>{row.featured ? "Featured" : "Feature"}</span>
@@ -309,7 +309,7 @@ export function AdminSoundCard({
             }
             variant="outline"
             size="xs"
-            className={`rounded-lg ${row.trending ? "border-indigo-300 bg-indigo-50/50 text-indigo-700 dark:border-indigo-800 dark:bg-indigo-950/40 dark:text-indigo-300" : ""}`}
+            className={`min-h-[34px] rounded-lg px-2.5 active:scale-95 ${row.trending ? "border-indigo-300 bg-indigo-50/50 text-indigo-700 dark:border-indigo-800 dark:bg-indigo-950/40 dark:text-indigo-300" : ""}`}
           >
             <Flame className="size-3" />
             <span>{row.trending ? "Trending" : "Trend"}</span>
@@ -334,7 +334,7 @@ export function AdminSoundCard({
                   type="button"
                   variant="outline"
                   size="xs"
-                  className="rounded-lg"
+                  className="min-h-[34px] rounded-lg px-2.5 active:scale-95"
                 >
                   <Edit3 className="size-3" />
                   <span>Edit</span>
@@ -373,10 +373,10 @@ export function AdminSoundCard({
             }
             variant="ghost"
             size="xs"
-            className="rounded-lg text-rose-600 hover:bg-rose-50 hover:text-rose-700 dark:text-rose-400 dark:hover:bg-rose-950/50"
+            className="min-h-[34px] rounded-lg px-2 text-rose-600 hover:bg-rose-50 hover:text-rose-700 active:scale-95 dark:text-rose-400 dark:hover:bg-rose-950/50"
             title="Delete permanently"
           >
-            <Trash2 className="size-3" />
+            <Trash2 className="size-3.5" />
           </Button>
         </div>
       </TableCell>
@@ -393,5 +393,355 @@ export function AdminSoundCard({
         />
       )}
     </TableRow>
+  )
+}
+
+export function AdminSoundMobileCard({
+  row,
+  allowPublish,
+  mutate,
+  onRemove,
+}: {
+  row: AdminRecord
+  allowPublish: boolean
+  mutate: AdminMutation
+  onRemove: (target: SoundRemovalTarget) => void
+}) {
+  const id = adminText(row._id)
+  const slug = adminText(row.slug)
+  const owner = adminChildRecord(row.owner)
+  const audio = adminChildRecord(row.audio)
+  const editOpen = useAdminStore((state) => state.editingSoundId === id)
+  const setEditingSoundId = useAdminStore((state) => state.setEditingSoundId)
+  const initializeSoundDraft = useAdminStore(
+    (state) => state.initializeSoundDraft
+  )
+
+  const audioRef = useRef<HTMLAudioElement>(null)
+  const [playing, setPlaying] = useState(false)
+
+  useEffect(() => {
+    function stopOtherAudio(event: Event) {
+      if (event.target !== audioRef.current) {
+        audioRef.current?.pause()
+        if (audioRef.current) audioRef.current.currentTime = 0
+        setPlaying(false)
+      }
+    }
+    window.addEventListener("dhonn.:audio-started", stopOtherAudio)
+    return () =>
+      window.removeEventListener("dhonn.:audio-started", stopOtherAudio)
+  }, [])
+
+  async function togglePlay() {
+    const audioEl = audioRef.current
+    if (!audioEl) return
+    if (playing) {
+      audioEl.pause()
+      audioEl.currentTime = 0
+      setPlaying(false)
+      return
+    }
+    window.dispatchEvent(new Event("dhonn.:audio-started"))
+    try {
+      await audioEl.play()
+    } catch {
+      setPlaying(false)
+    }
+  }
+
+  const status = adminText(row.status)
+  const statusVariant =
+    status === "published"
+      ? "success"
+      : status === "rejected" || status === "removed"
+        ? "destructive"
+        : "warning"
+
+  const durationSec = Number(audio.durationSeconds) || 0
+  const ownerName = adminText(owner.name) || "Anonymous"
+  const ownerEmail = adminText(owner.email)
+  const title = adminText(row.title)
+
+  return (
+    <div className="space-y-3 rounded-2xl border border-border/80 bg-card p-4 shadow-xs">
+      {/* Top: Play button + Title + Badges */}
+      <div className="flex items-start gap-3">
+        {slug && (
+          <button
+            type="button"
+            onClick={() => void togglePlay()}
+            aria-label={`${playing ? "Pause" : "Play"} ${title}`}
+            className={`flex size-11 shrink-0 items-center justify-center rounded-xl border transition-all active:scale-95 ${
+              playing
+                ? "border-indigo-600 bg-indigo-600 text-white shadow-xs"
+                : "border-border/80 bg-secondary/60 text-muted-foreground hover:border-indigo-500/40 hover:bg-secondary hover:text-foreground"
+            }`}
+          >
+            {playing ? (
+              <Pause className="size-4.5 fill-current" />
+            ) : (
+              <Play className="size-4.5 fill-current pl-0.5" />
+            )}
+          </button>
+        )}
+
+        <div className="min-w-0 flex-1">
+          <div className="flex items-start justify-between gap-2">
+            <Link
+              href={slug ? `/sound/${slug}` : "#"}
+              className="line-clamp-1 font-semibold text-foreground hover:text-indigo-600 dark:hover:text-indigo-400"
+              title={title}
+            >
+              {title}
+            </Link>
+
+            <Badge
+              variant={statusVariant}
+              className="shrink-0 gap-1 px-2 py-0.5 text-[10px] capitalize"
+            >
+              <span
+                className={`size-1.5 rounded-full ${
+                  status === "published"
+                    ? "bg-emerald-500"
+                    : status === "rejected" || status === "removed"
+                      ? "bg-rose-500"
+                      : "bg-amber-500"
+                }`}
+              />
+              {status === "published"
+                ? "Live"
+                : status === "rejected"
+                  ? "Rejected"
+                  : status === "pending"
+                    ? "Pending"
+                    : status}
+            </Badge>
+          </div>
+
+          <div className="mt-1 flex flex-wrap items-center gap-1.5 text-[11px] text-muted-foreground">
+            {Boolean(row.categoryName) && (
+              <span className="rounded bg-secondary px-1.5 py-0.5 text-[10px] font-medium">
+                {adminText(row.categoryName)}
+              </span>
+            )}
+            {durationSec > 0 && (
+              <span className="font-mono text-[10px]">
+                {durationSec.toFixed(1)}s
+              </span>
+            )}
+            {Boolean(row.featured) && (
+              <span className="py-0.2 inline-flex items-center gap-0.5 rounded border border-amber-200/50 bg-amber-50 px-1 text-[10px] font-medium text-amber-700 dark:border-amber-900/50 dark:bg-amber-950/50 dark:text-amber-300">
+                <Sparkles className="size-2.5" /> Featured
+              </span>
+            )}
+            {Boolean(row.trending) && (
+              <span className="py-0.2 inline-flex items-center gap-0.5 rounded border border-indigo-200/50 bg-indigo-50 px-1 text-[10px] font-medium text-indigo-700 dark:border-indigo-900/50 dark:bg-indigo-950/50 dark:text-indigo-300">
+                <Flame className="size-2.5" /> Trending
+              </span>
+            )}
+          </div>
+        </div>
+      </div>
+
+      {/* Meta Row: Creator & Stats */}
+      <div className="flex items-center justify-between border-t border-border/50 pt-2 text-xs text-muted-foreground">
+        <div className="flex min-w-0 items-center gap-1.5">
+          <div className="flex size-5 shrink-0 items-center justify-center rounded-full bg-indigo-50 text-[10px] font-bold text-indigo-700 dark:bg-indigo-950/60 dark:text-indigo-300">
+            {ownerName.charAt(0).toUpperCase()}
+          </div>
+          <span className="truncate">{ownerName}</span>
+          {ownerEmail && (
+            <span className="xs:inline hidden font-mono text-[10px]">
+              ({ownerEmail})
+            </span>
+          )}
+        </div>
+
+        <div className="flex items-center gap-2.5 font-mono text-[11px]">
+          <span className="flex items-center gap-1">
+            <Volume2 className="size-3 text-muted-foreground/70" />
+            <span>{Number(row.plays ?? 0).toLocaleString()}</span>
+          </span>
+          <span className="flex items-center gap-1">
+            <Heart className="size-3 text-rose-500/70" />
+            <span>{Number(row.favorites ?? 0).toLocaleString()}</span>
+          </span>
+        </div>
+      </div>
+
+      {/* Actions Toolbar: Min 40px touch targets */}
+      <div className="flex flex-wrap items-center gap-2 border-t border-border/50 pt-2.5">
+        {(allowPublish || row.status !== "published") &&
+          row.status !== "rejected" &&
+          row.status !== "removed" && (
+            <Button
+              type="button"
+              onClick={() =>
+                void mutate("sound.update", id, {
+                  status: "published",
+                })
+              }
+              variant="primary"
+              size="xs"
+              className="min-h-[40px] flex-1 gap-1.5 rounded-xl text-xs active:scale-95"
+            >
+              <Check className="size-3.5" />
+              <span>Publish</span>
+            </Button>
+          )}
+
+        {row.status === "published" && (
+          <Button
+            type="button"
+            onClick={() =>
+              void mutate("sound.update", id, {
+                status: "pending",
+                moderationNote: "Unpublished by administrator.",
+              })
+            }
+            variant="outline"
+            size="xs"
+            className="min-h-[40px] flex-1 rounded-xl text-xs active:scale-95"
+          >
+            Unpublish
+          </Button>
+        )}
+
+        {row.status !== "published" &&
+          row.status !== "rejected" &&
+          row.status !== "removed" && (
+            <Button
+              type="button"
+              onClick={() =>
+                void mutate("sound.update", id, {
+                  status: "rejected",
+                  moderationNote: "Not approved by moderation.",
+                })
+              }
+              variant="destructive"
+              size="xs"
+              className="min-h-[40px] flex-1 gap-1 rounded-xl text-xs active:scale-95"
+            >
+              <X className="size-3.5" />
+              <span>Reject</span>
+            </Button>
+          )}
+
+        <Button
+          type="button"
+          onClick={() =>
+            void mutate("sound.update", id, {
+              featured: !row.featured,
+            })
+          }
+          variant="outline"
+          size="xs"
+          className={`min-h-[40px] rounded-xl px-3 text-xs active:scale-95 ${
+            row.featured
+              ? "border-amber-300 bg-amber-50/50 text-amber-700 dark:border-amber-800 dark:bg-amber-950/40 dark:text-amber-300"
+              : ""
+          }`}
+        >
+          <Sparkles className="size-3.5" />
+          <span>{row.featured ? "Featured" : "Feature"}</span>
+        </Button>
+
+        <Button
+          type="button"
+          onClick={() =>
+            void mutate("sound.update", id, {
+              trending: !row.trending,
+            })
+          }
+          variant="outline"
+          size="xs"
+          className={`min-h-[40px] rounded-xl px-3 text-xs active:scale-95 ${
+            row.trending
+              ? "border-indigo-300 bg-indigo-50/50 text-indigo-700 dark:border-indigo-800 dark:bg-indigo-950/40 dark:text-indigo-300"
+              : ""
+          }`}
+        >
+          <Flame className="size-3.5" />
+          <span>{row.trending ? "Trending" : "Trend"}</span>
+        </Button>
+
+        <Dialog
+          open={editOpen}
+          onOpenChange={(open) => {
+            if (open) {
+              initializeSoundDraft(id, {
+                title: adminText(row.title),
+                description: adminText(row.description),
+                tags: Array.isArray(row.tags) ? row.tags.join(", ") : "",
+              })
+            }
+            setEditingSoundId(open ? id : null)
+          }}
+        >
+          <DialogTrigger
+            render={
+              <Button
+                type="button"
+                variant="outline"
+                size="xs"
+                className="min-h-[40px] rounded-xl px-3 text-xs active:scale-95"
+              >
+                <Edit3 className="size-3.5" />
+                <span>Edit</span>
+              </Button>
+            }
+          />
+          <DialogContent className="max-h-[90vh] overflow-y-auto sm:max-w-2xl">
+            <DialogHeader>
+              <DialogTitle>Edit sound details</DialogTitle>
+              <DialogDescription>
+                Update the title, description, and tags for this sound.
+              </DialogDescription>
+            </DialogHeader>
+            <SoundEditForm
+              key={`m-${id}-${editOpen}`}
+              row={row}
+              soundId={id}
+              onSave={async (body) => {
+                const saved = await mutate("sound.update", id, {
+                  ...body,
+                })
+                if (saved) setEditingSoundId(null)
+                return saved
+              }}
+            />
+          </DialogContent>
+        </Dialog>
+
+        <Button
+          type="button"
+          onClick={() =>
+            onRemove({
+              soundId: id,
+              title: adminText(row.title) || "this sound",
+            })
+          }
+          variant="ghost"
+          size="xs"
+          className="min-h-[40px] rounded-xl px-2.5 text-rose-600 hover:bg-rose-50 hover:text-rose-700 active:scale-95 dark:text-rose-400 dark:hover:bg-rose-950/50"
+          title="Delete permanently"
+        >
+          <Trash2 className="size-4" />
+        </Button>
+      </div>
+
+      {slug && (
+        <audio
+          ref={audioRef}
+          src={`/api/sounds/${encodeURIComponent(slug)}/audio`}
+          preload="none"
+          onEnded={() => setPlaying(false)}
+          onPause={() => setPlaying(false)}
+          onPlay={() => setPlaying(true)}
+          onError={() => setPlaying(false)}
+        />
+      )}
+    </div>
   )
 }

@@ -50,7 +50,7 @@ function SoundTileSkeletonGrid({ count }: { count: number }) {
   return (
     <div
       aria-busy="true"
-      className="grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6"
+      className="grid grid-cols-2 gap-2.5 sm:grid-cols-3 sm:gap-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6"
     >
       {Array.from({ length: count }, (_, index) => (
         <SoundTileSkeleton key={index} />
@@ -184,9 +184,9 @@ export function HomeSoundboardClient({
 
   return (
     <div className="min-h-screen bg-background text-foreground">
-      <main className="mx-auto max-w-7xl px-4 py-6 sm:px-6 sm:py-8 lg:px-8">
+      <main className="mx-auto max-w-7xl px-3 py-4 sm:px-6 sm:py-8 lg:px-8">
         {/* Hero Section */}
-        <section className="relative hidden overflow-hidden rounded-3xl border border-border/80 bg-card p-6 shadow-xs sm:p-10 lg:block lg:p-12">
+        <section className="relative overflow-hidden rounded-2xl border border-border/80 bg-card p-5 shadow-xs sm:rounded-3xl sm:p-8 lg:p-12">
           {/* Subtle Ambient Light Gradients */}
           <div
             aria-hidden="true"
@@ -197,14 +197,14 @@ export function HomeSoundboardClient({
             className="pointer-events-none absolute bottom-0 left-10 -z-10 size-80 rounded-full bg-violet-500/10 blur-[90px] dark:bg-violet-500/15"
           />
 
-          <div className="grid gap-8 lg:grid-cols-[1.3fr_0.9fr] lg:items-center">
+          <div className="grid gap-6 lg:grid-cols-[1.3fr_0.9fr] lg:items-center lg:gap-8">
             <div className="flex flex-col justify-center">
-              <div className="inline-flex w-fit items-center gap-2 rounded-full border border-indigo-200/60 bg-indigo-50/80 px-3 py-1 text-xs font-semibold text-indigo-700 dark:border-indigo-900/60 dark:bg-indigo-950/40 dark:text-indigo-300">
+              <div className="inline-flex w-fit items-center gap-2 rounded-full border border-indigo-200/60 bg-indigo-50/80 px-2.5 py-1 text-xs font-semibold text-indigo-700 sm:px-3 dark:border-indigo-900/60 dark:bg-indigo-950/40 dark:text-indigo-300">
                 <Sparkles className="size-3.5" />
                 <span>The Premier Creator Soundboard</span>
               </div>
 
-              <h1 className="mt-5 text-3xl leading-[1.1] font-extrabold tracking-tight text-foreground sm:text-5xl lg:text-6xl">
+              <h1 className="mt-3 text-2xl leading-[1.15] font-extrabold tracking-tight text-foreground sm:mt-5 sm:text-4xl lg:text-6xl">
                 {pageTitle ?? (
                   <>
                     Little sounds.
@@ -216,22 +216,22 @@ export function HomeSoundboardClient({
                 )}
               </h1>
 
-              <p className="mt-4 max-w-xl text-sm leading-relaxed text-muted-foreground sm:text-base">
+              <p className="mt-3 max-w-xl text-xs leading-relaxed text-muted-foreground sm:mt-4 sm:text-base">
                 {pageDescription ??
                   "Explore, play, and collect instant audio bites for streams, Discord, group chats, and videos. Quick, creator-made, and always ready."}
               </p>
 
-              <div className="mt-7 flex flex-wrap items-center gap-3">
+              <div className="mt-5 flex flex-wrap items-center gap-2.5 sm:mt-7 sm:gap-3">
                 <a
                   href="#library"
-                  className="inline-flex h-10 items-center justify-center rounded-xl bg-indigo-600 px-5 text-sm font-semibold text-white shadow-xs shadow-indigo-600/30 transition-all hover:bg-indigo-500 active:bg-indigo-700"
+                  className="inline-flex h-10 touch-manipulation items-center justify-center rounded-xl bg-indigo-600 px-4 text-xs font-semibold text-white shadow-xs shadow-indigo-600/30 transition-all hover:bg-indigo-500 active:scale-95 sm:px-5 sm:text-sm"
                 >
                   <span>Explore Sounds</span>
                   <ArrowRight className="ml-1.5 size-4" />
                 </a>
                 <Link
                   href="/dashboard/upload"
-                  className="inline-flex h-10 items-center justify-center rounded-xl border border-border/80 bg-secondary/60 px-5 text-sm font-medium text-foreground transition-colors hover:bg-secondary active:bg-secondary/80"
+                  className="inline-flex h-10 touch-manipulation items-center justify-center rounded-xl border border-border/80 bg-secondary/60 px-4 text-xs font-medium text-foreground transition-colors hover:bg-secondary active:scale-95 sm:px-5 sm:text-sm"
                 >
                   <Upload className="mr-1.5 size-4 text-muted-foreground" />
                   <span>Share Your Audio</span>
@@ -239,8 +239,8 @@ export function HomeSoundboardClient({
               </div>
             </div>
 
-            {/* Ambient Soundboard Showcase Card */}
-            <div className="relative overflow-hidden rounded-2xl border border-border/80 bg-zinc-950 p-6 text-white shadow-xl dark:border-border/60">
+            {/* Ambient Soundboard Showcase Card (Desktop) */}
+            <div className="relative hidden overflow-hidden rounded-2xl border border-border/80 bg-zinc-950 p-6 text-white shadow-xl lg:block dark:border-border/60">
               <div className="flex items-center justify-between font-mono text-xs text-zinc-400">
                 <span className="flex items-center gap-1.5 font-semibold tracking-wider text-indigo-400 uppercase">
                   <Flame className="size-3.5" />
@@ -287,20 +287,20 @@ export function HomeSoundboardClient({
 
         {/* Featured Sounds Section */}
         {!query && !category && (featured.length > 0 || loading) && (
-          <section className="md:mt-12">
-            <div className="mb-5 flex items-end justify-between">
+          <section className="mt-8 sm:mt-10 md:mt-12">
+            <div className="mb-4 flex items-end justify-between sm:mb-5">
               <div>
                 <div className="flex items-center gap-1.5 text-xs font-semibold tracking-wider text-indigo-600 uppercase dark:text-indigo-400">
                   <Sparkles className="size-3.5" />
                   <span>Curated Selection</span>
                 </div>
-                <h2 className="mt-1 text-2xl font-bold tracking-tight text-foreground sm:text-3xl">
+                <h2 className="mt-1 text-xl font-bold tracking-tight text-foreground sm:text-2xl md:text-3xl">
                   Featured Sounds
                 </h2>
               </div>
               <Link
                 href="/featured"
-                className="inline-flex items-center gap-1 text-xs font-semibold text-indigo-600 transition-colors hover:text-indigo-500 dark:text-indigo-400"
+                className="inline-flex touch-manipulation items-center gap-1 text-xs font-semibold text-indigo-600 transition-colors hover:text-indigo-500 active:scale-95 dark:text-indigo-400"
               >
                 <span>View all</span>
                 <ArrowRight className="size-3.5" />
@@ -308,7 +308,7 @@ export function HomeSoundboardClient({
             </div>
 
             {featured.length > 0 ? (
-              <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6">
+              <div className="grid grid-cols-2 gap-2.5 sm:grid-cols-3 sm:gap-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6">
                 {featured.map((sound, index) => (
                   <SoundTile key={sound._id} sound={sound} index={index} />
                 ))}
@@ -316,7 +316,7 @@ export function HomeSoundboardClient({
             ) : (
               <div
                 aria-busy="true"
-                className="grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6"
+                className="grid grid-cols-2 gap-2.5 sm:grid-cols-3 sm:gap-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6"
               >
                 {Array.from({ length: 6 }, (_, index) => (
                   <SoundTileSkeleton key={index} />
@@ -327,19 +327,19 @@ export function HomeSoundboardClient({
         )}
 
         {/* Main Soundboard Library Section */}
-        <section id="library" className="mt-14 scroll-mt-24">
-          <div className="mb-6 flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
+        <section id="library" className="mt-10 scroll-mt-24 sm:mt-14">
+          <div className="mb-5 flex flex-col gap-3 sm:mb-6 sm:flex-row sm:items-end sm:justify-between sm:gap-4">
             <div>
               <p className="text-xs font-semibold tracking-wider text-indigo-600 uppercase dark:text-indigo-400">
                 Explore The Library
               </p>
-              <h2 className="mt-1 text-2xl font-bold tracking-tight text-foreground sm:text-3xl">
+              <h2 className="mt-1 text-xl font-bold tracking-tight text-foreground sm:text-2xl md:text-3xl">
                 All Sounds
               </h2>
             </div>
 
             {/* Instant Filter Search Bar */}
-            <div className="relative w-full md:max-w-xs">
+            <div className="relative w-full sm:max-w-xs">
               <Search className="pointer-events-none absolute top-1/2 left-3.5 size-4 -translate-y-1/2 text-muted-foreground" />
               <input
                 value={query}
@@ -352,14 +352,17 @@ export function HomeSoundboardClient({
             </div>
           </div>
 
-          {/* Category Chip Carousel */}
+          {/* Category Chip Carousel (Smooth horizontal scroll on mobile) */}
           <div
             aria-busy={loading && categories.length === 0}
-            className="mb-5 flex flex-wrap gap-2 text-xs"
+            className="-mx-3 mb-5 flex scrollbar-none items-center gap-2 overflow-x-auto px-3 py-1 text-xs sm:mx-0 sm:flex-wrap sm:px-0 sm:py-0"
           >
             {categories.length === 0 && loading ? (
               Array.from({ length: 6 }, (_, index) => (
-                <Skeleton key={index} className="h-8 w-20 rounded-xl" />
+                <Skeleton
+                  key={index}
+                  className="h-8 w-20 shrink-0 rounded-xl"
+                />
               ))
             ) : (
               <>
@@ -367,7 +370,7 @@ export function HomeSoundboardClient({
                   type="button"
                   onClick={() => changeFilter(() => setCategory(""))}
                   aria-pressed={!category}
-                  className={`rounded-xl px-3.5 py-1.5 text-xs font-medium transition-all ${
+                  className={`shrink-0 touch-manipulation rounded-xl px-3.5 py-1.5 text-xs font-medium whitespace-nowrap transition-all active:scale-95 ${
                     !category
                       ? "bg-indigo-600 text-white shadow-xs shadow-indigo-600/30"
                       : "border border-border/80 bg-card text-muted-foreground hover:bg-secondary hover:text-foreground"
@@ -381,7 +384,7 @@ export function HomeSoundboardClient({
                     type="button"
                     onClick={() => changeFilter(() => setCategory(item._id))}
                     aria-pressed={category === item._id}
-                    className={`rounded-xl px-3.5 py-1.5 text-xs font-medium transition-all ${
+                    className={`shrink-0 touch-manipulation rounded-xl px-3.5 py-1.5 text-xs font-medium whitespace-nowrap transition-all active:scale-95 ${
                       category === item._id
                         ? "bg-indigo-600 text-white shadow-xs shadow-indigo-600/30"
                         : "border border-border/80 bg-card text-muted-foreground hover:bg-secondary hover:text-foreground"
@@ -428,7 +431,7 @@ export function HomeSoundboardClient({
           {error ? (
             <div
               role="alert"
-              className="rounded-2xl border border-rose-200/80 bg-rose-50/50 p-8 text-center text-rose-800 dark:border-rose-900/60 dark:bg-rose-950/20 dark:text-rose-200"
+              className="rounded-2xl border border-rose-200/80 bg-rose-50/50 p-6 text-center text-rose-800 sm:p-8 dark:border-rose-900/60 dark:bg-rose-950/20 dark:text-rose-200"
             >
               <p className="font-semibold">Unable to load sound library</p>
               <p className="mt-1.5 text-xs text-rose-600 dark:text-rose-300">
@@ -439,14 +442,14 @@ export function HomeSoundboardClient({
                 onClick={() => setRetry((value) => value + 1)}
                 variant="destructive"
                 size="sm"
-                className="mt-4"
+                className="mt-4 touch-manipulation active:scale-95"
               >
                 Retry
               </Button>
             </div>
           ) : sounds.length ? (
             <>
-              <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6">
+              <div className="grid grid-cols-2 gap-2.5 sm:grid-cols-3 sm:gap-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6">
                 {sounds.map((sound, index) => (
                   <SoundTile key={sound._id} sound={sound} index={index} />
                 ))}
@@ -463,7 +466,7 @@ export function HomeSoundboardClient({
                     disabled={loading}
                     variant="outline"
                     size="lg"
-                    className="rounded-xl px-6"
+                    className="w-full touch-manipulation rounded-xl px-6 active:scale-95 sm:w-auto"
                   >
                     {loading ? "Loading..." : "Load More Sounds"}
                   </Button>
@@ -473,7 +476,7 @@ export function HomeSoundboardClient({
           ) : loading ? (
             <SoundTileSkeletonGrid count={12} />
           ) : (
-            <div className="flex flex-col items-center justify-center rounded-2xl border border-dashed border-border/80 bg-card/40 p-12 text-center">
+            <div className="flex flex-col items-center justify-center rounded-2xl border border-dashed border-border/80 bg-card/40 p-8 text-center sm:p-12">
               <div className="mb-3 flex size-12 items-center justify-center rounded-2xl bg-secondary text-muted-foreground">
                 <Music2 className="size-6" />
               </div>

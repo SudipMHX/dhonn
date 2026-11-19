@@ -4,7 +4,12 @@ import type { FormEvent } from "react"
 
 import { useAdminStore } from "@/components/admin/admin-store"
 import { Button } from "@/components/ui/button"
-import { Field, FieldGroup, FieldLabel } from "@/components/ui/field"
+import {
+  Field,
+  FieldDescription,
+  FieldGroup,
+  FieldLabel,
+} from "@/components/ui/field"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { adminText, type AdminRecord } from "./admin-data"
@@ -43,8 +48,8 @@ export function SoundEditForm({
   }
 
   return (
-    <form className="mt-3" onSubmit={submit}>
-      <FieldGroup className="grid gap-3 sm:grid-cols-2">
+    <form className="mt-4 space-y-4" onSubmit={submit}>
+      <FieldGroup className="space-y-4">
         <Field>
           <FieldLabel htmlFor={`sound-title-${soundId}`}>Title</FieldLabel>
           <Input
@@ -58,6 +63,7 @@ export function SoundEditForm({
                 .updateSoundDraft(soundId, "title", event.target.value)
             }
             maxLength={100}
+            className="h-10 text-base sm:text-sm"
           />
         </Field>
         <Field>
@@ -73,6 +79,8 @@ export function SoundEditForm({
                 .updateSoundDraft(soundId, "description", event.target.value)
             }
             maxLength={1000}
+            rows={3}
+            className="min-h-20 text-base sm:text-sm"
           />
         </Field>
         <Field>
@@ -85,19 +93,23 @@ export function SoundEditForm({
                 .getState()
                 .updateSoundDraft(soundId, "tags", event.target.value)
             }
-            aria-description="Separate tags with commas"
+            placeholder="anime, meme, laugh, fx"
+            className="h-10 text-base sm:text-sm"
           />
+          <FieldDescription>Separate tags with commas.</FieldDescription>
         </Field>
       </FieldGroup>
-      <Button
-        type="submit"
-        variant="primary"
-        size="md"
-        className="mt-4 w-fit"
-        disabled={saving}
-      >
-        {saving ? "Saving…" : "Save changes"}
-      </Button>
+      <div className="flex flex-col-reverse gap-2 pt-2 sm:flex-row sm:justify-end">
+        <Button
+          type="submit"
+          variant="primary"
+          size="md"
+          className="min-h-[44px] w-full sm:w-auto"
+          disabled={saving}
+        >
+          {saving ? "Saving…" : "Save changes"}
+        </Button>
+      </div>
     </form>
   )
 }

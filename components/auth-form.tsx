@@ -145,7 +145,7 @@ export function AuthForm({
             name="name"
             autoComplete="name"
             placeholder="Alex Rivers"
-            className="h-10 w-full rounded-xl border border-input bg-card px-3.5 text-sm text-foreground transition-all placeholder:text-muted-foreground/60 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 focus:outline-none"
+            className="h-11 w-full rounded-xl border border-input bg-card px-3.5 text-sm text-foreground transition-all placeholder:text-muted-foreground/60 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 focus:outline-none"
           />
         </div>
       )}
@@ -164,7 +164,7 @@ export function AuthForm({
           name="email"
           autoComplete="email"
           placeholder="name@domain.com"
-          className="h-10 w-full rounded-xl border border-input bg-card px-3.5 text-sm text-foreground transition-all placeholder:text-muted-foreground/60 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 focus:outline-none"
+          className="h-11 w-full rounded-xl border border-input bg-card px-3.5 text-sm text-foreground transition-all placeholder:text-muted-foreground/60 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 focus:outline-none"
         />
       </div>
 
@@ -191,7 +191,7 @@ export function AuthForm({
           minLength={register ? 10 : undefined}
           maxLength={128}
           placeholder="••••••••••••"
-          className="h-10 w-full rounded-xl border border-input bg-card px-3.5 text-sm text-foreground transition-all placeholder:text-muted-foreground/60 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 focus:outline-none"
+          className="h-11 w-full rounded-xl border border-input bg-card px-3.5 text-sm text-foreground transition-all placeholder:text-muted-foreground/60 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 focus:outline-none"
         />
       </div>
 
@@ -215,7 +215,7 @@ export function AuthForm({
             <img
               src={captcha.svg}
               alt="Security Captcha"
-              className="h-10 rounded-lg border border-border/80 bg-background/50 object-contain px-2"
+              className="h-10 max-w-[calc(100%-3rem)] rounded-lg border border-border/80 bg-background/50 object-contain px-2"
             />
           ) : (
             <div className="flex h-10 w-40 items-center justify-center rounded-lg border border-border/80 bg-background/50 text-xs text-muted-foreground">
@@ -231,6 +231,7 @@ export function AuthForm({
             disabled={captchaLoading || busy}
             aria-label="Refresh captcha"
             title="Refresh captcha"
+            className="size-10 shrink-0 touch-manipulation rounded-xl active:scale-95"
           >
             <RotateCw
               className={cn("size-4", captchaLoading && "animate-spin")}
@@ -248,7 +249,7 @@ export function AuthForm({
             setCaptchaAnswer(event.target.value.toUpperCase())
           }
           placeholder="Enter code above"
-          className="h-10 w-full rounded-xl border border-input bg-card px-3.5 text-sm tracking-wider text-foreground uppercase transition-all placeholder:tracking-normal placeholder:text-muted-foreground/60 placeholder:normal-case focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 focus:outline-none"
+          className="h-11 w-full rounded-xl border border-input bg-card px-3.5 text-sm tracking-wider text-foreground uppercase transition-all placeholder:tracking-normal placeholder:text-muted-foreground/60 placeholder:normal-case focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 focus:outline-none"
         />
       </div>
 
@@ -266,7 +267,7 @@ export function AuthForm({
         disabled={busy}
         variant="primary"
         size="lg"
-        className="mt-2 w-full font-semibold"
+        className="mt-2 min-h-[44px] w-full touch-manipulation font-semibold active:scale-95"
       >
         {busy ? "Please wait…" : register ? "Create Account" : "Sign In"}
       </Button>

@@ -99,7 +99,7 @@ export function UploadForm() {
           </CardDescription>
         </CardHeader>
         <CardContent className="pt-6">
-          <FieldGroup>
+          <FieldGroup className="space-y-5">
             <Field>
               <FieldLabel htmlFor="upload-title">Sound Title</FieldLabel>
               <Input
@@ -109,7 +109,7 @@ export function UploadForm() {
                 required
                 minLength={2}
                 maxLength={100}
-                className="h-10"
+                className="h-10 text-base sm:text-sm"
               />
             </Field>
 
@@ -126,10 +126,11 @@ export function UploadForm() {
                 placeholder="Give context or tips on how to use this sound..."
                 maxLength={1000}
                 rows={3}
+                className="min-h-20 text-base sm:text-sm"
               />
             </Field>
 
-            <div className="grid gap-5 sm:grid-cols-2">
+            <div className="grid gap-4 sm:grid-cols-2">
               <Field>
                 <FieldLabel htmlFor="upload-category">Category</FieldLabel>
                 <NativeSelect
@@ -138,7 +139,7 @@ export function UploadForm() {
                   required
                   defaultValue=""
                   disabled={!categories.length}
-                  className="h-10 w-full"
+                  className="h-10 w-full text-base sm:text-sm"
                 >
                   <NativeSelectOption value="" disabled>
                     Select a category
@@ -170,7 +171,7 @@ export function UploadForm() {
                   id="upload-tags"
                   name="tags"
                   placeholder="anime, meme, laugh, stream"
-                  className="h-10"
+                  className="h-10 text-base sm:text-sm"
                 />
               </Field>
             </div>
@@ -180,27 +181,37 @@ export function UploadForm() {
               <FieldLabel htmlFor="upload-audio">
                 Audio File (MP3 or WAV)
               </FieldLabel>
-              <div className="relative flex flex-col items-center justify-center rounded-2xl border-2 border-dashed border-border/80 bg-secondary/30 p-6 text-center transition-colors hover:border-indigo-500/50 hover:bg-secondary/50">
+              <div className="relative flex flex-col items-center justify-center rounded-2xl border-2 border-dashed border-border/80 bg-secondary/30 p-5 text-center transition-colors hover:border-indigo-500/50 hover:bg-secondary/50 sm:p-6">
                 <UploadCloud className="mb-2 size-8 text-indigo-600 dark:text-indigo-400" />
-                <p className="text-xs font-semibold text-foreground">
+                <p className="text-xs font-semibold text-foreground sm:text-sm">
                   Choose an audio file to upload
                 </p>
                 <p className="mt-1 text-[11px] text-muted-foreground">
                   MP3 or WAV up to 15 MB · Max 30 seconds
                 </p>
-                <input
-                  id="upload-audio"
-                  name="audio"
-                  type="file"
-                  accept=".mp3,.wav,audio/mpeg,audio/wav"
-                  required
-                  className="mt-3 text-xs text-muted-foreground file:mr-3 file:rounded-xl file:border file:border-border file:bg-card file:px-3 file:py-1.5 file:text-xs file:font-semibold file:text-foreground file:shadow-2xs hover:file:bg-secondary"
-                />
+                <label
+                  htmlFor="upload-audio"
+                  className="mt-3.5 flex cursor-pointer items-center justify-center"
+                >
+                  <input
+                    id="upload-audio"
+                    name="audio"
+                    type="file"
+                    accept=".mp3,.wav,audio/mpeg,audio/wav"
+                    required
+                    className="w-full text-xs text-muted-foreground file:mr-3 file:min-h-[40px] file:cursor-pointer file:rounded-xl file:border file:border-border file:bg-card file:px-4 file:py-2 file:text-xs file:font-semibold file:text-foreground file:shadow-2xs hover:file:bg-secondary active:scale-98"
+                  />
+                </label>
               </div>
             </Field>
 
             {/* Rights agreement check */}
-            <div className="flex items-start gap-3 rounded-xl border border-border/70 bg-secondary/40 p-3.5">
+            <div
+              onClick={() =>
+                useCreatorStore.getState().setRightsConfirmed(!rightsConfirmed)
+              }
+              className="flex cursor-pointer items-start gap-3 rounded-xl border border-border/70 bg-secondary/40 p-3.5 transition-colors hover:bg-secondary/60 sm:p-4"
+            >
               <Checkbox
                 id="rights-check"
                 checked={rightsConfirmed}
@@ -210,11 +221,12 @@ export function UploadForm() {
                     .setRightsConfirmed(checked === true)
                 }
                 aria-required="true"
-                className="mt-0.5"
+                className="mt-0.5 size-5 shrink-0 rounded-md"
               />
               <label
                 htmlFor="rights-check"
                 className="cursor-pointer text-xs leading-relaxed text-muted-foreground select-none"
+                onClick={(e) => e.stopPropagation()}
               >
                 I confirm that I created this recording or possess all required
                 licenses and permissions to share it publicly under the{" "}
@@ -232,17 +244,17 @@ export function UploadForm() {
           </FieldGroup>
         </CardContent>
 
-        <CardFooter className="flex flex-col items-stretch gap-3 border-t border-border/60 pt-5 sm:flex-row sm:items-center sm:justify-between">
+        <CardFooter className="flex flex-col items-stretch gap-3.5 border-t border-border/60 pt-5 sm:flex-row sm:items-center sm:justify-between">
           <p className="flex items-center gap-1.5 text-xs text-muted-foreground">
-            <span className="inline-block size-2 animate-pulse rounded-full bg-emerald-500" />
-            Verified audio is published live immediately.
+            <span className="inline-block size-2 shrink-0 animate-pulse rounded-full bg-emerald-500" />
+            <span>Verified audio is published live immediately.</span>
           </p>
           <Button
             type="submit"
             disabled={busy || !categories.length}
             variant="primary"
             size="md"
-            className="w-full font-medium sm:w-auto"
+            className="min-h-[44px] w-full font-semibold sm:w-auto"
           >
             {busy ? "Uploading and verifying…" : "Publish Sound"}
           </Button>

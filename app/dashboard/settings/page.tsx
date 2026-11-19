@@ -21,7 +21,7 @@ export default async function AccountSettingsPage() {
   const user = await requireUser()
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-6 sm:space-y-8">
       {/* Header */}
       <div className="flex flex-col gap-4 border-b border-border/80 pb-6 sm:flex-row sm:items-end sm:justify-between">
         <div>
@@ -42,7 +42,7 @@ export default async function AccountSettingsPage() {
         </Badge>
       </div>
 
-      <div className="grid items-start gap-8 xl:grid-cols-[minmax(0,1.5fr)_minmax(18rem,0.9fr)]">
+      <div className="grid items-start gap-6 sm:gap-8 xl:grid-cols-[minmax(0,1.5fr)_minmax(18rem,0.9fr)]">
         <ProfileForm name={user.name} />
 
         <aside className="space-y-5">

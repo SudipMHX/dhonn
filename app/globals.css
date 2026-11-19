@@ -308,7 +308,7 @@ img {
     }
 
     100% {
-      max-width: 11rem;
+      max-width: 15rem;
       padding: 0.4rem 1rem;
       border-radius: 9999px;
       border-color: var(--island-border-scrolled);

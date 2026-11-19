@@ -24,10 +24,36 @@ export const soundQuerySchema = z.object({
 })
 
 export const soundInputSchema = z.object({
-  title: z.string().trim().min(2).max(100),
-  description: z.string().trim().max(1000).default(""),
+  title: z
+    .string()
+    .trim()
+    .min(2)
+    .max(100)
+    .refine((val) => !/[<>]/.test(val), {
+      message: "Title cannot contain HTML angle brackets.",
+    }),
+  description: z
+    .string()
+    .trim()
+    .max(1000)
+    .refine((val) => !/<script\b/i.test(val), {
+      message: "Description contains forbidden script tags.",
+    })
+    .default(""),
   category: z.string().trim().min(1).max(40),
-  tags: z.array(z.string().trim().min(1).max(30)).max(10).default([]),
+  tags: z
+    .array(
+      z
+        .string()
+        .trim()
+        .min(1)
+        .max(30)
+        .refine((val) => !/[<>]/.test(val), {
+          message: "Tags cannot contain HTML angle brackets.",
+        })
+    )
+    .max(10)
+    .default([]),
 })
 
 export const reportSchema = z.object({
@@ -37,9 +63,29 @@ export const reportSchema = z.object({
   email: z.string().trim().email().max(254).optional().or(z.literal("")),
 })
 
+const DANGEROUS_EXTENSIONS =
+  /\.(exe|sh|bat|cmd|html|htm|svg|php|js|jsx|ts|tsx|py|rb|pl|cgi|jar|war|vbs|ps1|msi|dll|scr|pif|com)($|\.)/i
+
 export const uploadRequestSchema = soundInputSchema.extend({
   rightsConfirmed: z.literal(true),
-  fileName: z.string().trim().min(1).max(120),
+  fileName: z
+    .string()
+    .trim()
+    .min(1)
+    .max(120)
+    .refine(
+      (name) =>
+        !name.includes("..") &&
+        !name.includes("/") &&
+        !name.includes("\\") &&
+        !name.includes("\0"),
+      {
+        message: "Filename contains invalid characters.",
+      }
+    )
+    .refine((name) => !DANGEROUS_EXTENSIONS.test(name), {
+      message: "Filename contains forbidden file extensions.",
+    }),
   contentType: z.enum(["audio/mpeg", "audio/wav"]),
   size: z
     .number()

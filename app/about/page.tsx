@@ -17,26 +17,26 @@ export const metadata: Metadata = {
 
 export default function AboutPage() {
   return (
-    <main className="mx-auto min-h-[75vh] max-w-4xl px-4 py-8 sm:px-6 sm:py-12 lg:px-8">
+    <main className="mx-auto min-h-[75vh] max-w-4xl px-3 py-6 sm:px-6 sm:py-12 lg:px-8">
       {/* Back button */}
       <Link
         href="/"
-        className="inline-flex items-center gap-1.5 text-xs font-semibold text-muted-foreground transition-colors hover:text-foreground"
+        className="inline-flex touch-manipulation items-center gap-1.5 text-xs font-semibold text-muted-foreground transition-colors hover:text-foreground active:scale-95"
       >
         <ArrowLeft className="size-3.5" />
         <span>Back to soundboard</span>
       </Link>
 
       {/* Hero */}
-      <div className="mt-8 space-y-4">
+      <div className="mt-6 space-y-3 sm:mt-8 sm:space-y-4">
         <div className="inline-flex items-center gap-1.5 rounded-full border border-indigo-200/60 bg-indigo-50 px-3 py-1 text-xs font-semibold text-indigo-700 dark:border-indigo-900/60 dark:bg-indigo-950/40 dark:text-indigo-300">
           <Sparkles className="size-3.5" />
           <span>Our Mission</span>
         </div>
-        <h1 className="text-3xl leading-tight font-extrabold tracking-tight text-foreground sm:text-5xl">
+        <h1 className="text-2xl leading-tight font-extrabold tracking-tight text-foreground sm:text-4xl lg:text-5xl">
           A little sound goes a long way.
         </h1>
-        <p className="text-base leading-relaxed text-muted-foreground sm:text-lg">
+        <p className="text-sm leading-relaxed text-muted-foreground sm:text-base">
           dhonn is a soundboard built for fast, expressive audio bites. Discover
           short sounds, save your favorites, and share high-quality audio clips
           you created or hold permission to publish.
@@ -44,8 +44,8 @@ export default function AboutPage() {
       </div>
 
       {/* Core Pillars Grid */}
-      <div className="mt-12 grid gap-6 sm:grid-cols-3">
-        <div className="rounded-2xl border border-border/80 bg-card p-6 shadow-xs">
+      <div className="mt-8 grid gap-4 sm:mt-12 sm:grid-cols-3 sm:gap-6">
+        <div className="rounded-2xl border border-border/80 bg-card p-5 shadow-xs sm:p-6">
           <div className="mb-4 flex size-10 items-center justify-center rounded-xl bg-indigo-50 text-indigo-700 dark:bg-indigo-950/50 dark:text-indigo-300">
             <Volume2 className="size-5" />
           </div>
@@ -56,7 +56,7 @@ export default function AboutPage() {
           </p>
         </div>
 
-        <div className="rounded-2xl border border-border/80 bg-card p-6 shadow-xs">
+        <div className="rounded-2xl border border-border/80 bg-card p-5 shadow-xs sm:p-6">
           <div className="mb-4 flex size-10 items-center justify-center rounded-xl bg-emerald-50 text-emerald-700 dark:bg-emerald-950/50 dark:text-emerald-300">
             <ShieldCheck className="size-5" />
           </div>
@@ -67,7 +67,7 @@ export default function AboutPage() {
           </p>
         </div>
 
-        <div className="rounded-2xl border border-border/80 bg-card p-6 shadow-xs">
+        <div className="rounded-2xl border border-border/80 bg-card p-5 shadow-xs sm:p-6">
           <div className="mb-4 flex size-10 items-center justify-center rounded-xl bg-violet-50 text-violet-700 dark:bg-violet-950/50 dark:text-violet-300">
             <AudioLines className="size-5" />
           </div>
@@ -82,9 +82,9 @@ export default function AboutPage() {
       </div>
 
       {/* Creator banner */}
-      <div className="mt-12 flex flex-col items-center justify-between gap-6 rounded-2xl border border-border/80 bg-card p-8 sm:flex-row">
+      <div className="mt-8 flex flex-col items-center justify-between gap-5 rounded-2xl border border-border/80 bg-card p-6 sm:mt-12 sm:flex-row sm:gap-6 sm:p-8">
         <div>
-          <h2 className="text-xl font-bold text-foreground">
+          <h2 className="text-lg font-bold text-foreground sm:text-xl">
             Have a sound worth sharing?
           </h2>
           <p className="mt-1 text-xs text-muted-foreground">
@@ -94,7 +94,7 @@ export default function AboutPage() {
         </div>
         <Link
           href="/dashboard/upload"
-          className="inline-flex h-10 shrink-0 items-center justify-center rounded-xl bg-indigo-600 px-5 text-xs font-semibold text-white shadow-xs shadow-indigo-600/30 transition-all hover:bg-indigo-500"
+          className="inline-flex h-11 w-full shrink-0 touch-manipulation items-center justify-center rounded-xl bg-indigo-600 px-5 text-xs font-semibold text-white shadow-xs shadow-indigo-600/30 transition-all hover:bg-indigo-500 active:scale-95 sm:w-auto"
         >
           <span>Share a sound</span>
           <ArrowRight className="ml-1.5 size-4" />
